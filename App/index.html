@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8" />
+		
+		<!-- Style for dialog boxes -->
+		<link href="style/dialog.css" rel="stylesheet" />
+		
+		<!-- Main style -->
+		<link href="style/main.css" rel="stylesheet" />
+		
+		<!-- Phonegap specific functions -->
+		<script type="text/javascript" src="phonegap.js"></script>
+		
+		<!-- AJAX functions -->
+		<script src="scripts/ajax.js"></script>
+		
+		<!-- Dialog box functions -->
+		<script src="scripts/dialog.js"></script>
+		
+		<!-- Main JavaScript files -->
+		<script src="scripts/definitions.js"></script>
+		<script src="scripts/strings.js"></script>
+		<script src="scripts/helper.js"></script>
+		<script src="scripts/userInterface.js"></script>
+		<script src="scripts/menu.js"></script>
+		<script src="scripts/webService.js"></script>
+		<script src="scripts/database.js"></script>
+		<script src="scripts/main.js"></script>
+		
+		<script>
+			window.onload = function() {
+				if (PHONEGAP)
+					// Set the deviceready callback
+					document.addEventListener("deviceready", onDeviceReady, false);
+				else
+					// Just call the deviceready callback directly
+					onDeviceReady();
+			};
+			
+			function onDeviceReady() {
+				if (PHONEGAP) {
+					// Don't allow the device to sleep while the game is open
+					window.plugins.insomnia.keepAwake();
+					
+					// Set the Android back button action
+					document.addEventListener("backbutton", backButtonClick, false);
+					
+					// Initialize the local database
+					db = window.sqlitePlugin.openDatabase({name: DB_NAME});
+					db.transaction(function(tx) {
+						tx.executeSql("CREATE TABLE IF NOT EXISTS tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)");
+						tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)");
+						tx.executeSql("CREATE TABLE IF NOT EXISTS category (id integer, name text)");
+					});
+				}
+				
+				// Load all the game data
+				showLoadingScreen();
+				loadCategories();
+				loadDifficulties();
+				loadSettings(function() {
+					loadTags(true, showReadyScreen);
+					resetScores();
+					loadScores();
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<!-- Fades the background logo into the white background -->
+		<div id="backgroundFader"></div>
+		
+		<!-- Shows a confetti animation when a winner is declared -->
+		<div id="confetti"></div>
+		
+		<div id="main">
+			<!-- App menu bar -->
+			<header>
+				<a id="menuButton" href="#" onclick="menuButtonClick(); return false;" style="display: block; float: right; margin-top: 0.75%; margin-right: 2%;">
+					<img id="menuButtonIcon" src="images/menu.png" style="width: 150%; height: 150%;" alt="Menu" />
+				</a>
+				<a href="#" onclick="menuItemHelpClick(); return false;" style="display: block; float: right; margin-right: 6%; font-size: 125%;">?</a>
+				<!-- Display the app name -->
+				<script>document.write(APP_NAME);</script>
+			</header>
+			
+			<!-- Holds the score buttons -->
+			<div id="scores"></div>
+			
+			<!-- Holds the current tag, or game status messages -->
+			<div id="tag"></div>
+			
+			<!-- Advances to the next tag, or starts the game -->
+			<a id="nextButton" href="#" onmouseup="nextButtonClick(); return false;">Next</a>
+			
+			<!-- Dims the screen when the main menu is shown -->
+			<div id="mainMenuDimmer" class="hidden" onclick="mainMenuDimmerClick();"></div>
+			
+			<!-- The main menu, hidden by default -->
+			<div id="mainMenu" class="hidden">
+				<!-- Holds the score menu items when a game is in progress -->
+				<div id="scoreSettings"></div>
+				
+				<div class="menuHeader">Tags</div>
+				<div id="menuItemCategoryIds" class="menuItem" onclick="menuItemCategoryIdsClick();">
+					Tag categories: <span class="menuItemValue"></span>
+				</div>
+				<div id="menuItemDifficulty" class="menuItem">
+					Difficulty: <select class="menuItemValue" onchange="menuItemDifficultyChange();"></select>
+				</div>
+				<div id="menuItemMaxWords" class="menuItem" onclick="menuItemMaxWordsClick();">
+					Max words per tag: <span class="menuItemValue"></span>
+				</div>
+				<div id="menuItemMaxCharacters" class="menuItem" onclick="menuItemMaxCharactersClick();">
+					Max characters per tag: <span class="menuItemValue"></span>
+				</div>
+				<!-- Label instead of div; wraps the checkbox it is "for" so that the whole row is clickable -->
+				<label id="menuItemEdgy" class="menuItem" for="menuItemEdgyCheckBox" style="display: block;">
+					<input id="menuItemEdgyCheckBox" type="checkbox" class="menuItemValue" onchange="menuItemEdgyChange();" />
+					Include adult-themed tags
+				</label>
+				
+				<div class="menuHeader">Game Rules</div>
+				<div id="menuItemWinningPoint" class="menuItem" onclick="menuItemWinningPointClick();">
+					<span id="winningPointDescription">Points to win</span>: <span class="menuItemValue"></span>
+				</div>
+				<div id="menuItemNumberOfTeams" class="menuItem" onclick="menuItemNumberOfTeamsClick();">
+					Number of teams: <span class="menuItemValue"></span>
+				</div>
+				<div id="menuItemMinimumTime" class="menuItem" onclick="menuItemMinimumTimeClick();">
+					Least possible game seconds: <span class="menuItemValue"></span>
+				</div>
+				<div id="menuItemMaximumTime" class="menuItem" onclick="menuItemMaximumTimeClick();">
+					Most possible game seconds: <span class="menuItemValue"></span>
+				</div>
+				
+				<div class="menuHeader">Effects</div>
+				<div id="menuItemBeepSoundFile" class="menuItem">
+					Timer tick: <select class="menuItemValue" onchange="menuItemBeepSoundFileChange();">
+						<option value="sounds/beep.wav">Beep</option>
+						<option value="sounds/clap.wav">Clap</option>
+						<option value="sounds/click.wav">Click</option>
+						<option value="sounds/corkpop.wav">Cork pop</option>
+						<option value="sounds/echo.wav">Echo</option>
+						<option value="sounds/footstep.wav">Footstep</option>
+						<option value="sounds/highbeep.wav">High beep</option>
+						<option value="sounds/longbeep.wav">Long beep</option>
+						<option value="sounds/lowbeep.wav">Low beep</option>
+						<option value="sounds/malevoice.wav">Male voice</option>
+						<option value="sounds/meow.wav">Meow</option>
+						<option value="sounds/orchestra.wav">Orchestra</option>
+						<option value="sounds/thump.wav">Thump</option>
+						<option value="sounds/tick.wav">Tick</option>
+					</select>
+				</div>
+				<!-- Label instead of div; wraps the checkbox it is "for" so that the whole row is clickable -->
+				<label id="menuItemVibrate" class="menuItem" for="menuItemVibrateCheckBox" style="display: block;">
+					<input id="menuItemVibrateCheckBox" type="checkbox" class="menuItemValue" onchange="menuItemVibrateChange();" />
+					Vibrate
+				</label>
+				
+				<div class="menuHeader">Other</div>
+				<div class="menuItem" onclick="menuItemTagCreationClick();">Tag Creation - Add your own tags!</div>
+				<div class="menuItem" onclick="menuItemHelpClick();">Help</div>
+				<div class="menuItem" onclick="menuItemAboutClick();">About</div>
+			</div>
+		</div>
+	</body>
+</html>

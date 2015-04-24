@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "com.kangaroostandard.grabtag"
+        versionCode = "1" 
+        version     = "1.0.0" >
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>Grab Tag</name>
+
+    <description>
+        A game where you guess the tag.
+    </description>
+
+    <author href="https://www.kangaroostandard.com" email="danielpace6@gmail.com">
+        Kangaroo Standard
+    </author>
+	
+	<icon src="grabtag.png" />
+	
+	<preference name="phonegap-version" value="3.6.3" />
+	<preference name="orientation" value="portrait" />
+	<preference name="fullscreen" value="true" />
+	<preference name="keyboardDisplayRequiresUserAction" value="false" />
+	<preference name="android-targetSdkVersion" value="14" />
+	<preference name="permissions" value="none" />
+	
+	<gap:plugin name="org.apache.cordova.media" version="0.2.13" />
+	<gap:plugin name="com.millerjames01.sqlite-plugin" version="1.0.1" />
+	<gap:plugin name="nl.x-services.plugins.insomnia" version="4.0.1" />
+	<gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
+	<gap:plugin name="org.apache.cordova.vibration" version="0.3.11" />
+
+</widget>

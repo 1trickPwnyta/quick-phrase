@@ -1,0 +1,96 @@
+/* Dialog style */
+
+.dialog-top {
+    display: table;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+	height: 100%;
+	z-index: 1000;
+}
+
+.dialog-screen-dimmer {
+    background-color: rgba(0, 0, 0, 0.8);
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    z-index: 999;
+}
+
+.dialog-dialog-box {
+    background-color: #474747;  /* dialog box background color */
+    color: white;   /* dialog box text color */
+    width: 80%;
+    font-size: 120%;
+    padding: 24px 8px;
+    position: relative;
+    display: inline-block;
+    text-align: left;
+    z-index: 1000;
+	height: 90%;
+	line-height: 200%;
+	font-weight: normal;
+	box-shadow: 16px 16px 8px black;
+}
+
+.dialog-dialog-box a {
+    color: white; /* dialog box link color */
+}
+
+.dialog-button-div {
+    text-align: center;
+}
+
+.dialog-dialog-box input[type="text"], .dialog-dialog-box input[type="number"] {
+    width: 100%;
+    margin: 8px 0px;
+}
+
+.dialog-dialog-box input[type="button"], .dialog-dialog-box input[type="submit"] {
+    margin: 8px;
+    padding: 4px 12px;
+    background-color: #DE4343;  /* button color */
+    color: white;   /* button text color */
+    font-size: 120%;
+    border: 0px;
+    border-radius: 2px;
+    font-family: inherit;
+    cursor: pointer;
+	box-shadow: 2px 2px 2px black;
+	min-width: 33%;
+}
+
+.dialog-dialog-box input[type="button"]:active, .dialog-dialog-box input[type="submit"]:active {
+	box-shadow: inset 2px 2px 2px #6F2222;
+	background-color: #B23636;
+	color: #CACACA;
+}
+
+.dialog-dialog-box input[type="button"]:hover, .dialog-dialog-box input[type="submit"]:hover {
+    /* background-color: #DE4343;  /* button hover color */
+}
+
+.dialog-dialog-box input[type="button"]:focus, .dialog-dialog-box input[type="submit"]:focus {
+    outline: 0px;
+    border: 0px;
+}
+
+.dialog-close-button {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    cursor: pointer;
+}
+
+.dialog-visible {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 0.2s linear;
+}
+
+.dialog-hidden {
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s 0.2s, opacity 0.2s linear;
+}

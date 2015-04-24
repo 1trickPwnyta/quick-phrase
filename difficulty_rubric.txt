@@ -1,0 +1,5 @@
+5 = word many people haven't heard of or don't understand
+4 = hard to pronounce
+3 = uncommon thing
+2 = common thing
+1 = kindergarten word

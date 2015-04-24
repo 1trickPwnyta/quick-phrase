@@ -1,0 +1,8 @@
+1.0.0
+work on Kangaroo Standard todos
+page on Kangaroo Standard Games
+
+1.1.0
+tighter integration with Kangaroo Standard
+	use oauth to connect instead of entering username and password all the time
+	sync game settings to account

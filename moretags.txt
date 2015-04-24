@@ -1,0 +1,239 @@
+Iron Chef/1
+cake/1
+Devil''s Tower/10
+Sparta/2
+overgrown/3
+round of applause/4
+Loki/7
+whiskey/1
+vanilla extract/1
+fish fry/1
+The French Connection/2
+flower/3
+camouflage/11
+calf/3
+piglet/3
+puppy/3
+kitten/3
+tadpole/3
+Arthur Conan Doyle/7
+Harvest Festival/4
+Nabisco/1
+Newman''s Own/1
+Pepperidge Farm/1
+Cadbury Creme Egg/1
+Chips Ahoy!/1
+Kit Kat/1
+Oreo/1
+Ritz/1
+Dunkin'' Donuts/1
+Krispy Kreme/1
+Betty Crocker/1
+Bugles/1
+Doritos/1
+Pringles/1
+Ruffles/1
+Nissin/1
+Magnum/1
+Häagen-Dazs/1
+Heinz/1
+Weight Watchers/1
+Campbell''s soup/1
+Honey Bunches of Oats/1
+Cap'n Crunch/1
+Frosted Cheerios/1
+Corn Chex/1
+Rice Chex/1
+Cookie Crisp/1
+Corn Flakes/1
+Corn Pops/1
+Count Chocula/1
+Cracker Jack/1
+Crispix/1
+Crunch Berries/1
+Fiber One/1
+Franken Berry/1
+Frosted Mini-Wheats/1
+Grape-Nuts/1
+Honey Bunches of Oats/1
+Honeycomb/1
+Honey Maid/1
+Honey Smacks/1
+Kix/1
+Cinnamon Life/1
+Nestlé Toll House/1
+Nutri-Grain/1
+NesQuik/1
+Oreo O''s/1
+Cocoa Pebbles/1
+Raisin Bran/1
+Rice Krispies/1
+Shredded Wheat/1
+Total/1
+Wheaties/1
+Boo Berry/1
+Lucky the Leprechaun/1
+Trix Rabbit/1
+Tony the Tiger/1
+Toucan Sam/1
+Sugar Bear/1
+absentee ballot/2
+Astroturfing/2
+carpetbagger/2
+checks and balances/2
+coattail effect/2
+cookie-cutter campaign/2
+czar/2
+demagogue/2
+Electoral College/2
+filibuster/2
+fishing expedition/2
+gerrymander/2
+gobbledygook/2
+impeachment/2
+invisible primary/2
+K Street/2
+kangaroo ticket/2
+muckraker/2
+mudslinging/2
+nuclear option/2
+open primary/2
+patriot/2
+pocket veto/2
+political suicide/2
+push poll/2
+recall election/2
+sacred cow/2
+smoke-filled room/2
+split ticket/2
+straight ticket/2
+witch hunt/2
+amendment/2
+Americans with Disabilities Act/2
+appellate jurisdiction/2
+appropriation/2
+Articles of Confederation/2
+cabinet/2
+caucus/2
+chief of state/2
+civil rights/2
+common law/2
+confederacy/2
+Declaration of Independence/2
+divine right/2
+elastic clause/2
+emergency powers/2
+Equal Rights Amendment/2
+executive order/2
+ex post facto/2
+First Continental Congress/2
+fiscal policy/2
+foreign policy/2
+franking/2
+general election/2
+grandfather clause/2
+Great Compromise/2
+guerrilla war/2
+gun control/2
+hierarchy/2
+honeymoon phase/12
+honeymoon period/2
+interest group/2
+judicial review/2
+jurisdiction/2
+libel/2
+line-item veto/2
+majority rule/2
+Miranda v. Arizona/2
+Monroe Doctrine/2
+nation-state/2
+New Deal/2
+No Child Left Behind Act/2
+original jurisdiction/2
+pardon/2
+political party/2
+political science/2
+primary election/2
+public opinion/2
+redistricting/2
+separation of powers/2
+Shays'' Rebellion/2
+Speaker of the House/2
+State of the Union/2
+terrorism/2
+unemployment/2
+Virginia Plan/2
+whistleblower/2
+writ of habeas corpus/2
+absolute zero/5
+acceleration/5
+acid/5
+alcohol/5
+alloy/5
+allotrope/5
+alkali/5
+amino acid/5
+boiling point/5
+carbohydrate/5
+catalyst/5
+chemical equation/5
+chain reaction/5
+chromosome/5
+covalent bond/5
+diffraction/5
+diffusion/5
+electric current/5
+electron/5
+element/5
+entropy/5
+evaporation/5
+fission/5
+free radical/5
+genome/5
+half-life/5
+isotope/5
+Laws of Themodynamics/5
+magnet/5
+molecule/5
+momentum/5
+Newtons Laws of Motion/5
+neutron/5
+noble gas/5
+nucleus/5
+pH Scale/5
+potential energy/5
+proton/5
+quark/5
+radioactivity/5
+radiation/5
+relativity/5
+torque/5
+velocity/5
+viscosity/5
+zygote/5
+Cocker Spaniel/3
+Australian Shepherd/3
+Beagle/3
+Boston Terrier/3
+Boxer/3
+Bulldog/3
+Chihuahua/3
+Collie/3
+Dachshund/3
+Dalmatian/3
+Doberman Pinscher/3
+German Shepherd/3
+Golden Retriever/3
+Great Dane/3
+Labrador Retriever/3
+Miniature Pinscher/3
+Pomeranian/3
+Poodle/3
+Pug/3
+Rottweiler/3
+Saint Bernard/3
+Scottish Terrier/3
+Shih-Tzu/3
+Siberian Husky/3
+Yorkshire Terrier/3
+rain or shine/3
