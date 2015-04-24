@@ -1,9 +1,10 @@
 <?php 
 	require_once "../config.php";
 	require_once "../mysql.php";
+	require_once "../global.php";
 	
 	// Get user attributes
-	require_once('C:/Program Files (x86)/simplesamlphp/lib/_autoload.php');	$authenticationSource = new SimpleSAML_Auth_Simple($SAML_SP_ID);	$authenticationSource->requireAuth();	$attributes = $authenticationSource->getAttributes();
+	require_once($SIMPLESAML_AUTOLOAD_PATH);	$authenticationSource = new SimpleSAML_Auth_Simple($SAML_SP_ID);	$authenticationSource->requireAuth();	$attributes = $authenticationSource->getAttributes();
 	$username = $authenticationSource->getAuthData('saml:sp:NameID')["Value"];
 	$emailAddress = $attributes["EmailAddress"][0];
 	
@@ -38,7 +39,7 @@
 	
 	// Set Session information
 	session_start();
-	$_SESSION["userid"] = $userid;
+	$_SESSION[$SESSION_KEY_USERID] = $userid;
 	
 	
 	
@@ -64,12 +65,12 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-		<link href="/dialog.css" rel="stylesheet" />
+		<link href="../dialog.css" rel="stylesheet" />
 		<title>Grab Tag - Tag Creation</title>
 		<style>
 			@font-face {
 				font-family: 'standard';
-				src: url('/font.woff') format('woff');
+				src: url('../font.woff') format('woff');
 			}
 			
 			body {
@@ -130,9 +131,9 @@
 				font-family: inherit;
 			}
 		</style>
-		<script src="/ajax.js"></script>
-		<script src="/applicationRoot.js"></script>
-		<script src="/dialog.js"></script>
+		<script src="../ajax.js"></script>
+		<script src="../applicationRoot.js"></script>
+		<script src="../dialog.js"></script>
 		<script>
 			var oldText = "";
 			
@@ -160,13 +161,13 @@
 
 				ajax("POST", "submitTag.php", [{name: "text", value: tag}, {name: "category", value: category.value}], function(response, status) {
 					if ((status >= 300 && status < 400) || status == -1) {
-						window.location.href = "https://login.kangaroostandard.com?target=https%3a%2f%2fgrabtag.kangaroostandard.com%2ftagCreation%2f%3ftag%3d" + tag + "%26category%3d" + category.value;
+						window.location.href = window.location.href;
 						return;
 					} else if (status == 400) {
 						dialog.showMessage("Your tag was automatically rejected. " + response);
 						return;
 					} else if (status != 200) {
-						dialog.showMessage("An unknown error occurred. Please contact <a href=\"mailto:danielpace6@gmail.com\">danielpace6@gmail</a> for help.");
+						dialog.showMessage("An unknown error occurred. Please contact <a href=\"mailto:<?php echo $SUPPORT_EMAIL_ADDRESS; ?>\"><?php echo $SUPPORT_EMAIL_ADDRESS; ?></a> for help.");
 						return;
 					}
 
@@ -200,7 +201,7 @@
 	</head>
 	<body>
 		<div style="float: right;">
-			<a href="/simplesaml/module.php/core/as_logout.php?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=/loggedOut.php">Log out</a>
+			<a href="<?php echo $SIMPLESAML_LOGOUT_PATH_RELATIVE; ?>?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=<?php echo $LOGOUT_RETURN_URL_RELATIVE; ?>">Log out</a>
 		</div>
 		<h1>Grab Tag</h1>
 		<h2>Tag Creation</h2>

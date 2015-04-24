@@ -3,7 +3,7 @@
 	require_once "../mysql.php";
 	
 	// Get user attributes
-	require_once('C:/Program Files (x86)/simplesamlphp/lib/_autoload.php');
+	require_once($SIMPLESAML_AUTOLOAD_PATH);
 	$authenticationSource = new SimpleSAML_Auth_Simple($SAML_SP_ID);
 	$authenticationSource->requireAuth();
 	$attributes = $authenticationSource->getAttributes();
@@ -101,7 +101,7 @@
 	// Send email
 	require_once "Mail.php";
 	
-	$from = "Grab Tag <grabtag@kangaroostandard.com>";
+	$from = "Grab Tag <$APPLICATION_EMAIL_ADDRESS>";
 	$to = $userEmail;
 	$subject = "Your new tag: \"{$tags[0]['text']}\"";
 	if ($approve > 0) {
@@ -120,11 +120,6 @@
 	}
 	$body .= "Thank you! \r\n";
 	
-	$host = "ssl://smtp.gmail.com";
-	$port = "465";
-	$username = "danielpace6";
-	$password = "uykfwntmcmfegyuw";
-	
 	$headers = array (
 			"From" => $from,
 			"To" => $to,
@@ -132,11 +127,11 @@
 	);
 	
 	$smtp = Mail::factory("smtp", array (
-			"host" => $host,
-			"port" => $port,
+			"host" => $SMTP_HOST,
+			"port" => $SMTP_PORT,
 			"auth" => true,
-			"username" => $username,
-			"password" => $password
+			"username" => $SMTP_USERNAME,
+			"password" => $SMTP_PASSWORD
 	));
 	
 	$mail = $smtp->send($to, $headers, $body);

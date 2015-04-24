@@ -3,7 +3,7 @@
 	require_once "../mysql.php";
 	
 	// Get user attributes
-	require_once('C:/Program Files (x86)/simplesamlphp/lib/_autoload.php');
+	require_once($SIMPLESAML_AUTOLOAD_PATH);
 	$authenticationSource = new SimpleSAML_Auth_Simple($SAML_SP_ID);
 	$authenticationSource->requireAuth();
 	$attributes = $authenticationSource->getAttributes();
@@ -54,7 +54,7 @@
 		<style>
 			@font-face {
 				font-family: 'standard';
-				src: url('/font.woff') format('woff');
+				src: url('../font.woff') format('woff');
 			}
 			
 			body {
@@ -95,9 +95,9 @@
 				font-family: inherit;
 			}
 		</style>
-		<script src="/ajax.js"></script>
-		<script src="/applicationRoot.js"></script>
-		<script src="/dialog.js"></script>
+		<script src="../ajax.js"></script>
+		<script src="../applicationRoot.js"></script>
+		<script src="../dialog.js"></script>
 		<script>
 			function approve(id) {
 				var approveCell = document.getElementById("approveCell" + id);
@@ -215,7 +215,7 @@
 	</head>
 	<body>
 		<div style="float: right;">
-			<a style="color: white;" href="/simplesaml/module.php/core/as_logout.php?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=/loggedOut.php">Log out</a>
+			<a style="color: white;" href="<?php echo $SIMPLESAML_LOGOUT_URL_RELATIVE; ?>?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=<?php echo $LOGOUT_RETURN_URL_RELATIVE; ?>">Log out</a>
 		</div>
 		<table>
 			<tr>

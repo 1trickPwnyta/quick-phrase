@@ -1,7 +1,8 @@
 <?php
 	include "../mysql.php";
+	require_once "../global.php";
 	session_start();
-	$userid = $_SESSION["userid"];
+	$userid = $_SESSION[$SESSION_KEY_USERID];
 	
 	// Get parameters
 	$text = $_POST["text"];

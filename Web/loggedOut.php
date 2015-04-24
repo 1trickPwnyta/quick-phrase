@@ -6,7 +6,7 @@
 		<style>
 			@font-face {
 				font-family: 'standard';
-				src: url('/font.woff') format('woff');
+				src: url('./font.woff') format('woff');
 			}
 			
 			body {
