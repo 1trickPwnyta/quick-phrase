@@ -16,7 +16,7 @@
 	}
 	
 	// Build a query to get the unapproved tags
-	$query = "SELECT unapproved_tag.id AS id, text, category.name AS category, category.id AS category_id, time_submitted, submitter FROM unapproved_tag INNER JOIN category on category.id = unapproved_tag.category_id ORDER BY unapproved_tag.id";
+	$query = "SELECT unapproved_tag.id AS id, text, category.name AS category, category.id AS category_id, time_submitted, user.username AS submitter FROM unapproved_tag INNER JOIN category on category.id = unapproved_tag.category_id INNER JOIN user on user.id = unapproved_tag.submitter ORDER BY unapproved_tag.id";
 	
 	// Get unapproved tags from the database
 	$db = mysqlConnect();
