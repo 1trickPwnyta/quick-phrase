@@ -24,6 +24,6 @@
 	</head>
 	<body>
 		<p>You are logged out.</p>
-		<p><a href="#" onclick="window.history.back();">Log back in</a></p>
+		<p><a href="#" onclick="window.history.back(); return false;">Log back in</a></p>
 	</body>
 </html>
