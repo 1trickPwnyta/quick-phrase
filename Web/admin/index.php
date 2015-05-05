@@ -215,7 +215,7 @@
 	</head>
 	<body>
 		<div style="float: right;">
-			<a style="color: white;" href="<?php echo $SIMPLESAML_LOGOUT_URL_RELATIVE; ?>?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=<?php echo $LOGOUT_RETURN_URL_RELATIVE; ?>">Log out</a>
+			<a style="color: white;" href="<?php echo $SIMPLESAML_LOGOUT_URL_RELATIVE; ?>?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=<?php echo $APPLICATION_ROOT_PATH; ?>loggedOut.php">Log out</a>
 		</div>
 		<table>
 			<tr>

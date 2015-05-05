@@ -201,7 +201,7 @@
 	</head>
 	<body>
 		<div style="float: right;">
-			<a href="<?php echo $SIMPLESAML_LOGOUT_URL_RELATIVE; ?>?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=<?php echo $LOGOUT_RETURN_URL_RELATIVE; ?>">Log out</a>
+			<a href="<?php echo $SIMPLESAML_LOGOUT_URL_RELATIVE; ?>?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=<?php echo $APPLICATION_ROOT_PATH; ?>loggedOut.php">Log out</a>
 		</div>
 		<h1>Grab Tag</h1>
 		<h2>Tag Creation</h2>
