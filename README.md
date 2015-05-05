@@ -51,6 +51,7 @@
 
 #### 1.0.0 ####
 * work on Kangaroo Standard todos
+* custom error pages for the web site
 * page on Kangaroo Standard Games
 
 #### 1.1.0 ####
