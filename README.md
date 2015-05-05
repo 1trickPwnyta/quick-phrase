@@ -57,3 +57,4 @@
 * tighter integration with Kangaroo Standard
     * use oauth to connect instead of entering username and password all the time
     * sync game settings to account
+* working web version that uses the game settings in your account
