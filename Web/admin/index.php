@@ -49,6 +49,8 @@
 <html lang="en-us">
 	<head>
 		<meta charset="utf-8" />
+		<link rel="icon" href="<?php echo $APPLICATION_ROOT_PATH; ?>favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="<?php echo $APPLICATION_ROOT_PATH; ?>favicon.ico" type="image/x-icon" />
 		<link href="dialog.css" rel="stylesheet" />
 		<title>Grab Tag Administration</title>
 		<style>

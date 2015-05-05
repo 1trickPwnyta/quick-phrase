@@ -1,7 +1,13 @@
+<?php
+	require_once "config.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en-us">
 	<head>
 		<meta charset="utf-8" />
+		<link rel="icon" href="<?php echo $APPLICATION_ROOT_PATH; ?>favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="<?php echo $APPLICATION_ROOT_PATH; ?>favicon.ico" type="image/x-icon" />
 		<title>Grab Tag Logout</title>
 		<style>
 			@font-face {

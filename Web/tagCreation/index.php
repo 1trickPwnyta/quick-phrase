@@ -64,6 +64,8 @@
 <html lang="en-us">
 	<head>
 		<meta charset="utf-8" />
+		<link rel="icon" href="<?php echo $APPLICATION_ROOT_PATH; ?>favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="<?php echo $APPLICATION_ROOT_PATH; ?>favicon.ico" type="image/x-icon" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 		<link href="../dialog.css" rel="stylesheet" />
 		<title>Grab Tag - Tag Creation</title>
