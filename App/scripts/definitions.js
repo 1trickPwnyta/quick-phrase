@@ -4,7 +4,7 @@ var APP_VERSION = "1.0.0";
 var APP_AUTHOR = "Kangaroo Standard";
 var APP_AUTHOR_LINK = "https://www.kangaroostandard.com/";
 var APP_AUTHOR_EMAIL = "danielpace6@gmail.com";
-var APP_COPYRIGHT_YEAR = "2014";
+var APP_COPYRIGHT_YEAR = "2015";
 
 // Enumerable values
 var TIME_STAGE_NOT_STARTED = 0;
@@ -31,7 +31,7 @@ var VIBRATION_DURATION = 100;						// ms duration of device vibration when vibra
 var DB_NAME = "grab_tag";							// Name of the SQLite database for local data
 var MAX_LOCAL_TAGS = 5000;							// Max number of tags to be kept in local database
 var WEB_SERVICE_URL = 								// Web service URL for remote data
-		"http://grabtag.kangaroostandard.com";
+		"http://www.kangaroostandard.com/GrabTag";
 var WEB_SERVICE_TIMEOUT = 10000;					// Web service calls time out after this many ms
 var TAG_LOAD_QUANTITY = 100;						// Number of tags requested in each web service call
 var TAG_RELOAD_QUANTITY = 50;						// Number of loaded tags left when more are needed
