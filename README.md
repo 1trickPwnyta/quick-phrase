@@ -4,7 +4,7 @@
 
 #### Web Application Setup ####
 
-1. Copy the repository files to a folder on the server, for example C:\\Program Files (x86)\\<application name>.
+1. Copy the repository files to a folder on the server, for example C:\\inetpub\\<application name>.
 2. Copy the Web/config.Example.php file and name it Web/config.php.
 3. Modify the settings in config.php.
 5. Copy either the Web/admin/Web.Dev.config or Web/admin/Web.Production.config file and name it Web/admin/Web.config.
