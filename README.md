@@ -61,6 +61,7 @@
 
 #### 1.0.0 ####
 * work on Kangaroo Standard todos
+* phonegap 3.7
 * custom error pages for the web site
 * page on Kangaroo Standard Games
 
