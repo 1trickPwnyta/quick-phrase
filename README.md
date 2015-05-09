@@ -37,6 +37,16 @@
 
 #### Android Application Setup ####
 
+1. Create a zip folder called phonegap.zip in the root directory of the repository and put the contents of the App folder inside it.
+2. Go to the Grab Tag project in Adobe PhoneGap Build.
+3. Click on Update code. Upload the phonegap.zip file.
+4. Once the build has completed, click on the apk button to download the apk.
+5. Store the GrabTag-debug.apk file in the root directory of the repository.
+6. Install the build onto your device using the following command:
+
+        adb install GrabTag-debug.apk
+
+
 ### Tag Notes ###
 
 #### Difficulty Guidelines ####
