@@ -60,8 +60,10 @@
 ### To-Do List ###
 
 #### 1.0.0 ####
-* phonegap 3.7
+* make it easier to return to the app from tag creation
+* logging out of tag creation forces you to log in again to access the logout page?
 * custom error pages for the web site
+* release
 * page on Kangaroo Standard Games
 
 #### 1.1.0 ####
