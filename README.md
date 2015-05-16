@@ -60,7 +60,7 @@
 ### To-Do List ###
 
 #### 1.0.0 ####
-* make it easier to return to the app from tag creation
+* make it easier to return to the app from tag creation - maybe use InAppBrowser?
 * logging out of tag creation forces you to log in again to access the logout page?
 * custom error pages for the web site
 * release
