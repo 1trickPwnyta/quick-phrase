@@ -1,5 +1,20 @@
 # README #
 
+### To-Do List ###
+
+#### 1.0.0 ####
+* make it easier to return to the app from tag creation - maybe use InAppBrowser?
+* logging out of tag creation forces you to log in again to access the logout page?
+* custom error pages for the web site
+* release
+* page on Kangaroo Standard Games
+
+#### 1.1.0 ####
+* tighter integration with Kangaroo Standard
+    * use oauth to connect instead of entering username and password all the time
+    * sync game settings to account
+* working web version that uses the game settings in your account
+
 ### How Do I Get Set Up? ###
 
 #### Web Application Setup ####
@@ -56,18 +71,3 @@
 3. uncommon thing
 4. hard to pronounce
 5. word many people haven't heard of or don't understand
-
-### To-Do List ###
-
-#### 1.0.0 ####
-* make it easier to return to the app from tag creation - maybe use InAppBrowser?
-* logging out of tag creation forces you to log in again to access the logout page?
-* custom error pages for the web site
-* release
-* page on Kangaroo Standard Games
-
-#### 1.1.0 ####
-* tighter integration with Kangaroo Standard
-    * use oauth to connect instead of entering username and password all the time
-    * sync game settings to account
-* working web version that uses the game settings in your account
