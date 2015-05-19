@@ -3,7 +3,6 @@
 ### To-Do List ###
 
 #### 1.0.0 ####
-* logout page doesn't display well on phone
 * custom error pages for the web site
 * release
 * page on Kangaroo Standard Games
