@@ -3,7 +3,6 @@
 ### To-Do List ###
 
 #### 1.0.0 ####
-* logging out of tag creation forces you to log in again to access the logout page?
 * logout page doesn't display well on phone
 * custom error pages for the web site
 * release
