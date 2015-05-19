@@ -47,13 +47,7 @@ function playSound(soundFile) {
 // Navigates away from the app, to a URL on the web
 //
 function navigateAway(url) {
-
-	// Restore back button functionality
-	document.removeEventListener("backbutton", backButtonClick, false);
-	
-	// Go to the URL
-	document.location.href = url;
-	
+	window.open(url, "_system");
 }
 
 //
