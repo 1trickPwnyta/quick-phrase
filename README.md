@@ -3,6 +3,7 @@
 ### To-Do List ###
 
 #### 1.0.0 ####
+* update the www.kangaroostandard.com certificate
 * release
 * page on Kangaroo Standard Games
 
