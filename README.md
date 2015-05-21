@@ -1,6 +1,7 @@
 # README #
 
 ### To-Do List ###
+* Set all references to support email to support@kangaroostandard.com.
 
 #### 1.0.0 ####
 * update the www.kangaroostandard.com certificate
