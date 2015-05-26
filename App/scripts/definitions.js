@@ -3,7 +3,7 @@ var APP_NAME = "Grab Tag";
 var APP_VERSION = "1.0.0";
 var APP_AUTHOR = "Kangaroo Standard";
 var APP_AUTHOR_LINK = "https://www.kangaroostandard.com/";
-var APP_AUTHOR_EMAIL = "danielpace6@gmail.com";
+var APP_AUTHOR_EMAIL = "support@kangaroostandard.com";
 var APP_COPYRIGHT_YEAR = "2015";
 
 // Enumerable values
