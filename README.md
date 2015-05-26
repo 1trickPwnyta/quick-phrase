@@ -3,7 +3,6 @@
 ### To-Do List ###
 
 #### 1.0.0 ####
-* Set all references to support email to support@kangaroostandard.com.
 * Kangaroo Standard Login To-Do's.
 * update the www.kangaroostandard.com certificate
 * release
