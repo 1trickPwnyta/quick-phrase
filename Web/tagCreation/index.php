@@ -44,8 +44,8 @@
 	
 	
 	// Get parameters
-	$tag = $_GET["tag"];
-	$category = (int) $_GET["category"];
+	$tag = isset($_GET["tag"])? $_GET["tag"]: "";
+	$category = isset($_GET["category"])? (int) $_GET["category"]: 0;
 	
 	// Validate the parameters
 	$tag = htmlentities($tag);
