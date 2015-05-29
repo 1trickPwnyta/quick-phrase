@@ -5,6 +5,7 @@ var APP_AUTHOR = "Kangaroo Standard";
 var APP_AUTHOR_LINK = "https://www.kangaroostandard.com/";
 var APP_AUTHOR_EMAIL = "support@kangaroostandard.com";
 var APP_COPYRIGHT_YEAR = "2015";
+var APP_GOOGLEPLAY_EDITION = true;
 
 // Enumerable values
 var TIME_STAGE_NOT_STARTED = 0;

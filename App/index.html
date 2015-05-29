@@ -53,6 +53,12 @@
 						tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)");
 						tx.executeSql("CREATE TABLE IF NOT EXISTS category (id integer, name text)");
 					});
+					
+					// Hide the edgy option in the Google Play edition
+					if (APP_GOOGLEPLAY_EDITION) {
+						var menuItemEdgy = document.getElementById("menuItemEdgy");
+						menuItemEdgy.parentNode.removeChild(menuItemEdgy);
+					}
 				}
 				
 				// Load all the game data

@@ -17,7 +17,9 @@ function showMenu() {
 	document.getElementById("menuItemMaxCharacters").getElementsByClassName("menuItemValue")[0].innerHTML = (sMaxCharactersPerTag == 0? "Unlimited": sMaxCharactersPerTag);
 	document.getElementById("menuItemBeepSoundFile").getElementsByClassName("menuItemValue")[0].value = sBeepSoundFile;
 	document.getElementById("menuItemVibrateCheckBox").checked = sVibrate;
-	document.getElementById("menuItemEdgyCheckBox").checked = sEdgy;
+	if (!APP_GOOGLEPLAY_EDITION) {
+		document.getElementById("menuItemEdgyCheckBox").checked = sEdgy;
+	}
 	
 	// Also update the scores displayed in the menu
 	var scoreSettingsDiv = document.getElementById("scoreSettings");

@@ -9,7 +9,7 @@ function loadTagsFromWebService(callback) {
 		{name: "difficultyId", value: sDifficulty},
 		{name: "maxCharacters", value: sMaxCharactersPerTag},
 		{name: "maxWords", value: sMaxWordsPerTag},
-		{name: "edgy", value: (sEdgy? 1: 0)}
+		{name: "edgy", value: (sEdgy && !APP_GOOGLEPLAY_EDITION? 1: 0)}
 	], function(response) {
 		
 		// Check if the web service returns a valid response
