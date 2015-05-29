@@ -1,19 +1,5 @@
 # README #
 
-### To-Do List ###
-
-#### 1.0.0 ####
-* Kangaroo Standard Login To-Do's.
-* update the www.kangaroostandard.com certificate
-* release
-* page on Kangaroo Standard Games
-
-#### 1.1.0 ####
-* tighter integration with Kangaroo Standard
-    * use oauth to connect instead of entering username and password all the time
-    * sync game settings to account
-* working web version that uses the game settings in your account
-
 ### How Do I Get Set Up? ###
 
 #### Web Application Setup ####
@@ -59,14 +45,3 @@
 6. Install the build onto your device using the following command:
 
         adb install GrabTag-debug.apk
-
-
-### Tag Notes ###
-
-#### Difficulty Guidelines ####
-
-1. kindergarten word
-2. common thing
-3. uncommon thing
-4. hard to pronounce
-5. word many people haven't heard of or don't understand
