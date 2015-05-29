@@ -3,7 +3,6 @@
 ### How Do I Get Set Up? ###
 
 #### Web Application Setup ####
-
 1. Copy the repository files to a folder on the server, for example C:\\inetpub\\<application name>.
 2. Copy the Web/config.Example.php file and name it Web/config.php.
 3. Modify the settings in config.php.
@@ -36,7 +35,7 @@
             }
 
 #### Android Application Setup ####
-
+##### Debug Build #####
 1. Create a zip folder called phonegap.zip in the root directory of the repository and put the contents of the App folder inside it.
 2. Go to the Grab Tag project in Adobe PhoneGap Build.
 3. Click on Update code. Upload the phonegap.zip file.
@@ -45,3 +44,15 @@
 6. Install the build onto your device using the following command:
 
         adb install GrabTag-debug.apk
+
+##### Release Build #####
+1. Create a zip folder called phonegap.zip in the root directory of the repository and put the contents of the App folder inside it.
+2. Go to the Grab Tag project in Adobe PhoneGap Build.
+3. Click on Update code. Upload the phonegap.zip file.
+4. Select a signing key to sign the build with.
+5. Unlock the key by entering the keystore and key passwords (both are the same).
+4. Once the build has completed, click on the apk button to download the apk.
+5. Store the GrabTag.apk file in the root directory of the repository.
+6. Install the build onto your device using the following command:
+
+        adb install GrabTag.apk
