@@ -52,7 +52,7 @@
 4. Select a signing key to sign the build with.
 5. Unlock the key by entering the keystore and key passwords (both are the same).
 4. Once the build has completed, click on the apk button to download the apk.
-5. Store the GrabTag.apk file in the root directory of the repository.
+5. Store the GrabTag-release.apk file in the root directory of the repository.
 6. Install the build onto your device using the following command:
 
-        adb install GrabTag.apk
+        adb install GrabTag-release.apk
