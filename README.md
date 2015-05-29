@@ -35,6 +35,13 @@
             }
 
 #### Android Application Setup ####
+##### Google Play Edition #####
+* The Google Play edition of the app prevents edgy/adult tags from showing up in the game.
+* When building a release for Google Play, it is important that you build the Google Play edition of the app.
+* To build the Google Play edition of the app, open scripts/definitions.js and set APP_GOOGLEPLAY_EDITION to true.
+* APP_GOOGLEPLAY_EDITION should always be true, except when specifically building the non-Google Play edition of the app. Once it is built, APP_GOOGLEPLAY_EDITION should be set back to true.
+* No commits should be made to the repository with APP_GOOGLEPLAY_EDITION set to anything other than true.
+
 ##### Debug Build #####
 1. Create a zip folder called phonegap.zip in the root directory of the repository and put the contents of the App folder inside it.
 2. Go to the Grab Tag project in Adobe PhoneGap Build.
