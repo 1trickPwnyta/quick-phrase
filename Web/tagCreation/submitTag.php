@@ -1,11 +1,15 @@
 <?php
 	include "../mysql.php";
 	require_once "../global.php";
-	require_once($SIMPLESAML_AUTOLOAD_PATH);
-	$authenticationSource = new SimpleSAML_Auth_Simple($SAML_SP_ID);
-	$authenticationSource->requireAuth();
+	
 	session_start();
-	$userid = $_SESSION[$SESSION_KEY_USERID];
+	if (isset($_SESSION[$SESSION_KEY_USERID]))
+		$userid = $_SESSION[$SESSION_KEY_USERID];
+	else {
+		http_response_code(401);
+		echo "Authentication failed.";
+		exit;
+	}
 	
 	// Get parameters
 	$text = $_POST["text"];

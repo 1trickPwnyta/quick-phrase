@@ -162,8 +162,8 @@
 				}
 
 				ajax("POST", "submitTag.php", [{name: "text", value: tag}, {name: "category", value: category.value}], function(response, status) {
-					if ((status >= 300 && status < 400) || status == -1) {
-						window.location.href = window.location.href;
+					if ((status == 401 || status == -1)) {
+						window.location.href = window.location.protocol + "//" + window.location.host + window.location.pathname + "?tag=" + encodeURIComponent(tag) + "&category=" + category.value;
 						return;
 					} else if (status == 400) {
 						dialog.showMessage("Your tag was automatically rejected. " + response);
