@@ -1,6 +1,9 @@
 <?php
 	include "../mysql.php";
 	require_once "../global.php";
+	require_once($SIMPLESAML_AUTOLOAD_PATH);
+	$authenticationSource = new SimpleSAML_Auth_Simple($SAML_SP_ID);
+	$authenticationSource->requireAuth();
 	session_start();
 	$userid = $_SESSION[$SESSION_KEY_USERID];
 	
