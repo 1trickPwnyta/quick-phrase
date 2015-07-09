@@ -20,6 +20,13 @@ body {
 	overflow: hidden;
 }
 
+#splashscreen {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+}
+
 #backgroundFader {
 	opacity: 0.8;
 	width: 100%;

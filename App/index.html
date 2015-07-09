@@ -39,6 +39,11 @@
 			};
 			
 			function onDeviceReady() {
+				// Hide the splash screen and load the main screen after one second
+				window.setTimeout(function() {
+					document.getElementById("splashscreen").className = "hidden";
+				}, 1000);
+				
 				if (PHONEGAP) {
 					// Don't allow the device to sleep while the game is open
 					window.plugins.insomnia.keepAwake();
@@ -74,6 +79,9 @@
 		</script>
 	</head>
 	<body>
+		<!-- Shows the splash screen image over the whole screen -->
+		<img id="splashscreen" class="visible" src="images/splashscreen.png" />
+	
 		<!-- Fades the background logo into the white background -->
 		<div id="backgroundFader"></div>
 		
