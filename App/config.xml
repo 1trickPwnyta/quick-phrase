@@ -17,7 +17,7 @@
         Kangaroo Standard
     </author>
 	
-	<icon src="images/grabtag.png" />
+	<icon src="images/icon.png" />
 	
 	<preference name="phonegap-version" value="3.7.0" />
 	<preference name="orientation" value="portrait" />
