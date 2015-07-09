@@ -172,6 +172,10 @@ function loadSettings(callback) {
 				sCategoryIds = JSON.parse(value);
 				settingsLoaded++;
 			});
+			getSetting(tx, "sStyleSheet", sStyleSheet, function(value) {
+				sStyleSheet = value;
+				settingsLoaded++;
+			});
 			getSetting(tx, "sVibrate", JSON.stringify(sVibrate), function(value) {
 				sVibrate = JSON.parse(value);
 				settingsLoaded++;

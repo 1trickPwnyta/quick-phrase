@@ -60,3 +60,17 @@ function getCategoryById(id) {
 	}
 	return false;
 }
+
+//
+// Swaps out a CSS file with a new one.
+//
+function changeCSS(cssFile, cssLinkIndex) {
+	var oldlink = document.getElementsByTagName("link").item(cssLinkIndex);
+
+	var newlink = document.createElement("link");
+	newlink.setAttribute("rel", "stylesheet");
+	newlink.setAttribute("type", "text/css");
+	newlink.setAttribute("href", cssFile);
+
+	document.getElementsByTagName("head").item(0).replaceChild(newlink, oldlink);
+}

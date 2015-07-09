@@ -1,0 +1,30 @@
+#backgroundFader {
+	background-color: white;
+}
+
+header {
+	background-color: #474747;
+	box-shadow: 2px 2px 2px #B2B2B2;
+	border-bottom: 4px solid black;
+}
+
+#tag {
+	text-shadow: 2px 2px 2px #B2B2B2;
+	color: black;
+}
+
+.enabledNextButton {
+	box-shadow: 2px 2px 2px #B2B2B2;
+	border: 4px solid black;
+}
+
+.disabledNextButton {
+	box-shadow: 2px 2px 2px #B2B2B2;
+	border: 4px solid black;
+}
+
+.teamScore {
+	background-color: #474747;
+	box-shadow: 2px 2px 2px #B2B2B2;
+	border: 4px solid black;
+}

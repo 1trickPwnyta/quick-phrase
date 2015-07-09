@@ -17,6 +17,13 @@ function enableNext() {
 }
 
 //
+// Applies the current theme's style sheet.
+//
+function applyTheme() {
+	changeCSS(sStyleSheet, 2);
+}
+
+//
 // Shows confetti in the background.
 //
 function showConfetti() {
@@ -188,6 +195,14 @@ function menuButtonClick() {
 }
 
 //
+// Return to game menu item click event.
+//
+function menuItemReturnToGameClick() {
+	playSound(CLICK_SOUND_FILE);
+	closeMenu();
+}
+
+//
 // Android back button click event.
 //
 function backButtonClick() {
@@ -196,14 +211,6 @@ function backButtonClick() {
 		playSound(CLICK_SOUND_FILE);
 		closeMenu();
 	}
-}
-
-//
-// Background behind the main menu - click event.
-//
-function mainMenuDimmerClick() {
-	playSound(CLICK_SOUND_FILE);
-	closeMenu();
 }
 
 //
@@ -445,6 +452,17 @@ function menuItemBeepSoundFileChange() {
 	
 	// Play the new sound
 	playSound(beepSoundFile);
+}
+
+//
+// Theme menu item click event.
+//
+function menuItemThemeChange() {
+	var styleSheet = document.getElementById("menuItemTheme").getElementsByClassName("menuItemValue")[0].value;
+	changeStyleSheet(styleSheet, showMenu);
+	
+	// Apply the new theme
+	applyTheme();
 }
 
 //

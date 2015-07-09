@@ -7,7 +7,10 @@
 		<link href="style/dialog.css" rel="stylesheet" />
 		
 		<!-- Main style -->
-		<link href="style/main.css" rel="stylesheet" />
+		<link href="style/main.css" type="text/css" rel="stylesheet" />
+		
+		<!-- Theme style -->
+		<link href="style/theme_light.css" type="text/css" rel="stylesheet" />
 		
 		<!-- Phonegap specific functions -->
 		<script type="text/javascript" src="phonegap.js"></script>
@@ -71,6 +74,7 @@
 				loadCategories();
 				loadDifficulties();
 				loadSettings(function() {
+					applyTheme();
 					loadTags(true, showReadyScreen);
 					resetScores();
 					loadScores();
@@ -108,11 +112,13 @@
 			<!-- Advances to the next tag, or starts the game -->
 			<a id="nextButton" href="#" onmouseup="nextButtonClick(); return false;">Next</a>
 			
-			<!-- Dims the screen when the main menu is shown -->
-			<div id="mainMenuDimmer" class="hidden" onclick="mainMenuDimmerClick();"></div>
-			
 			<!-- The main menu, hidden by default -->
 			<div id="mainMenu" class="hidden">
+				<!-- Close button for the menu -->
+				<div class="menuItem" onclick="menuItemReturnToGameClick();">
+					<img class="middle" src="images/delete.png" /> Return to game
+				</div>
+				
 				<!-- Holds the score menu items when a game is in progress -->
 				<div id="scoreSettings"></div>
 				
@@ -168,6 +174,12 @@
 						<option value="sounds/tick.wav">Tick</option>
 					</select>
 				</div>
+				<div id="menuItemTheme" class="menuItem">
+					Theme: <select class="menuItemValue" onchange="menuItemThemeChange();">
+						<option value="style/theme_light.css">Light</option>
+						<option value="style/theme_dark.css">Dark</option>
+					</select>
+				</div>
 				<!-- Label instead of div; wraps the checkbox it is "for" so that the whole row is clickable -->
 				<label id="menuItemVibrate" class="menuItem" for="menuItemVibrateCheckBox" style="display: block;">
 					<input id="menuItemVibrateCheckBox" type="checkbox" class="menuItemValue" onchange="menuItemVibrateChange();" />
@@ -175,7 +187,10 @@
 				</label>
 				
 				<div class="menuHeader">Other</div>
-				<div class="menuItem" onclick="menuItemTagCreationClick();">Tag Creation - Add your own tags!</div>
+				<div class="menuItem" onclick="menuItemTagCreationClick();">
+					Grab Tag Online<br />
+					<em>Create your own tags!</em>
+				</div>
 				<div class="menuItem" onclick="menuItemHelpClick();">Help</div>
 				<div class="menuItem" onclick="menuItemAboutClick();">About</div>
 			</div>

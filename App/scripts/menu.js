@@ -16,6 +16,7 @@ function showMenu() {
 	document.getElementById("menuItemMaxWords").getElementsByClassName("menuItemValue")[0].innerHTML = (sMaxWordsPerTag == 0? "Unlimited": sMaxWordsPerTag);
 	document.getElementById("menuItemMaxCharacters").getElementsByClassName("menuItemValue")[0].innerHTML = (sMaxCharactersPerTag == 0? "Unlimited": sMaxCharactersPerTag);
 	document.getElementById("menuItemBeepSoundFile").getElementsByClassName("menuItemValue")[0].value = sBeepSoundFile;
+	document.getElementById("menuItemTheme").getElementsByClassName("menuItemValue")[0].value = sStyleSheet;
 	document.getElementById("menuItemVibrateCheckBox").checked = sVibrate;
 	if (!APP_GOOGLEPLAY_EDITION) {
 		document.getElementById("menuItemEdgyCheckBox").checked = sEdgy;
@@ -45,7 +46,6 @@ function showMenu() {
 		scoreSettingsDiv.innerHTML = "";
 	
 	// Make the menu elements visible
-	document.getElementById("mainMenuDimmer").className = "visible";
 	document.getElementById("mainMenu").className = "visible";
 }
 
@@ -57,7 +57,6 @@ function closeMenu() {
 	loadSettings();
 	
 	// Hide the menu elements
-	document.getElementById("mainMenuDimmer").className = "hidden";
 	document.getElementById("mainMenu").className = "hidden";
 }
 
@@ -178,6 +177,7 @@ function showStandardDialog(htmlContent, callback, includeMoreIcon, title, okBut
 	}
 	form.appendChild(div);
 	form.appendChild(backDiv);
+	form.style.height = "80vh";
 	dialog.custom(form, function(form) {
 		if (callback)
 			callback(form !== false);
@@ -397,6 +397,26 @@ function changeBeepSoundFile(soundFile, callback) {
 		// Save the setting in the local database
 		db.transaction(function(tx) {
 			setSetting(tx, "sBeepSoundFile", sBeepSoundFile);
+			if (callback)
+				callback();
+		});
+	else {
+		if (callback)
+			callback();
+	}
+}
+
+//
+// Changes the theme user setting.
+//
+function changeStyleSheet(styleSheet, callback) {
+	// Change the setting
+	sStyleSheet = styleSheet;
+	
+	if (PHONEGAP)
+		// Save the setting in the local database
+		db.transaction(function(tx) {
+			setSetting(tx, "sStyleSheet", sStyleSheet);
 			if (callback)
 				callback();
 		});

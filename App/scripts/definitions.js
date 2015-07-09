@@ -38,7 +38,7 @@ var TAG_LOAD_QUANTITY = 100;						// Number of tags requested in each web servic
 var TAG_RELOAD_QUANTITY = 50;						// Number of loaded tags left when more are needed
 
 // User Settings
-var settingsCount = 12;								// Must be equal to the number of settings below
+var settingsCount = 13;								// Must be equal to the number of settings below
 	var sMinTimePerStage = 25000;					// Minimum ms for each time stage
 	var sMaxTimePerStage = 40000;					// Maximum ms for each time stage
 	var sNumberOfTeams = 2;							// Number of teams playing the game
@@ -48,6 +48,7 @@ var settingsCount = 12;								// Must be equal to the number of settings below
 	var sMaxWordsPerTag = 0;						// Maximum words per tag
 	var sMaxCharactersPerTag = 0;					// Maximum characters per tag
 	var sCategoryIds = [];							// Selected tag categories
+	var sStyleSheet = "style/theme_light.css";		// Path to style sheet used by theme
 	var sVibrate = true;							// Turns vibration on
 	var sEdgy = false;								// Allows adult-oriented tags
 	var sTeamNames = 								// Non-default team names
