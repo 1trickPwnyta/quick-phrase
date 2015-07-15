@@ -7,8 +7,9 @@ $tag = $_GET["tag"];
 
 // Build a query
 $db = mysqlConnect();
-$query = "SELECT (SELECT COUNT(*) FROM tag WHERE text = {$db->quote($tag)}) + 
-			(SELECT COUNT(*) FROM unapproved_tag WHERE text = {$db->quote($tag)}) AS tagCount";
+$regex = "^".preg_replace("/[^a-zA-Z0-9]*/", "[^a-zA-Z0-9]*", $tag)."$";
+$query = "SELECT (SELECT COUNT(*) FROM tag WHERE text REGEXP {$db->quote($regex)}) + 
+			(SELECT COUNT(*) FROM unapproved_tag WHERE text REGEXP {$db->quote($regex)}) AS tagCount";
 
 // Get count from the database
 $statement = $db->query($query);
