@@ -2,6 +2,7 @@
 <html lang="en-us">
 	<head>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 		
 		<!-- Style for dialog boxes -->
 		<link href="style/dialog.css" rel="stylesheet" />
@@ -33,10 +34,10 @@
 		
 		<script>
 			window.onload = function() {
-				if (PHONEGAP)
+				if (PHONEGAP) {
 					// Set the deviceready callback
 					document.addEventListener("deviceready", onDeviceReady, false);
-				else
+				} else
 					// Just call the deviceready callback directly
 					onDeviceReady();
 			};
@@ -86,7 +87,7 @@
 		<!-- Shows the splash screen image over the whole screen -->
 		<img id="splashscreen" class="visible" src="images/splashscreen.png" />
 	
-		<!-- Fades the background logo into the white background -->
+		<!-- Fades the background logo into the theme's background -->
 		<div id="backgroundFader"></div>
 		
 		<!-- Shows a confetti animation when a winner is declared -->
