@@ -141,7 +141,6 @@ header a {
 	z-index: 5;
 	overflow: auto;
 	box-shadow: 16px 16px 8px black;
-	border: 1px solid #474747;
 }
 
 #mainMenu select, #mainMenu input {
