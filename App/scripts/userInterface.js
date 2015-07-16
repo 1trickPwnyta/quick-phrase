@@ -4,11 +4,11 @@
 function setTag(text, authorUsername, categoryName) {
 	document.getElementById("tag").innerHTML = text;
 	var metadataText = "";
-	if (authorUsername) {
-		metadataText += "submitted by <span class=\"tag-author\">" + authorUsername + "</span><br />";
-	}
 	if (categoryName) {
 		metadataText += "from <span class=\"tag-category\">" + categoryName + "</span><br />";
+	}
+	if (authorUsername) {
+		metadataText += "submitted by <span class=\"tag-author\">" + authorUsername + "</span><br />";
 	}
 	document.getElementById("tag-metadata").innerHTML = metadataText;
 }
@@ -78,7 +78,7 @@ function updateDifficultySelector() {
 	difficultySelect.innerHTML = "";
 	for (var i = 1; i < difficulties.length; i++) {
 		var option = document.createElement("option");
-		option.value = i;
+		option.value = difficulties[i].id;
 		option.innerHTML = difficulties[i].name;
 		difficultySelect.appendChild(option);
 	}
@@ -166,7 +166,14 @@ function nextButtonClick() {
 		
 	var setNextTag = function() {
 		var tag = nextTag();
-		setTag(htmlEncode(tag.text), null, categories[tag.category_id].name);
+		var category;
+		for (var i = 1; i < categories.length; i++) {
+			if (categories[i].id == tag.category_id) {
+				category = categories[i];
+				break;
+			}
+		}
+		setTag(htmlEncode(tag.text), tag.authorName, category.name);
 	};
 	
 	// If a point has not been given since the last round ended, warn the user
