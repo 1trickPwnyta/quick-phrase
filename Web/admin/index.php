@@ -125,6 +125,15 @@
 		<script src="../applicationRoot.js"></script>
 		<script src="../dialog.js"></script>
 		<script>
+			function selectAll() {
+				var checkBoxes = document.getElementById("tagTable").getElementsByTagName("input");
+				for (var i = 0; i < checkBoxes.length; i++) {
+					if (checkBoxes[i].type == "checkbox") {
+						checkBoxes[i].checked = true;
+					}
+				}
+			}
+		
 			function approve() {
 				var ids = new Array();
 				var selectedBoxes = document.getElementById("tagTable").getElementsByTagName("input");
@@ -317,7 +326,7 @@
 			<a style="color: white;" href="<?php echo $SIMPLESAML_LOGOUT_URL_RELATIVE; ?>?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=<?php echo $APPLICATION_ROOT_PATH; ?>loggedOut.php">Log out</a>
 		</div>
 		<div id="action-buttons">
-			<a href="#">Select all</a>
+			<a href="#" onclick="selectAll(); return false;">Select all</a>
 			<a href="#" onclick="approve(); return false;">Approve</a>
 			<a href="#" onclick="reject(); return false;">Reject</a>
 		</div>
