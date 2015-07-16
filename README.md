@@ -63,3 +63,7 @@
 6. Install the build onto your device using the following command:
 
         adb install GrabTag-release.apk
+
+
+### Upgrading to Version 1.1.0 ###
+1. Add a submitter column to the tag table in the web database, int(4), NULL allowed, default NULL, foreign key user.id ON DELETE SET NULL.
