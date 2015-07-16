@@ -25,21 +25,19 @@ var CLICK_SOUND_FILE = "sounds/click.wav";			// Plays when various menu items ar
 
 // User Settings
 var settingsCount = 13;								// Must be equal to the number of settings below
-	var sMinTimePerStage = 25000;					// Minimum ms for each time stage
-	var sMaxTimePerStage = 40000;					// Maximum ms for each time stage
-	var sNumberOfTeams = 2;							// Number of teams playing the game
-	var sWinningPoint = 7;							// Points to win, or to be eliminated in 3+ team play
-	var sBeepSoundFile = "sounds/beep.wav";			// Sound file to play when the timer ticks
-	var sDifficulty = 3;							// Tag difficulty setting
-	var sMaxWordsPerTag = 0;						// Maximum words per tag
-	var sMaxCharactersPerTag = 0;					// Maximum characters per tag
-	var sCategoryIds = [];							// Selected tag categories
-	var sStyleSheet = "style/theme_light.css";		// Path to style sheet used by theme
-	var sVibrate = true;							// Turns vibration on
-	var sEdgy = false;								// Allows adult-oriented tags
-	var sTeamNames = 								// Non-default team names
-			["Team 1", "Team 2", "Team 3", "Team 4", 
-			"Team 5", "Team 6", "Team 7", "Team 8"];
+	var sMinTimePerStage = DEFAULT_MIN_TIME_PER_STAGE;	// Minimum ms for each time stage
+	var sMaxTimePerStage = DEFAULT_MAX_TIME_PER_STAGE;	// Maximum ms for each time stage
+	var sNumberOfTeams = DEFAULT_NUMBER_OF_TEAMS;	// Number of teams playing the game
+	var sWinningPoint = DEFAULT_WINNING_POINT;		// Points to win, or to be eliminated in 3+ team play
+	var sBeepSoundFile = DEFAULT_BEEP_SOUND_FILE;	// Sound file to play when the timer ticks
+	var sDifficulty = DEFAULT_DIFFICULTY;			// Tag difficulty setting
+	var sMaxWordsPerTag = DEFAULT_MAX_WORDS_PER_TAG;	// Maximum words per tag
+	var sMaxCharactersPerTag = DEFAULT_MAX_CHARACTERS_PER_TAG;	// Maximum characters per tag
+	var sCategoryIds = DEFAULT_CATEGORY_IDS;		// Selected tag categories
+	var sStyleSheet = DEFAULT_STYLE_SHEET;			// Path to style sheet used by theme
+	var sVibrate = DEFAULT_VIBRATE;					// Turns vibration on
+	var sEdgy = DEFAULT_EDGY;						// Allows adult-oriented tags
+	var sTeamNames = DEFAULT_TEAM_NAMES;			// Non-default team names
 
 // Global variables
 var tags = new Array();								// Holds the currently loaded tags
