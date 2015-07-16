@@ -157,7 +157,7 @@
 			$body .= "\r\n";
 		}
 		if ($approve > 0) {
-			$body .= "Your tags are now being used in the game everywhere. \r\n";
+			$body .= "Your tag".(count($submitterTags) > 1? "s are": " is")." now being used in the game everywhere. \r\n";
 		}
 		$body .= "Thank you! \r\n";
 		
