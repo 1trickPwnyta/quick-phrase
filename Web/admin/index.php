@@ -88,6 +88,11 @@
 				color: black;
 			}
 			
+			td input[type="checkbox"] {
+				width: 16px;
+				height: 16px;
+			}
+			
 			th {
 				background-color: #DE4343;
 				color: white;
@@ -96,60 +101,140 @@
 			input[type="text"], input[type="number"] {
 				font-family: inherit;
 			}
+			
+			#action-buttons {
+				padding: 16px;
+				margin: 8px;
+				border: 1px solid white;
+				display: inline-block;
+			}
+			
+			#action-buttons a {
+				background-color: #DE4343;
+				color: white;
+				border: 1px solid black;
+				font-family: inherit;
+				font-size: 1.3em;
+				font-weight: bold;
+				text-decoration: none;
+				margin: 0px 8px;
+				padding: 4px;
+			}
 		</style>
 		<script src="../ajax.js"></script>
 		<script src="../applicationRoot.js"></script>
 		<script src="../dialog.js"></script>
 		<script>
-			function approve(id) {
-				var approveCell = document.getElementById("approveCell" + id);
-
+			function approve() {
+				var ids = new Array();
+				var selectedBoxes = document.getElementById("tagTable").getElementsByTagName("input");
+				for (var i = 0; i < selectedBoxes.length; i++) {
+					if (selectedBoxes[i].type == "checkbox" && selectedBoxes[i].checked) {
+						var id = parseInt(selectedBoxes[i].id.replace("selectCell", ""));
+						ids.push(id);
+					}
+				}
+				
+				var tagsToApprove = new Array();
+				for (var i = 0; i < ids.length; i++) {
+					var tag = getTagById(ids[i]);
+					if (tag === false) {
+						return;
+					}
+					tagsToApprove.push(tag);
+				}
+				
+				ajax("POST", "approveTags.php", [
+                				{name: "tags", value: JSON.stringify(tagsToApprove)}, 
+                				{name: "approve", value: 1}
+                ], function(response, status) {
+					if (status == 200) {
+						var unapprovedTags = JSON.parse(response);
+						for (var i = 0; i < selectedBoxes.length; i++) {
+							if (selectedBoxes[i].type == "checkbox" && selectedBoxes[i].checked) {
+								var id = parseInt(selectedBoxes[i].id.replace("selectCell", ""));
+								var unapproved = false;
+								for (var j = 0; j < unapprovedTags.length; j++) {
+									if (unapprovedTags[j].id == id) {
+										unapproved = true;
+										break;
+									}
+								}
+								if (!unapproved) {
+									selectedBoxes[i].parentNode.parentNode.parentNode.removeChild(selectedBoxes[i].parentNode.parentNode);
+								}
+							}
+						}
+						if (unapprovedTags.length > 0) {
+							var message = "The following tags could not be approved. They may already exist.<br />";
+							for (var i = 0; i < unapprovedTags.length; i++) {
+								message += unapprovedTag[i].text + "<br />";
+							}
+							dialog.showMessage(message);
+						}
+					} else {
+						dialog.showMessage("The tags could not be approved. HTTP status code " + status + ".");
+					}
+				});
+			}
+			
+			function reject() {
+				dialog.getString(function(reason) {
+					if (reason) {
+						var ids = new Array();
+						var selectedBoxes = document.getElementById("tagTable").getElementsByTagName("input");
+						for (var i = 0; i < selectedBoxes.length; i++) {
+							if (selectedBoxes[i].type == "checkbox" && selectedBoxes[i].checked) {
+								var id = parseInt(selectedBoxes[i].id.replace("selectCell", ""));
+								ids.push(id);
+							}
+						}
+						
+						var tagsToReject = new Array();
+						for (var i = 0; i < ids.length; i++) {
+							var tag = getTagById(ids[i]);
+							if (tag === false) {
+								return;
+							}
+							tagsToReject.push(tag);
+						}
+						
+						ajax("POST", "approveTags.php", [
+										{name: "tags", value: JSON.stringify(tagsToApprove)}, 
+										{name: "approve", value: 0},
+										{name: "reason", value: reason}
+						], function(response, status) {
+							if (status == 200) {
+								for (var i = 0; i < selectedBoxes.length; i++) {
+									if (selectedBoxes[i].type == "checkbox" && selectedBoxes[i].checked) {
+										selectedBoxes[i].parentNode.parentNode.parentNode.removeChild(selectedBoxes[i].parentNode.parentNode);
+									}
+								}
+							} else {
+								dialog.showMessage("The tags could not be rejected. HTTP status code " + status + ".");
+							}
+						});
+					}
+				}, "Please enter a reason for rejecting these tags.");
+			}
+		
+			function getTagById(id) {
 				var text = document.getElementById("textCell" + id).innerHTML;
 				var categoryId = document.getElementById("categoryCell" + id).innerHTML.split(" ")[0];
 				var difficulty = parseInt(document.getElementById("difficultyCell" + id).innerHTML);
 				if (isNaN(difficulty) || !difficulty) {
-					dialog.showMessage("Please set the difficulty rating for this tag.");
-					return;
+					dialog.showMessage("Please set the difficulty rating for '" + text + "'.");
+					return false;
 				}
 				var edgy = (document.getElementById("edgyCell" + id).innerHTML == "true"? 1: 0);
 
-				var oldOnclick = approveCell.onclick;
-				approveCell.onclick = null;
-				approveCell.innerHTML = "Pending";
-				
-				ajax("POST", "approveTag.php", [
-                				{name: "id", value: id}, 
-                				{name: "approve", value: 1},
-                				{name: "text", value: text},
-                				{name: "categoryId", value: categoryId},
-                				{name: "difficulty", value: difficulty},
-                				{name: "edgy", value: edgy}
-                ], function(response, status) {
-					if (status == 200) {
-						approveCell.parentNode.parentNode.parentNode.removeChild(approveCell.parentNode.parentNode);
-					} else {
-						dialog.showMessage("The tag with ID " + id + " could not be approved. The tag may already exist. HTTP status code " + status + ".", function() {
-							approveCell.innerHTML = "Approve";
-							approveCell.onclick = oldOnclick;
-						});
-					}
-				});
-			}
-
-			function deleteTag(id) {
-				var deleteCell = document.getElementById("deleteCell" + id);
-
-				dialog.getString(function(reason) {
-					if (reason) {
-						ajax("POST", "approveTag.php", [
-		                				{name: "id", value: id}, 
-		                				{name: "approve", value: 0},
-		                				{name: "reason", value: reason}
-		                ]);
-		                
-						deleteCell.parentNode.parentNode.parentNode.removeChild(deleteCell.parentNode.parentNode);
-					}
-				}, "Please enter a reason for deleting this tag.");
+				return {
+					id: id,
+					text: text,
+					categoryId: categoryId,
+					difficulty: difficulty,
+					edgy: edgy
+				};
 			}
 
 			function setText(id) {
@@ -219,16 +304,20 @@
 		<div style="float: right;">
 			<a style="color: white;" href="<?php echo $SIMPLESAML_LOGOUT_URL_RELATIVE; ?>?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=<?php echo $APPLICATION_ROOT_PATH; ?>loggedOut.php">Log out</a>
 		</div>
-		<table>
+		<div id="action-buttons">
+			<a href="#">Select all</a>
+			<a href="#" onclick="approve(); return false;">Approve</a>
+			<a href="#" onclick="reject(); return false;">Reject</a>
+		</div>
+		<table id="tagTable">
 			<tr>
-				<th>Approve</th><th>Delete</th><th>Tag</th><th>Category</th><th>Difficulty</th><th>Adult</th><th>Time submitted</th><th>Submitted by</th>
+				<th></th><th>Tag</th><th>Category</th><th>Difficulty</th><th>Adult</th><th>Time submitted</th><th>Submitted by</th>
 			</tr>
 			<?php
 				for ($i = 0; $i < count($tags); $i++) {
 					echo 
 						"<tr>
-							<td><a id=\"approveCell{$tags[$i]['id']}\" href=\"#\" onclick=\"approve({$tags[$i]['id']}); return false;\">Approve</a></td>
-							<td><a id=\"deleteCell{$tags[$i]['id']}\" href=\"#\" onclick=\"deleteTag({$tags[$i]['id']}); return false;\">Delete</a></td>
+							<td><input id=\"selectCell{$tags[$i]['id']}\" type=\"checkbox\" /></td>
 							<td><a id=\"textCell{$tags[$i]['id']}\" href=\"#\" onclick=\"setText({$tags[$i]['id']}); return false;\">".htmlentities($tags[$i]['text'])."</a></td>
 							<td><a id=\"categoryCell{$tags[$i]['id']}\" href=\"#\" onclick=\"setCategory({$tags[$i]['id']}); return false;\">{$tags[$i]['category_id']} {$tags[$i]['category']}</td>
 							<td><a id=\"difficultyCell{$tags[$i]['id']}\" href=\"#\" onclick=\"setDifficulty({$tags[$i]['id']}); return false;\">???</a></td>
