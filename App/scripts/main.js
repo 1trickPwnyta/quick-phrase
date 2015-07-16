@@ -113,10 +113,10 @@ function loadTags(eraseOldTags, callback) {
 		if (!success)
 			loadTagsFromLocalDatabase(function() {
 				// If no tags are loaded, that's an error
+				loadingTags = false;
 				if (tags.length == 0)
 					showLoadingError();
-				loadingTags = false;
-				if (callback)
+				else if (callback)
 					callback();
 			});
 		else {
