@@ -5,7 +5,6 @@ var APP_AUTHOR = "Kangaroo Standard";
 var APP_AUTHOR_LINK = "https://www.kangaroostandard.com/";
 var APP_AUTHOR_EMAIL = "support@kangaroostandard.com";
 var APP_COPYRIGHT_YEAR = "2015";
-var APP_GOOGLEPLAY_EDITION = true;
 
 // Enumerable values
 var TIME_STAGE_NOT_STARTED = 0;
@@ -23,19 +22,6 @@ var LOSE_SOUND_FILE = "sounds/lose.wav";			// Plays when a team is eliminated in
 var WIN_SOUND_FILE = "sounds/win.wav";				// Plays when the game is overflow
 var BUTTON_SOUND_FILE = "sounds/button.wav";		// Plays when the Next button or score buttons are pressed
 var CLICK_SOUND_FILE = "sounds/click.wav";			// Plays when various menu items are clicked
-
-// Misc. output configuration
-var BEEP_INTERVAL = 500;							// Timer tick ms during final time stage of round
-var VIBRATION_DURATION = 100;						// ms duration of device vibration when vibration is on
-
-// Tag source configuration
-var DB_NAME = "grab_tag";							// Name of the SQLite database for local data
-var MAX_LOCAL_TAGS = 5000;							// Max number of tags to be kept in local database
-var WEB_SERVICE_URL = 								// Web service URL for remote data
-		"https://www.kangaroostandard.com/GrabTag";
-var WEB_SERVICE_TIMEOUT = 10000;					// Web service calls time out after this many ms
-var TAG_LOAD_QUANTITY = 100;						// Number of tags requested in each web service call
-var TAG_RELOAD_QUANTITY = 50;						// Number of loaded tags left when more are needed
 
 // User Settings
 var settingsCount = 13;								// Must be equal to the number of settings below
