@@ -40,7 +40,8 @@ if ($maxWords < 0) {
 }
 
 // Build a query
-$query = "SELECT * FROM tag ";
+$query = "SELECT t.*, u.username AS authorName FROM tag t ";
+$query .= "INNER JOIN user u ON u.id = t.submitter ";
 $query .= "WHERE category_id IN (";
 if (count($categoryIds) > 0) {
 	foreach ($categoryIds as $categoryId)

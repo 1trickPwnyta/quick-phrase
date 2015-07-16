@@ -82,8 +82,8 @@
 			
 			// Build a query to insert the tag
 			$query = 
-				"INSERT INTO tag (category_id, text, difficulty_rating, edgy)
-				VALUES ({$tags[$i]->categoryId}, {$db->quote(html_entity_decode($tags[$i]->text))}, {$tags[$i]->difficulty}, {$tags[$i]->edgy})";
+				"INSERT INTO tag (category_id, text, difficulty_rating, edgy, submitter)
+				VALUES ({$tags[$i]->categoryId}, {$db->quote(html_entity_decode($tags[$i]->text))}, {$tags[$i]->difficulty}, {$tags[$i]->edgy}, {$databaseTags[$i]["submitter"]})";
 			
 			// Insert the tag into the database
 			$rowsAffected = $db->exec($query);
