@@ -38,9 +38,8 @@
 ##### Google Play Edition #####
 * The Google Play edition of the app prevents edgy/adult tags from showing up in the game.
 * When building a release for Google Play, it is important that you build the Google Play edition of the app.
-* To build the Google Play edition of the app, open scripts/definitions.js and set APP_GOOGLEPLAY_EDITION to true.
-* APP_GOOGLEPLAY_EDITION should always be true, except when specifically building the non-Google Play edition of the app. Once it is built, APP_GOOGLEPLAY_EDITION should be set back to true.
-* No commits should be made to the repository with APP_GOOGLEPLAY_EDITION set to anything other than true.
+* To build the Google Play edition of the app, open scripts/config.js and set APP_GOOGLEPLAY_EDITION to true.
+* APP_GOOGLEPLAY_EDITION should always be true in production, except when specifically building the non-Google Play edition of the app. Once it is built, APP_GOOGLEPLAY_EDITION should be set back to true.
 
 ##### Debug Build #####
 1. Create a zip folder called phonegap.zip in the root directory of the repository and put the contents of the App folder inside it.
@@ -67,3 +66,4 @@
 
 ### Upgrading to Version 1.1.0 ###
 1. Add a submitter column to the tag table in the web database, int(4), NULL allowed, default NULL, foreign key user.id ON DELETE SET NULL.
+2. Copy the config.Example.js file and name it config.js. Open the file and modify the configuration parameters as necessary.
