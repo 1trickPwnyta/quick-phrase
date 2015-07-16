@@ -1,4 +1,7 @@
 <?php
+	// Enable this only when emails can't be sent in the environment and you need to test the creation of the email
+	$NO_EMAIL = true;
+
 	require_once "../config.php";
 	require_once "../mysql.php";
 	
@@ -127,7 +130,9 @@
 	}
 	
 	// Send emails
-	require_once "Mail.php";
+	if (!$NO_EMAIL) {
+		require_once "Mail.php";
+	}
 	
 	foreach ($tagsBySubmitter as $userEmail => $submitterTags) {
 		$from = "Grab Tag <$APPLICATION_EMAIL_ADDRESS>";
@@ -156,21 +161,29 @@
 		}
 		$body .= "Thank you! \r\n";
 		
-		$headers = array (
-				"From" => $from,
-				"To" => $to,
-				"Subject" => $subject
-		);
+		if ($NO_EMAIL) {
+			$myfile = fopen("C:\\Temp\\$userEmail.txt", "w") or die("Unable to open file!");
+			fwrite($myfile, $body);
+			fclose($myfile);
+		}
 		
-		$smtp = Mail::factory("smtp", array (
-				"host" => $SMTP_HOST,
-				"port" => $SMTP_PORT,
-				"auth" => true,
-				"username" => $SMTP_USERNAME,
-				"password" => $SMTP_PASSWORD
-		));
+		if (!$NO_EMAIL) {
+			$headers = array (
+					"From" => $from,
+					"To" => $to,
+					"Subject" => $subject
+			);
+			
+			$smtp = Mail::factory("smtp", array (
+					"host" => $SMTP_HOST,
+					"port" => $SMTP_PORT,
+					"auth" => true,
+					"username" => $SMTP_USERNAME,
+					"password" => $SMTP_PASSWORD
+			));
 		
-		$mail = $smtp->send($to, $headers, $body);
+			$mail = $smtp->send($to, $headers, $body);
+		}
 	}
 	
 	// Return the results
