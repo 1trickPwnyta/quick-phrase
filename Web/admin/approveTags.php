@@ -43,6 +43,9 @@
 	$tagsBySubmitter = array();
 	$unapprovedTags = array();
 	for ($i = 0; $i < count($databaseTags); $i++) {
+		$changedText = false;
+		$changedCategory = false;
+	
 		// Build a query to get submitter's email address
 		$query = "
 		SELECT email_address FROM user
@@ -95,7 +98,6 @@
 			$submitterTags = $tagsBySubmitter[$userEmail];
 			if ($submitterTags == null) {
 				$submitterTags = array();
-				$tagsBySubmitter[$userEmail] = $submitterTags;
 			}
 			array_push($submitterTags, array(
 				"original" => $databaseTags[$i],
@@ -104,6 +106,17 @@
 				"changedCategory" => $changedCategory,
 				"newCategoryName" => $newCategory
 			));
+			$tagsBySubmitter[$userEmail] = $submitterTags;
+		} else {
+			// Add the tag to the list of rejected tags for its submitter
+			$submitterTags = $tagsBySubmitter[$userEmail];
+			if ($submitterTags == null) {
+				$submitterTags = array();
+			}
+			array_push($submitterTags, array(
+				"original" => $databaseTags[$i]
+			));
+			$tagsBySubmitter[$userEmail] = $submitterTags;
 		}
 			
 		// Build a query to remove the tag from the unapproved table
@@ -131,13 +144,15 @@
 					if ($submitterTags[$i]['changedCategory'])
 						$body .= "Your tag's category is now {$submitterTags[$i]['newCategoryName']}. \r\n";
 				} else
-					$body = "Your tag '{$submitterTags[$i]['original']['text']}' was approved. \r\n";
-				$body .= "It is now being used in the game everywhere. \r\n";
+					$body .= "Your tag '{$submitterTags[$i]['original']['text']}' was approved. \r\n";
 			} else {
-				$body = "Your tag '{$submitterTags[$i]['original']['text']}' was rejected for the following reason: \r\n";
+				$body .= "Your tag '{$submitterTags[$i]['original']['text']}' was rejected for the following reason: \r\n";
 				$body .= $reason." \r\n";
 			}
 			$body .= "\r\n";
+		}
+		if ($approve > 0) {
+			$body .= "Your tags are now being used in the game everywhere. \r\n";
 		}
 		$body .= "Thank you! \r\n";
 		

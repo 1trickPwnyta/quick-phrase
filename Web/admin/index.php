@@ -135,9 +135,14 @@
 					}
 				}
 				
+				if (ids.length == 0) {
+					dialog.showMessage("Please select at least one tag to approve.");
+					return;
+				}
+				
 				var tagsToApprove = new Array();
 				for (var i = 0; i < ids.length; i++) {
-					var tag = getTagById(ids[i]);
+					var tag = getTagById(ids[i], true);
 					if (tag === false) {
 						return;
 					}
@@ -162,6 +167,7 @@
 								}
 								if (!unapproved) {
 									selectedBoxes[i].parentNode.parentNode.parentNode.removeChild(selectedBoxes[i].parentNode.parentNode);
+									i--;
 								}
 							}
 						}
@@ -179,20 +185,25 @@
 			}
 			
 			function reject() {
+				var ids = new Array();
+				var selectedBoxes = document.getElementById("tagTable").getElementsByTagName("input");
+				for (var i = 0; i < selectedBoxes.length; i++) {
+					if (selectedBoxes[i].type == "checkbox" && selectedBoxes[i].checked) {
+						var id = parseInt(selectedBoxes[i].id.replace("selectCell", ""));
+						ids.push(id);
+					}
+				}
+				
+				if (ids.length == 0) {
+					dialog.showMessage("Please select at least one tag to reject.");
+					return;
+				}
+			
 				dialog.getString(function(reason) {
 					if (reason) {
-						var ids = new Array();
-						var selectedBoxes = document.getElementById("tagTable").getElementsByTagName("input");
-						for (var i = 0; i < selectedBoxes.length; i++) {
-							if (selectedBoxes[i].type == "checkbox" && selectedBoxes[i].checked) {
-								var id = parseInt(selectedBoxes[i].id.replace("selectCell", ""));
-								ids.push(id);
-							}
-						}
-						
 						var tagsToReject = new Array();
 						for (var i = 0; i < ids.length; i++) {
-							var tag = getTagById(ids[i]);
+							var tag = getTagById(ids[i], false);
 							if (tag === false) {
 								return;
 							}
@@ -200,7 +211,7 @@
 						}
 						
 						ajax("POST", "approveTags.php", [
-										{name: "tags", value: JSON.stringify(tagsToApprove)}, 
+										{name: "tags", value: JSON.stringify(tagsToReject)}, 
 										{name: "approve", value: 0},
 										{name: "reason", value: reason}
 						], function(response, status) {
@@ -208,6 +219,7 @@
 								for (var i = 0; i < selectedBoxes.length; i++) {
 									if (selectedBoxes[i].type == "checkbox" && selectedBoxes[i].checked) {
 										selectedBoxes[i].parentNode.parentNode.parentNode.removeChild(selectedBoxes[i].parentNode.parentNode);
+										i--;
 									}
 								}
 							} else {
@@ -218,11 +230,11 @@
 				}, "Please enter a reason for rejecting these tags.");
 			}
 		
-			function getTagById(id) {
+			function getTagById(id, getDifficulty) {
 				var text = document.getElementById("textCell" + id).innerHTML;
 				var categoryId = document.getElementById("categoryCell" + id).innerHTML.split(" ")[0];
 				var difficulty = parseInt(document.getElementById("difficultyCell" + id).innerHTML);
-				if (isNaN(difficulty) || !difficulty) {
+				if (getDifficulty && (isNaN(difficulty) || !difficulty)) {
 					dialog.showMessage("Please set the difficulty rating for '" + text + "'.");
 					return false;
 				}
