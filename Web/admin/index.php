@@ -59,10 +59,38 @@
 				src: url('../font.woff') format('woff');
 			}
 			
+			html {
+				width: 100%;
+				height: 100%;
+				margin: 0px;
+			}
+			
 			body {
 				background-color: #474747;
 				color: white;
 				font-family: standard;
+				width: calc(100% - 8px);
+				height: calc(100% - 8px);
+				margin: 0px;
+				padding: 4px;
+			}
+			
+			#waitingScreen {
+				display: none;
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0.5);
+				z-index: 100;
+				text-align: center;
+			}
+			
+			#waitingScreen span {
+				position: relative;
+				top: 50%;
+				transform: translateY(-50%);
 			}
 			
 			a, a:visited, a:active, a:hover {
@@ -158,6 +186,7 @@
 					tagsToApprove.push(tag);
 				}
 				
+				document.getElementById("waitingScreen").style.display = "block";
 				ajax("POST", "approveTags.php", [
                 				{name: "tags", value: JSON.stringify(tagsToApprove)}, 
                 				{name: "approve", value: 1}
@@ -190,6 +219,7 @@
 					} else {
 						dialog.showMessage("The tags could not be approved. HTTP status code " + status + ".");
 					}
+					document.getElementById("waitingScreen").style.display = "none";
 				});
 			}
 			
@@ -219,6 +249,7 @@
 							tagsToReject.push(tag);
 						}
 						
+						document.getElementById("waitingScreen").style.display = "block";
 						ajax("POST", "approveTags.php", [
 										{name: "tags", value: JSON.stringify(tagsToReject)}, 
 										{name: "approve", value: 0},
@@ -234,6 +265,7 @@
 							} else {
 								dialog.showMessage("The tags could not be rejected. HTTP status code " + status + ".");
 							}
+							document.getElementById("waitingScreen").style.display = "none";
 						});
 					}
 				}, "Please enter a reason for rejecting these tags.");
@@ -322,6 +354,9 @@
 		</script>
 	</head>
 	<body>
+		<div id="waitingScreen">
+			<span>Please wait...</span>
+		</div>
 		<div style="float: right;">
 			<a style="color: white;" href="<?php echo $SIMPLESAML_LOGOUT_URL_RELATIVE; ?>?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=<?php echo $APPLICATION_ROOT_PATH; ?>loggedOut.php">Log out</a>
 		</div>
