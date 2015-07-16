@@ -1,4 +1,19 @@
 //
+// Sets the tag on the screen.
+//
+function setTag(text, authorUsername, categoryName) {
+	document.getElementById("tag").innerHTML = text;
+	var metadataText = "";
+	if (authorUsername) {
+		metadataText += "submitted by <span class=\"tag-author\">" + authorUsername + "</span><br />";
+	}
+	if (categoryName) {
+		metadataText += "from <span class=\"tag-category\">" + categoryName + "</span><br />";
+	}
+	document.getElementById("tag-metadata").innerHTML = metadataText;
+}
+
+//
 // Disables the Next button.
 //
 function disableNext() {
@@ -43,7 +58,7 @@ function hideConfetti() {
 function showLoadingScreen() {
 	disableNext();
 	hideConfetti();
-	document.getElementById("tag").innerHTML = "Loading...";
+	setTag("Loading...");
 }
 
 //
@@ -52,7 +67,7 @@ function showLoadingScreen() {
 function showReadyScreen() {
 	enableNext();
 	hideConfetti();
-	document.getElementById("tag").innerHTML = "Press Next to start!"
+	setTag("Press Next to start!");
 }
 
 //
@@ -148,8 +163,11 @@ function nextButtonClick() {
 	// If the game has not started, start a new game
 	if (gameOver)
 		newGame(true);
-	
-	var tagElement = document.getElementById("tag");
+		
+	var setNextTag = function() {
+		var tag = nextTag();
+		setTag(htmlEncode(tag.text), null, categories[tag.category_id].name);
+	};
 	
 	// If a point has not been given since the last round ended, warn the user
 	if (!pointGiven) {
@@ -158,7 +176,7 @@ function nextButtonClick() {
 			if (response) {
 				// The user wants to continue anyway, so start the next round with the next tag
 				pointGiven = true;
-				tagElement.innerHTML = htmlEncode(nextTag());
+				setNextTag();
 				
 				// If the round isn't started (which it shouldn't be since we were waiting for a point), start the next round
 				if (timeStage == TIME_STAGE_NOT_STARTED)
@@ -169,7 +187,7 @@ function nextButtonClick() {
 	} else {
 	
 		// Go to the next tag
-		tagElement.innerHTML = htmlEncode(nextTag());
+		setNextTag();
 		
 		// If the round isn't started, start the next round
 		if (timeStage == TIME_STAGE_NOT_STARTED)

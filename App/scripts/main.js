@@ -14,7 +14,7 @@ function newGame(start) {
 //
 function nextTag() {
 	// Pop the next tag from the loaded tag list
-	var nextTag = tags.pop().text;
+	var nextTag = tags.pop();
 	
 	// Load more tags if we're running low
 	if (tags.length <= TAG_RELOAD_QUANTITY && !loadingTags)
@@ -75,7 +75,7 @@ function advanceTimeStage() {
 		playSound(TIME_UP_SOUND_FILE);
 		if (sVibrate && navigator.vibrate)
 			navigator.vibrate(VIBRATION_DURATION*5);
-		document.getElementById("tag").innerHTML = "Time's up!";
+		setTag("Time's up!");
 		document.getElementById("menuButtonIcon").src = "images/menu.png";
 		
 		// Reset the time stage
@@ -170,7 +170,7 @@ function showLoadingError() {
 	if (!timeoutShown) {
 		timeoutShown = true;
 		dialog.showMessage(APP_NAME + " couldn't load! Close this app, make sure you are connected to the Internet, and then try again.");
-		document.getElementById("tag").innerHTML = "ERROR";
+		setTag("ERROR");
 	}
 }
 
@@ -216,7 +216,7 @@ function loadScores() {
 // Ends the game in victory for the selected team.
 //
 function teamWin(teamId) {
-	document.getElementById("tag").innerHTML = sTeamNames[teamId] + " wins!";
+	setTag(sTeamNames[teamId] + " wins!");
 	gameOver = true;
 	playSound(WIN_SOUND_FILE);
 	showConfetti();
@@ -243,7 +243,7 @@ function eliminateTeam(teamId) {
 	if (teamsRemaining == 1) {
 		teamWin(lastTeamNumber);
 	} else {
-		document.getElementById("tag").innerHTML = sTeamNames[teamId] + " eliminated!";
+		setTag(sTeamNames[teamId] + " eliminated!");
 		playSound(LOSE_SOUND_FILE);
 	}
 }
@@ -269,7 +269,7 @@ function stopGame() {
 	advanceTimeStage();
 	timeStageAtLastBeep = TIME_STAGE_FINAL;
 	
-	document.getElementById("tag").innerHTML = "Game stopped.";
+	setTag("Game stopped.");
 	
 	// Don't expect a point to be given for that round
 	pointGiven = true;
