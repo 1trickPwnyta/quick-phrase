@@ -140,7 +140,8 @@ function showUsedTags() {
 				break;
 			}
 		}
-		message += htmlEncode(usedTags[i].text) + "<br /><span style=\"font-style: italic; font-size: 75%;\">from <span class=\"tag-category\">" + category.name + "</span>" + (usedTags[i].authorName? "; submitted by <span class=\"tag-author\">" + usedTags[i].authorName + "</span>": "") + "</span>" + (i < usedTags.length - 1? "<hr />": "");
+		message += "<a class=\"flag-tag\" href=\"#\" onclick=\"showTagFlaggingDialog(" + JSON.stringify(usedTags[i]).replace(/\"/g, "&quot;") + "); return false;\"><img src=\"images/flag.png\" alt=\"Flag\" title=\"Report this tag\" /></a>";
+		message += htmlEncode(usedTags[i].text) + "<br /><span class=\"used-tag\">from <span class=\"tag-category\">" + category.name + "</span>" + (usedTags[i].authorName? "; submitted by <span class=\"tag-author\">" + usedTags[i].authorName + "</span>": "") + "</span>" + (i < usedTags.length - 1? "<hr />": "");
 	}
 
 	showStandardDialog(
@@ -151,6 +152,70 @@ function showUsedTags() {
 		null, 
 		null, 
 		true);
+}
+
+//
+// Show the tag-flagging dialog.
+//
+function showTagFlaggingDialog(tag) {
+	playSound(CLICK_SOUND_FILE);
+	var div = document.createElement("div");
+	
+	var questionSpan = document.createElement("span");
+	questionSpan.innerHTML = htmlEncode(tag.text);
+	div.appendChild(questionSpan);
+	
+	div.appendChild(document.createElement("br"));
+	
+	// Create radio button for each possible reason
+	for (var i = 0; i < TAG_FLAGGING_REASONS.length; i++) {
+		var radioButton = document.createElement("input");
+		radioButton.type = "radio";
+		radioButton.id = "reasonRadioButton" + i;
+		radioButton.name = "tagFlaggingReason";
+		radioButton.reason = TAG_FLAGGING_REASONS[i];
+		radioButton.onchange = function(){playSound(CLICK_SOUND_FILE);};
+		var label = document.createElement("label");
+		label.htmlFor = radioButton.id;
+		label.innerHTML = TAG_FLAGGING_REASONS[i];
+		div.appendChild(radioButton);
+		div.appendChild(label);
+		
+		div.appendChild(document.createElement("br"));
+	}
+	
+	// Get input from the userAgent
+	var reason;
+	showStandardDialog(div, function(response) {
+		if (response) {
+			// Erase the form so radio button IDs can be reused
+			div.innerHTML = "";
+			
+			flagTag(tag, reason, function(success) {
+				if (success) {
+					dialog.showMessage("Thank you for your feedback.");
+				} else {
+					dialog.showMessage(APP_NAME + " couldn't report the tag. Check your Internet connection and try again.");
+				}
+			});
+		}
+	}, false, "What's wrong?", null, "inherit", false, function(response) {
+		if (response) {
+			// Get the selected reason
+			var radioButtons = div.getElementsByTagName("input");
+				for (var i = 0; i < radioButtons.length; i++)
+					if (radioButtons[i].checked) {
+						reason = radioButtons[i].reason;
+						break;
+					}
+			
+			// Validate that a reason was selected
+			if (!reason) {
+				dialog.showMessage("Select a reason for reporting this tag.", null, function() {playSound(CLICK_SOUND_FILE);});
+				return false;
+			}
+		}
+	});
 }
 
 //
@@ -192,8 +257,9 @@ function showAbout() {
 // okButtonText: An optional string to display on the OK/accept button instead of "OK".
 // lineHeight: An optional CSS line-height to use instead of "100%".
 // hideCancel: true to hide the cancel button.
+// closeFunction: A function to call when the window is closing. Return false to cancel closing.
 //
-function showStandardDialog(htmlContent, callback, includeMoreIcon, title, okButtonText, lineHeight, hideCancel) {
+function showStandardDialog(htmlContent, callback, includeMoreIcon, title, okButtonText, lineHeight, hideCancel, closeFunction) {
 	var form = document.createElement("form");
 	form.className = "standardDialogForm";
 	var div = document.createElement("div");
@@ -225,7 +291,11 @@ function showStandardDialog(htmlContent, callback, includeMoreIcon, title, okBut
 	dialog.custom(form, function(form) {
 		if (callback)
 			callback(form !== false);
-	}, title? title: "", okButtonText? okButtonText: "OK", hideCancel === true, function() {playSound(CLICK_SOUND_FILE);});
+	}, title? title: "", okButtonText? okButtonText: "OK", hideCancel === true, function(response) {
+		playSound(CLICK_SOUND_FILE);
+		if (closeFunction)
+			return closeFunction(response);
+	});
 }
 
 //

@@ -48,7 +48,7 @@
 	border: 2px solid black;
 }
 
-.dialog-dialog-box input[type="checkbox"] {
+.dialog-dialog-box input[type="checkbox"], .dialog-dialog-box input[type="radio"] {
     width: 20px;
 	height: 20px;
 	vertical-align: middle;

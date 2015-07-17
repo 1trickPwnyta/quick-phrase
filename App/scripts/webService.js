@@ -141,13 +141,33 @@ function loadCategoriesFromWebService(callback) {
 function loadStatsFromWebService(callback) {
 	// Call the web service for stats
 	ajax("GET", WEB_SERVICE_URL + "/getStats.php", [], function(response) {
-		
 		// Check if the web service returns a valid response
 		if (response) {
 			
 			// Get the stats from the web service response
 			stats = JSON.parse(response);
 			
+			// Return success
+			if (callback)
+				callback(true);
+			
+		} else {
+			// The web service call failed (timed out), so return failure
+			if (callback)
+				callback(false);
+		}
+	}, WEB_SERVICE_TIMEOUT);
+}
+
+function flagTag(tag, reason, callback) {
+	// Call the web service to flag the tag
+	ajax("POST", WEB_SERVICE_URL + "/flagTag.php", [
+		{name: "id", value: tag.id},
+		{name: "reason", value: reason}
+	], function(response, status) {
+		// Check if the web service returns a valid response
+		if (status == 200) {
+		
 			// Return success
 			if (callback)
 				callback(true);

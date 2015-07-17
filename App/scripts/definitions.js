@@ -23,6 +23,15 @@ var WIN_SOUND_FILE = "sounds/win.wav";				// Plays when the game is overflow
 var BUTTON_SOUND_FILE = "sounds/button.wav";		// Plays when the Next button or score buttons are pressed
 var CLICK_SOUND_FILE = "sounds/click.wav";			// Plays when various menu items are clicked
 
+// Other constants
+var TAG_FLAGGING_REASONS = [						// Possible reasons for flagging a tag
+	"Wrong category",
+	"Too difficult",
+	"Offensive/inappropriate",
+	"Spelling error",
+	"Other"
+];
+
 // User Settings
 var settingsCount = 15;								// Must be equal to the number of settings below
 	var sMinTimePerStage = DEFAULT_MIN_TIME_PER_STAGE;	// Minimum ms for each time stage

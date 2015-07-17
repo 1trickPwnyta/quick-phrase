@@ -93,6 +93,16 @@ header a {
 	
 }
 
+.used-tag {
+	font-style: italic;
+	font-size: 75%;
+}
+
+.flag-tag {
+	display: block;
+	float: right;
+}
+
 #nextButton {
 	position: absolute;
 	bottom: 5%;

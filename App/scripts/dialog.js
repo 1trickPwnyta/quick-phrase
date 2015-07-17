@@ -9,7 +9,6 @@ var CLOSE_BUTTON_CLASS_NAME = "dialog-close-button";            // The CSS class
 var DEFAULT_FORM_SUBMIT_BUTTON = "Submit";                      // The default text for the form submit button, if any
 var FADE_DURATION = 200;										// CSS transition milliseconds for fading a menu out
 
-var dialogTop;
 var dialog = {
 
     /**
@@ -18,9 +17,9 @@ var dialog = {
     */
     createDialogBox: function () {
         // Create the top element
-        dialogTop = document.createElement("div");
-        dialogTop.className = TOP_CLASS_NAME;
-        document.body.appendChild(dialogTop);
+		var dialogTop = document.createElement("div");
+		dialogTop.className = TOP_CLASS_NAME;
+		document.body.appendChild(dialogTop);
 
         // Create the screen dimming element
         var screenDimmer = document.createElement("div");
@@ -48,7 +47,9 @@ var dialog = {
         dialogBox.close = function (returnParameter) {
 			// Call the close function if any
 			if (this.closeFunction)
-				this.closeFunction();
+				if (this.closeFunction(returnParameter) === false) {
+					return;
+				}
 			
             // Remove the screen dimmer and the dialog box
 			this.screenDimmer.className = SCREEN_DIMMER_CLASS_NAME + " " + HIDDEN_CLASS_NAME;
