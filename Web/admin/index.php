@@ -91,6 +91,7 @@
 				position: relative;
 				top: 50%;
 				transform: translateY(-50%);
+				font-size: 3em;
 			}
 			
 			a, a:visited, a:active, a:hover {
