@@ -69,3 +69,7 @@
 2. Copy the config.Example.js file and name it config.js. Open the file and modify the configuration parameters as necessary.
 3. Add $NO_EMAIL parameter to config.php in the Web folder. Set to true or false.
 4. Add a time_approved column to the tag table in the web database, timestamp, no NULL, default current timestamp.
+5. Add a table to the web database called flagged_tag:
+    * id int(4) primary auto increment
+    * tag_id int(4) references tag.id on delete cascade
+    * reason varchar(256) not null
