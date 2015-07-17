@@ -14,4 +14,7 @@ $SMTP_PORT = "465";
 $SMTP_USERNAME = "";
 $SMTP_PASSWORD = "";
 
+// Enable this only when emails can't be sent in the environment and you need to test the creation of the email
+$NO_EMAIL = false;
+
 ?>

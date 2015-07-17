@@ -1,7 +1,4 @@
 <?php
-	// Enable this only when emails can't be sent in the environment and you need to test the creation of the email
-	$NO_EMAIL = true;
-
 	require_once "../config.php";
 	require_once "../mysql.php";
 	
