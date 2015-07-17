@@ -18,6 +18,8 @@ function showMenu() {
 	document.getElementById("menuItemBeepSoundFile").getElementsByClassName("menuItemValue")[0].value = sBeepSoundFile;
 	document.getElementById("menuItemTheme").getElementsByClassName("menuItemValue")[0].value = sStyleSheet;
 	document.getElementById("menuItemVibrateCheckBox").checked = sVibrate;
+	document.getElementById("menuItemShowCategoryCheckBox").checked = sShowCategory;
+	document.getElementById("menuItemShowAuthorCheckBox").checked = sShowAuthor;
 	if (!APP_GOOGLEPLAY_EDITION) {
 		document.getElementById("menuItemEdgyCheckBox").checked = sEdgy;
 	}
@@ -447,12 +449,52 @@ function changeStyleSheet(styleSheet, callback) {
 //
 function changeVibrate(vibrate, callback) {
 	// Change the setting
-	sVibrate = vibrate
+	sVibrate = vibrate;
 	
 	if (PHONEGAP)
 		// Save the setting in the local database
 		db.transaction(function(tx) {
 			setSetting(tx, "sVibrate", JSON.stringify(sVibrate));
+			if (callback)
+				callback();
+		});
+	else {
+		if (callback)
+			callback();
+	}
+}
+
+//
+// Changes the show category user setting.
+//
+function changeShowCategory(showCategory, callback) {
+	// Change the setting
+	sShowCategory = showCategory;
+	
+	if (PHONEGAP)
+		// Save the setting in the local database
+		db.transaction(function(tx) {
+			setSetting(tx, "sShowCategory", JSON.stringify(sShowCategory));
+			if (callback)
+				callback();
+		});
+	else {
+		if (callback)
+			callback();
+	}
+}
+
+//
+// Changes the show author user setting.
+//
+function changeShowAuthor(showAuthor, callback) {
+	// Change the setting
+	sShowAuthor = showAuthor;
+	
+	if (PHONEGAP)
+		// Save the setting in the local database
+		db.transaction(function(tx) {
+			setSetting(tx, "sShowAuthor", JSON.stringify(sShowAuthor));
 			if (callback)
 				callback();
 		});

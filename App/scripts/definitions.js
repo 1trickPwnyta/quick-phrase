@@ -24,7 +24,7 @@ var BUTTON_SOUND_FILE = "sounds/button.wav";		// Plays when the Next button or s
 var CLICK_SOUND_FILE = "sounds/click.wav";			// Plays when various menu items are clicked
 
 // User Settings
-var settingsCount = 13;								// Must be equal to the number of settings below
+var settingsCount = 15;								// Must be equal to the number of settings below
 	var sMinTimePerStage = DEFAULT_MIN_TIME_PER_STAGE;	// Minimum ms for each time stage
 	var sMaxTimePerStage = DEFAULT_MAX_TIME_PER_STAGE;	// Maximum ms for each time stage
 	var sNumberOfTeams = DEFAULT_NUMBER_OF_TEAMS;	// Number of teams playing the game
@@ -38,6 +38,8 @@ var settingsCount = 13;								// Must be equal to the number of settings below
 	var sVibrate = DEFAULT_VIBRATE;					// Turns vibration on
 	var sEdgy = DEFAULT_EDGY;						// Allows adult-oriented tags
 	var sTeamNames = DEFAULT_TEAM_NAMES;			// Non-default team names
+	var sShowCategory = DEFAULT_SHOW_CATEGORY;		// Whether to show tag categories in-game
+	var sShowAuthor = DEFAULT_SHOW_AUTHOR;			// Whether to show tag submitters in-game
 
 // Global variables
 var tags = new Array();								// Holds the currently loaded tags

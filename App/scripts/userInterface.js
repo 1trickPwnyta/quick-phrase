@@ -4,10 +4,10 @@
 function setTag(text, authorUsername, categoryName) {
 	document.getElementById("tag").innerHTML = text;
 	var metadataText = "";
-	if (categoryName) {
+	if (categoryName && sShowCategory) {
 		metadataText += "from <span class=\"tag-category\">" + categoryName + "</span><br />";
 	}
-	if (authorUsername) {
+	if (authorUsername && sShowAuthor) {
 		metadataText += "submitted by <span class=\"tag-author\">" + authorUsername + "</span><br />";
 	}
 	document.getElementById("tag-metadata").innerHTML = metadataText;
@@ -328,6 +328,26 @@ function menuItemEdgyChange() {
 	} else
 		// If disabling the setting, just allow it
 		changeEdgy(false, showMenu);
+}
+
+//
+// Show Category menu item click event.
+//
+function menuItemShowCategoryChange() {
+	playSound(CLICK_SOUND_FILE);
+	
+	var showCategory = document.getElementById("menuItemShowCategoryCheckBox").checked;
+	changeShowCategory(showCategory, showMenu);
+}
+
+//
+// Show Author menu item click event.
+//
+function menuItemShowAuthorChange() {
+	playSound(CLICK_SOUND_FILE);
+	
+	var showAuthor = document.getElementById("menuItemShowAuthorCheckBox").checked;
+	changeShowAuthor(showAuthor, showMenu);
 }
 
 //

@@ -23,3 +23,5 @@ var DEFAULT_STYLE_SHEET = "style/theme_light.css";
 var DEFAULT_VIBRATE = true;
 var DEFAULT_EDGY = false;
 var DEFAULT_TEAM_NAMES = ["Team 1", "Team 2", "Team 3", "Team 4", "Team 5", "Team 6", "Team 7", "Team 8"];
+var DEFAULT_SHOW_CATEGORY = false;
+var DEFAULT_SHOW_AUTHOR = true;

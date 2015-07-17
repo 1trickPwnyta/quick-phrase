@@ -180,6 +180,14 @@ function loadSettings(callback) {
 				sVibrate = JSON.parse(value);
 				settingsLoaded++;
 			});
+			getSetting(tx, "sShowCategory", JSON.stringify(sShowCategory), function(value) {
+				sShowCategory = JSON.parse(value);
+				settingsLoaded++;
+			});
+			getSetting(tx, "sShowAuthor", JSON.stringify(sShowAuthor), function(value) {
+				sShowAuthor = JSON.parse(value);
+				settingsLoaded++;
+			});
 			getSetting(tx, "sEdgy", JSON.stringify(sEdgy), function(value) {
 				sEdgy = JSON.parse(value);
 				settingsLoaded++;
