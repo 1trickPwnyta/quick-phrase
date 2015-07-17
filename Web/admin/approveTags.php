@@ -134,7 +134,7 @@
 	foreach ($tagsBySubmitter as $userEmail => $submitterTags) {
 		$from = "Grab Tag <$APPLICATION_EMAIL_ADDRESS>";
 		$to = $userEmail;
-		$subject = "Your new tags";
+		$subject = "Your new tag".(count($submitterTags) > 1? "s": "");
 		
 		$body = "";
 		for ($i = 0; $i < count($submitterTags); $i++) {
