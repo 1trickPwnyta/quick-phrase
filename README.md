@@ -68,3 +68,4 @@
 1. Add a submitter column to the tag table in the web database, int(4), NULL allowed, default NULL, foreign key user.id ON DELETE SET NULL.
 2. Copy the config.Example.js file and name it config.js. Open the file and modify the configuration parameters as necessary.
 3. Add $NO_EMAIL parameter to config.php in the Web folder. Set to true or false.
+4. Add a time_approved column to the tag table in the web database, timestamp, no NULL, default current timestamp.
