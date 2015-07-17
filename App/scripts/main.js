@@ -7,6 +7,8 @@ function newGame(start) {
 	pointGiven = true;
 	gameOver = !start;
 	hideConfetti();
+	document.getElementById("usedTagsButton").style.display = "none";
+	usedTags = new Array();
 }
 
 //
@@ -77,6 +79,7 @@ function advanceTimeStage() {
 			navigator.vibrate(VIBRATION_DURATION*5);
 		setTag("Time's up!");
 		document.getElementById("menuButtonIcon").src = "images/menu.png";
+		document.getElementById("usedTagsButton").style.display = "block";
 		
 		// Reset the time stage
 		timeStage = TIME_STAGE_NOT_STARTED;
@@ -86,6 +89,8 @@ function advanceTimeStage() {
 		
 	} else {
 		document.getElementById("menuButtonIcon").src = "images/stop.png";
+		document.getElementById("usedTagsButton").style.display = "none";
+		usedTags = new Array();
 		
 		// Set a new timeout for advancing the time stage again
 		timeStageTimer = window.setTimeout(advanceTimeStage, sMinTimePerStage + Math.floor((Math.random() * (sMaxTimePerStage - sMinTimePerStage))));

@@ -166,6 +166,7 @@ function nextButtonClick() {
 		
 	var setNextTag = function() {
 		var tag = nextTag();
+		usedTags.push(tag);
 		var category;
 		for (var i = 1; i < categories.length; i++) {
 			if (categories[i].id == tag.category_id) {
@@ -181,25 +182,25 @@ function nextButtonClick() {
 	
 		dialog.confirm(function(response) {
 			if (response) {
-				// The user wants to continue anyway, so start the next round with the next tag
-				pointGiven = true;
-				setNextTag();
-				
 				// If the round isn't started (which it shouldn't be since we were waiting for a point), start the next round
 				if (timeStage == TIME_STAGE_NOT_STARTED)
 					advanceTimeStage();
+			
+				// The user wants to continue anyway, so start the next round with the next tag
+				pointGiven = true;
+				setNextTag();
 			}
 		}, "No team was given a point for this round. Are you sure you want to start the next round?", function() {playSound(CLICK_SOUND_FILE);});
 		
 	} else {
 	
-		// Go to the next tag
-		setNextTag();
-		
 		// If the round isn't started, start the next round
 		if (timeStage == TIME_STAGE_NOT_STARTED)
 			advanceTimeStage();
-			
+	
+		// Go to the next tag
+		setNextTag();
+		
 	}
 }
 
@@ -217,6 +218,15 @@ function menuButtonClick() {
 		}, "Are you sure you want to stop the game?", function() {playSound(CLICK_SOUND_FILE);});
 	} else
 		showMenu();
+}
+
+//
+// Used tags button click event.
+//
+function usedTagsButtonClick() {
+	playSound(CLICK_SOUND_FILE);
+	
+	showUsedTags();
 }
 
 //

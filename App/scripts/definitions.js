@@ -43,6 +43,7 @@ var settingsCount = 15;								// Must be equal to the number of settings below
 
 // Global variables
 var tags = new Array();								// Holds the currently loaded tags
+var usedTags = new Array();							// Holds the tags that have been used in the current round
 var loadingTags = false;							// Whether new tags are currently loading
 var difficulties = [];								// Holds all possible difficulty settings
 var categories = [];								// Holds all possible categories

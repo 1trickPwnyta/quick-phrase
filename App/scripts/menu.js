@@ -128,6 +128,32 @@ function showCategories() {
 }
 
 //
+// Shows the used tags window.
+//
+function showUsedTags() {
+	var message = "";
+	for (var i = 0; i < usedTags.length; i++) {
+		var category;
+		for (var j = 1; j < categories.length; j++) {
+			if (categories[j].id == usedTags[i].category_id) {
+				category = categories[j];
+				break;
+			}
+		}
+		message += htmlEncode(usedTags[i].text) + "<br /><span style=\"font-style: italic; font-size: 75%;\">from <span class=\"tag-category\">" + category.name + "</span>" + (usedTags[i].authorName? "; submitted by <span class=\"tag-author\">" + usedTags[i].authorName + "</span>": "") + "</span>" + (i < usedTags.length - 1? "<hr />": "");
+	}
+
+	showStandardDialog(
+		message,
+		null, 
+		usedTags.length > 7, 
+		"Tags used last round", 
+		null, 
+		null, 
+		true);
+}
+
+//
 // Shows the help window.
 //
 function showHelp() {
@@ -139,7 +165,7 @@ function showHelp() {
 //
 function showAbout() {
 	showStandardDialog(
-			"Version " + APP_VERSION + "<br />" + 
+		"Version " + APP_VERSION + "<br />" + 
 			"&copy; " + APP_COPYRIGHT_YEAR + " <a href=\"#\" onclick=\"window.open('" + APP_AUTHOR_LINK + "', '_system'); return false;\">" + APP_AUTHOR + "</a><br />" + 
 			"Email: <a href=\"mailto:" + APP_AUTHOR_EMAIL + "\">" + APP_AUTHOR_EMAIL + "</a><br />" + 
 			"<br /><br />" + (stats? 
