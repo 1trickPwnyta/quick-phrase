@@ -160,6 +160,8 @@
 					dialog.showMessage("Please select a category.");
 					return;
 				}
+				
+				oldText = tag;
 
 				ajax("POST", "submitTag.php", [{name: "text", value: tag}, {name: "category", value: category.value}], function(response, status) {
 					if ((status == 401 || status == -1)) {
