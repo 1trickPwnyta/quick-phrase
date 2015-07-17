@@ -102,29 +102,32 @@ function showCategories() {
 	}
 	
 	// Get input from the user
+	var newCategories;
 	showStandardDialog(div, function(response) {
 		if (response) {
-			// Create an array to hold new category selections
-			var newCategories = new Array();
+			// Erase the form so checkbox IDs can be reused
+			div.innerHTML = "";
 			
+			changeCategories(newCategories, showMenu);
+		}
+	}, true, "Which categories?", null, "inherit", false, function(response) {
+		if (response) {
+			// Create an array to hold new category selections
+			newCategories = new Array();
+		
 			// Find all the checked categories in the form, and add the categories to the array
 			var checkboxes = div.getElementsByTagName("input");
 				for (var i = 0; i < checkboxes.length; i++)
 					if (checkboxes[i].checked)
 						newCategories.push(checkboxes[i].category);
 			
-			// Erase the form so checkbox IDs can be reused
-			div.innerHTML = "";
-			
 			// Validate the number of selected categories
 			if (newCategories.length == 0) {
 				dialog.showMessage("Select at least one category.");
-				return;
+				return false;
 			}
-			
-			changeCategories(newCategories, showMenu);
 		}
-	}, true, "Which categories?", null, "inherit");
+	});
 }
 
 //
@@ -184,7 +187,7 @@ function showTagFlaggingDialog(tag) {
 		div.appendChild(document.createElement("br"));
 	}
 	
-	// Get input from the userAgent
+	// Get input from the user
 	var reason;
 	showStandardDialog(div, function(response) {
 		if (response) {

@@ -276,21 +276,22 @@ function menuItemMaxWordsClick() {
 	
 	// Get input from the user
 	dialog.getNumber(function(response) {
-		
-		// Ignore empty input
-		if (response === false || response == "")
-			return;
+		if (response || response === 0) {
+			response = parseInt(response);
+			changeMaxWords(response, showMenu);
+		}
+	}, "How many words? (Use 0 for unlimited)", sMaxWordsPerTag, null, function(response) {
+		playSound(CLICK_SOUND_FILE);
 		
 		// Validate input
-		response = parseInt(response);
-		if (response != 0 && response < 1) {
-			dialog.showMessage("Tags must contain at least one word.");
-			response = 1;
+		if (response || response === 0) {
+			response = parseInt(response);
+			if (response != 0 && response < 1) {
+				dialog.showMessage("Tags must contain at least one word.");
+				return false;
+			}
 		}
-		
-		changeMaxWords(response, showMenu);
-		
-	}, "How many words? (Use 0 for unlimited)", sMaxWordsPerTag, null, function() {playSound(CLICK_SOUND_FILE);});
+	});
 }
 
 //
@@ -301,21 +302,23 @@ function menuItemMaxCharactersClick() {
 	
 	// Get input from the user
 	dialog.getNumber(function(response) {
+		if (response || response === 0) {
+			response = parseInt(response);
+			changeMaxCharacters(response, showMenu);
+		}
+	}, "How many characters? (Use 0 for unlimited)", sMaxCharactersPerTag, null, function(response) {
+		playSound(CLICK_SOUND_FILE);
 		
-		// Ignore empty input
-		if (response === false || response == "")
-			return;
-		
-		// Validate input
-		response = parseInt(response);
-		if (response != 0 && response < 6) {
-			dialog.showMessage("Tags usually contain at least six characters.");
-			response = 6;
+		if (response || response === 0) {
+			// Validate input
+			response = parseInt(response);
+			if (response != 0 && response < 6) {
+				dialog.showMessage("Use at least six characters.");
+				return false;
+			}
 		}
 		
-		changeMaxCharacters(response, showMenu);
-		
-	}, "How many characters? (Use 0 for unlimited)", sMaxCharactersPerTag, null, function() {playSound(CLICK_SOUND_FILE);});
+	});
 }
 
 //
@@ -368,42 +371,43 @@ function menuItemWinningPointClick() {
 	
 	// Get input from the user
 	dialog.getNumber(function(response) {
+		if (response || response === 0) {
+			response = parseInt(response);
+			changeWinningPoint(response, showMenu);
+		}
+	}, "How many points?", sWinningPoint, null, function(response) {
+		playSound(CLICK_SOUND_FILE);
 		
-		// Ignore empty input
-		if (response === false || response == "")
-			return;
-		
-		// Validate input
-		response = parseInt(response);
-		if (!gameOver) {
-			// Find out the score of the winning team
-			var maxPointsCurrently = 0;
-			for (var i = 0; i < scores.length; i++)
-				if (scores[i] > maxPointsCurrently)
-					maxPointsCurrently = scores[i];
-			
-			// Don't allow a winning point that would make that team win right away
-			if (response <= maxPointsCurrently) {
-				if (response > 0)
-					dialog.showMessage("Someone already has that many points. At least one more point is required.");
-				else
+		if (response || response === 0) {
+			// Validate input
+			response = parseInt(response);
+			if (!gameOver) {
+				// Find out the score of the winning team
+				var maxPointsCurrently = 0;
+				for (var i = 0; i < scores.length; i++)
+					if (scores[i] > maxPointsCurrently)
+						maxPointsCurrently = scores[i];
+				
+				// Don't allow a winning point that would make that team win right away
+				if (response <= maxPointsCurrently) {
+					if (response > 0)
+						dialog.showMessage("Someone already has that many points. At least one more point is required.");
+					else
+						dialog.showMessage("At least one point must be required.");
+					return false;
+				}
+			} else {
+				if (response < 1) {
 					dialog.showMessage("At least one point must be required.");
-				response = maxPointsCurrently + 1;
-			}
-		} else {
-			if (response < 1) {
-				dialog.showMessage("At least one point must be required.");
-				response = 1;
-			}
-			if (response > 99) {
-				dialog.showMessage("No more than 99 points are allowed.");
-				response = 99;
+					return false;
+				}
+				if (response > 99) {
+					dialog.showMessage("No more than 99 points are allowed.");
+					return false;
+				}
 			}
 		}
-		
-		changeWinningPoint(response, showMenu);
-		
-	}, "How many points?", sWinningPoint, null, function() {playSound(CLICK_SOUND_FILE);});
+	});
 }
 
 //
@@ -418,21 +422,25 @@ function menuItemNumberOfTeamsClick() {
 			
 			// Get input from user
 			dialog.getNumber(function(response) {
-				if (response === false || response == "")
-					return;
-				
-				response = parseInt(response);
-				if (response < 2) {
-					dialog.showMessage("At least two teams are required.");
-					response = 2;
-				} else if (response > 8) {
-					dialog.showMessage("No more than eight teams are allowed.");
-					response = 8;
+				if (response || response === 0) {
+					response = parseInt(response);
+					changeNumberOfTeams(response, showMenu);
 				}
+			}, "How many teams?", sNumberOfTeams, null, function(response) {
+				playSound(CLICK_SOUND_FILE);
 				
-				changeNumberOfTeams(response, showMenu);
-				
-			}, "How many teams?", sNumberOfTeams, null, function() {playSound(CLICK_SOUND_FILE);});
+				if (response || response === 0) {
+					// Validate input
+					response = parseInt(response);
+					if (response < 2) {
+						dialog.showMessage("At least two teams are required.");
+						return false;
+					} else if (response > 8) {
+						dialog.showMessage("No more than eight teams are allowed.");
+						return false;
+					}
+				}
+			});
 			
 		}
 	};
@@ -452,23 +460,26 @@ function menuItemMinimumTimeClick() {
 	
 	// Get input from the user
 	dialog.getNumber(function(response) {
-	
-		// Ignore empty input
-		if (response === false || response == "")
-			return;
-		
-		// Validate input 
-		response = parseInt(response);
-		// Convert to ms and divide by 3 to calculate the round time
-		response = Math.round(response*1000/3);
-		if (response < 20000) {
-			dialog.showMessage("At least 60 seconds are required.");
-			response = 20000;
+		if (response || response === 0) {
+			response = parseInt(response);
+			// Convert to ms and divide by 3 to calculate the round time
+			response = Math.round(response*1000/3);
+			changeMinimumTime(response, showMenu);
 		}
+	}, "How many seconds should a round last, at least?", Math.round(sMinTimePerStage*3/1000), null, function(response) {
+		playSound(CLICK_SOUND_FILE);
 		
-		changeMinimumTime(response, showMenu);
-		
-	}, "How many seconds should a round last, at least?", Math.round(sMinTimePerStage*3/1000), null, function() {playSound(CLICK_SOUND_FILE);});
+		if (response || response === 0) {
+			// Validate input
+			response = parseInt(response);
+			// Convert to ms and divide by 3 to calculate the round time
+			response = Math.round(response*1000/3);
+			if (response < 20000) {
+				dialog.showMessage("At least 60 seconds are required.");
+				return false;
+			}
+		}
+	});
 }
 
 //
@@ -479,23 +490,26 @@ function menuItemMaximumTimeClick() {
 	
 	// Get input from the user
 	dialog.getNumber(function(response) {
-	
-		// Ignore empty input
-		if (response === false || response == "")
-			return;
-		
-		// Validate input
-		response = parseInt(response);
-		// Convert to ms and divide by 3 to calculate round time
-		response = Math.round(response*1000/3);
-		if (response < 20000) {
-			dialog.showMessage("At least 60 seconds are required.");
-			response = 20000;
+		if (response || response === 0) {
+			response = parseInt(response);
+			// Convert to ms and divide by 3 to calculate round time
+			response = Math.round(response*1000/3);
+			changeMaximumTime(response, showMenu);
 		}
+	}, "How many seconds should a round last, at most?", Math.round(sMaxTimePerStage*3/1000), null, function(response) {
+		playSound(CLICK_SOUND_FILE);
 		
-		changeMaximumTime(response, showMenu);
-		
-	}, "How many seconds should a round last, at most?", Math.round(sMaxTimePerStage*3/1000), null, function() {playSound(CLICK_SOUND_FILE);});
+		if (response || response === 0) {
+			// Validate input
+			response = parseInt(response);
+			// Convert to ms and divide by 3 to calculate round time
+			response = Math.round(response*1000/3);
+			if (response < 20000) {
+				dialog.showMessage("At least 60 seconds are required.");
+				return false;
+			}
+		}
+	});
 }
 
 //
