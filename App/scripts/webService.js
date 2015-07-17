@@ -134,3 +134,28 @@ function loadCategoriesFromWebService(callback) {
 		}
 	}, WEB_SERVICE_TIMEOUT);
 }
+
+//
+// Loads tag stats from the web service.
+//
+function loadStatsFromWebService(callback) {
+	// Call the web service for stats
+	ajax("GET", WEB_SERVICE_URL + "/getStats.php", [], function(response) {
+		
+		// Check if the web service returns a valid response
+		if (response) {
+			
+			// Get the stats from the web service response
+			stats = JSON.parse(response);
+			
+			// Return success
+			if (callback)
+				callback(true);
+			
+		} else {
+			// The web service call failed (timed out), so return failure
+			if (callback)
+				callback(false);
+		}
+	}, WEB_SERVICE_TIMEOUT);
+}

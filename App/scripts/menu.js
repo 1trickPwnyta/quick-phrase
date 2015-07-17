@@ -136,7 +136,23 @@ function showHelp() {
 // Shows the about window.
 //
 function showAbout() {
-	showStandardDialog("Version " + APP_VERSION + "<br />&copy; " + APP_COPYRIGHT_YEAR + " <a href=\"#\" onclick=\"window.open('" + APP_AUTHOR_LINK + "', '_system'); return false;\">" + APP_AUTHOR + "</a><br />Email: <a href=\"mailto:" + APP_AUTHOR_EMAIL + "\">" + APP_AUTHOR_EMAIL + "</a>", null, false, APP_NAME, null, null, true);
+	showStandardDialog(
+			"Version " + APP_VERSION + "<br />" + 
+			"&copy; " + APP_COPYRIGHT_YEAR + " <a href=\"#\" onclick=\"window.open('" + APP_AUTHOR_LINK + "', '_system'); return false;\">" + APP_AUTHOR + "</a><br />" + 
+			"Email: <a href=\"mailto:" + APP_AUTHOR_EMAIL + "\">" + APP_AUTHOR_EMAIL + "</a><br />" + 
+			"<br /><br />" + (stats? 
+			"New tags in " + APP_NAME + ": <br /><br />" + 
+			(stats.today > 0? "Added today: <span class=\"stats stats-today\">" + stats.today + "</span><br />" : "") + 
+			(stats.this_week > 0? "In the last week: <span class=\"stats stats-this-week\">" + stats.this_week + "</span><br />" : "") + 
+			(stats.this_month > 0? "In the last 30 days: <span class=\"stats stats-this-month\">" + stats.this_month + "</span><br />" : "") + 
+			(stats.all_time > 0? "Total: <span class=\"stats stats-total\">" + stats.all_time + "</span><br />" : "")
+			: ""), 
+		null, 
+		false, 
+		APP_NAME, 
+		null, 
+		null, 
+		true);
 }
 
 //

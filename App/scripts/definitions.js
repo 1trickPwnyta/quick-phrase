@@ -44,6 +44,7 @@ var tags = new Array();								// Holds the currently loaded tags
 var loadingTags = false;							// Whether new tags are currently loading
 var difficulties = [];								// Holds all possible difficulty settings
 var categories = [];								// Holds all possible categories
+var stats;											// Object that holds tag creation stats
 var scores;											// Array that holds team scores
 var timeStage = TIME_STAGE_NOT_STARTED;				// The round's current time stage
 var timeStageAtLastBeep = TIME_STAGE_NOT_STARTED;	// Time stage that was in effect at the last timer tick
