@@ -145,6 +145,8 @@
 			};
 
 			function submitTag() {
+				checkTag(true);
+			
 				var tag = document.getElementById("text").value;
 				if (tag == "") {
 					dialog.showMessage("Please enter a tag.");
@@ -182,7 +184,7 @@
 				});
 			}
 
-			function checkTag() {
+			function checkTag(wait) {
 				var tag = document.getElementById("text").value;
 				if (oldText != tag) {
 					oldText = tag;
@@ -191,13 +193,17 @@
 					if (tag == "") {
 						tagStats.innerHTML = "";
 					} else {
-						ajax("GET", "checkTag.php", [{name: "tag", value: tag}], function(response) {
+						var callback = function(response) {
 							if (response > 0) {
 								tagStats.innerHTML = "<img src=\"error.png\" /> The tag &quot;" + tag + "&quot; already exists.";
 							} else {
 								tagStats.innerHTML = "";
 							}
-						});
+						};
+						var response = ajax("GET", "checkTag.php", [{name: "tag", value: tag}], !wait? callback: null);
+						if (wait) {
+							callback(response);
+						}
 					}
 				}
 			}

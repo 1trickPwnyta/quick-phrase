@@ -76,7 +76,7 @@ var dialog = {
 				var form = forms[0];
 				for (var i = 0; i < form.length; i++)
 					if (form[i] && form[i].type != "hidden") {
-						if (form[i].select)
+						if (form[i].type != "submit" && form[i].select)
 							form[i].select();
 						else if (form[i].focus)
 							form[i].focus();

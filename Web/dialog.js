@@ -9,7 +9,6 @@ var CLOSE_BUTTON_CLASS_NAME = "dialog-close-button";            // The CSS class
 var DEFAULT_FORM_SUBMIT_BUTTON = "Submit";                      // The default text for the form submit button, if any
 var FADE_DURATION = 200;										// CSS transition milliseconds for fading a menu out
 
-var dialogTop;
 var dialog = {
 
     /**
@@ -18,7 +17,7 @@ var dialog = {
     */
     createDialogBox: function () {
         // Create the top element
-        dialogTop = document.createElement("div");
+        var dialogTop = document.createElement("div");
         dialogTop.className = TOP_CLASS_NAME;
         document.body.appendChild(dialogTop);
 
@@ -48,7 +47,9 @@ var dialog = {
         dialogBox.close = function (returnParameter) {
 			// Call the close function if any
 			if (this.closeFunction)
-				this.closeFunction();
+				if (this.closeFunction(returnParameter) === false) {
+					return;
+				}
 			
             // Remove the screen dimmer and the dialog box
 			this.screenDimmer.className = SCREEN_DIMMER_CLASS_NAME + " " + HIDDEN_CLASS_NAME;
@@ -75,7 +76,7 @@ var dialog = {
 				var form = forms[0];
 				for (var i = 0; i < form.length; i++)
 					if (form[i] && form[i].type != "hidden") {
-						if (form[i].select)
+						if (form[i].type != "submit" && form[i].select)
 							form[i].select();
 						else if (form[i].focus)
 							form[i].focus();
@@ -342,7 +343,7 @@ var dialog = {
     * to this function will be the original form element, or false if the user cancelled.
     * prompt: optional prompt to display to the user.
     * buttonText: optional custom text for the submit button.
-	* hideCancel: false if you don't want there to be a cancel button.
+	* hideCancel: true if you don't want there to be a cancel button.
 	* closeFunction: an optional function to call when the user clicks on a button that closes the dialog 
 	* box. For example, to play a sound.
     */
