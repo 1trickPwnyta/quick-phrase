@@ -105,7 +105,7 @@
 			}
 			
 			table, th, td {
-			    border: 1px solid black;
+			    border: 2px solid black;
 			}
 			
 			td, th {
@@ -129,6 +129,7 @@
 			
 			input[type="text"], input[type="number"] {
 				font-family: inherit;
+				border: 2px solid black;
 			}
 			
 			#action-buttons {
@@ -141,7 +142,7 @@
 			#action-buttons a {
 				background-color: #DE4343;
 				color: white;
-				border: 1px solid black;
+				border: 2px solid black;
 				font-family: inherit;
 				font-size: 1.3em;
 				font-weight: bold;

@@ -28,6 +28,9 @@
     display: inline-block;
     text-align: left;
     z-index: 1000;
+	max-height: 90%;
+	line-height: 200%;
+	font-weight: normal;
 	box-shadow: 16px 16px 8px black;
 }
 
@@ -42,6 +45,7 @@
 .dialog-dialog-box input[type="text"], .dialog-dialog-box input[type="number"] {
     width: 100%;
     margin: 8px 0px;
+	border: 2px solid black;
 }
 
 .dialog-dialog-box input[type="button"], .dialog-dialog-box input[type="submit"] {
@@ -55,6 +59,8 @@
     font-family: inherit;
     cursor: pointer;
 	box-shadow: 2px 2px 2px black;
+	min-width: 33%;
+	border: 2px solid black;
 }
 
 .dialog-dialog-box input[type="button"]:active, .dialog-dialog-box input[type="submit"]:active {
@@ -64,12 +70,11 @@
 }
 
 .dialog-dialog-box input[type="button"]:hover, .dialog-dialog-box input[type="submit"]:hover {
-    background-color: #DE4343;  /* button hover color */
+    /* background-color: #DE4343;  /* button hover color */
 }
 
 .dialog-dialog-box input[type="button"]:focus, .dialog-dialog-box input[type="submit"]:focus {
     outline: 0px;
-    border: 0px;
 }
 
 .dialog-close-button {
