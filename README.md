@@ -73,3 +73,4 @@
     * id int(4) primary auto increment
     * tag_id int(4) references tag.id on delete cascade
     * reason varchar(256) not null
+6. Update the SP icon in the SAML IdP configuration.
