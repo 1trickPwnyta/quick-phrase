@@ -103,7 +103,7 @@
 			    background-color: #DE4343;
 			    color: white;
 			    font-size: 1.2em;
-			    border: 0%;
+			    border: 2px solid black;
 			    border-radius: 1%;
 			    font-family: inherit;
 			    cursor: pointer;
@@ -127,6 +127,7 @@
 			    width: 100%;
 			    margin: 1% 0%;
 			    font-size: 1.25em;
+				border: 2px solid black;
 			}
 			
 			select, input[type="text"], input[type="number"] {
