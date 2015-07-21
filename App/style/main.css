@@ -125,6 +125,16 @@ header a {
 
 #menuButton {
 	width: 5%;
+	height: 5%;
+	display: block; 
+	float: right; 
+	margin-top: 0.75%; 
+	margin-right: 2%;
+}
+
+#menuButtonIcon {
+	width: 150%;
+	height: 150%;
 }
 
 #mainMenuDimmer {
