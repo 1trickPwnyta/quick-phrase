@@ -56,7 +56,7 @@ function updateDifficultySelector() {
 	difficultySelect.innerHTML = "";
 	for (var i = 1; i < difficulties.length; i++) {
 		var option = document.createElement("option");
-		option.value = i;
+		option.value = difficulties[i].id;
 		option.innerHTML = difficulties[i].name;
 		difficultySelect.appendChild(option);
 	}
