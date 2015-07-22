@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'standard';
-	src: url('../fonts/font.woff') format('woff');
+	src: url('../fonts/font.woff') format('woff'), url('../fonts/font.svg') format('svg');
 }
 
 html {
@@ -14,7 +14,9 @@ body {
 	margin: 0px;
 	font-family: standard;
 	font-weight: bold;
+	font-size: 5vw;
 	background: url('../images/grabtag.png');
+	background-size: 72% 45%;
 	background-repeat: no-repeat;
 	background-position: center;
 	overflow: hidden;
@@ -50,7 +52,13 @@ select, input {
 	font-size: 125%;
 }
 
+input[type="checkbox"], input[type="radio"] {
+	zoom: 2;
+	vertical-align: middle;
+}
+
 #main {
+	position: relative;
 	width: 100%;
 	height: 100%;
 }
@@ -60,6 +68,7 @@ header {
 	color: white;
 	font-size: 125%;
 	border-bottom: 4px solid black;
+	height: 4%;
 }
 
 header a {
@@ -155,11 +164,40 @@ header a {
 }
 
 #menuButton {
-	width: 5%;
+	width: 8%;
+	height: 5%;
+	display: block; 
+	position: absolute;
+	right: 2%;
+	top: 1.5%;
+}
+
+#menuButtonIcon {
+	width: 100%;
+	height: 100%;
+}
+
+#helpButton {
+	display: block; 
+	position: absolute;
+	right: 16%;
+	font-size: 125%;
+	line-height: 100%;
+	top: 1.5%;
 }
 
 #usedTagsButton {
-	width: 5%;
+	width: 8%;
+	height: 5%;
+	display: none;
+	position: absolute;
+	right: 26%;
+	top: 1.5%;
+}
+
+#usedTagsButtonIcon {
+	width: 100%;
+	height: 100%;
 }
 
 #mainMenu {
@@ -176,14 +214,13 @@ header a {
 	font-size: 1.5em;
 }
 
-#mainMenu select, #mainMenu input {
-	background-color: rgba(255,255,255,0.9);
+#mainMenuCloseIcon {
+	width: 12%;
+	height: 7.5%;
 }
 
-#mainMenu input[type="checkbox"] {
-	width: 20px;
-	height: 20px;
-	vertical-align: middle;
+#mainMenu select, #mainMenu input {
+	background-color: rgba(255,255,255,0.9);
 }
 
 .menuHeader {
@@ -244,6 +281,8 @@ img.middle {
 	position: absolute;
 	right: 0%;
 	bottom: 0%;
+	width: 12%;
+	height: 7.5%;
 }
 
 .stats {

@@ -48,12 +48,6 @@
 	border: 2px solid black;
 }
 
-.dialog-dialog-box input[type="checkbox"], .dialog-dialog-box input[type="radio"] {
-    width: 20px;
-	height: 20px;
-	vertical-align: middle;
-}
-
 .dialog-dialog-box input[type="button"], .dialog-dialog-box input[type="submit"] {
     margin: 8px;
     padding: 4px 12px;
@@ -83,6 +77,7 @@
     position: absolute;
     right: 4px;
     top: 4px;
+	width: 8%;
     cursor: pointer;
 }
 

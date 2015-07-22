@@ -362,6 +362,8 @@
 		<div style="float: right;">
 			<a style="color: white;" href="<?php echo $SIMPLESAML_LOGOUT_URL_RELATIVE; ?>?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=<?php echo $APPLICATION_ROOT_PATH; ?>loggedOut.php">Log out</a>
 		</div>
+		<h2>Grab Tag Administration</h2>
+		<h4>Version 1.0.1</h4>
 		<div id="action-buttons">
 			<a href="#" onclick="selectAll(); return false;">Select all</a>
 			<a href="#" onclick="approve(); return false;">Approve</a>

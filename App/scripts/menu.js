@@ -85,21 +85,33 @@ function showCategories() {
 	
 	div.appendChild(document.createElement("br"));
 	
+	var table = document.createElement("table");
+	
 	// Create checkbox for each possible category
 	for (var i = 1; i < categories.length; i++) {
+		var row = document.createElement("tr");
+		
+		var checkboxCell = document.createElement("td");
 		var checkbox = document.createElement("input");
 		checkbox.type = "checkbox";
 		checkbox.id = "categoryCheckbox" + i;
 		checkbox.category = categories[i].id;
 		checkbox.checked = sCategoryIds.indexOf(categories[i].id) != -1 || sCategoryIds.length == 0;
+		checkboxCell.appendChild(checkbox);
+		row.appendChild(checkboxCell);
+		
+		var labelCell = document.createElement("td");
+		labelCell.style.lineHeight = "100%";
 		var label = document.createElement("label");
 		label.htmlFor = checkbox.id;
 		label.innerHTML = categories[i].name;
-		div.appendChild(checkbox);
-		div.appendChild(label);
+		labelCell.appendChild(label);
+		row.appendChild(labelCell);
 		
-		div.appendChild(document.createElement("br"));
+		table.appendChild(row);
 	}
+	
+	div.appendChild(table);
 	
 	// Get input from the user
 	var newCategories;
@@ -271,7 +283,9 @@ function showStandardDialog(htmlContent, callback, includeMoreIcon, title, okBut
 		div.style.lineHeight = lineHeight;
 	if (includeMoreIcon) {
 		div.onscroll = function() {
-			this.removeChild(this.moreImage);
+			if (this.moreImage.parentNode == this) {
+				this.removeChild(this.moreImage);
+			}
 		};
 		var moreImage = document.createElement("img");
 		moreImage.className = "standardDialogMoreIcon";
