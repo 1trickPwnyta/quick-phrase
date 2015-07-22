@@ -220,7 +220,7 @@
 			<a style="color: white;" href="<?php echo $SIMPLESAML_LOGOUT_URL_RELATIVE; ?>?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=<?php echo $APPLICATION_ROOT_PATH; ?>loggedOut.php">Log out</a>
 		</div>
 		<h2>Grab Tag Administration</h2>
-		<h4>Version 1.0.0</h4>
+		<h4>Version 1.0.1</h4>
 		<table>
 			<tr>
 				<th>Approve</th><th>Delete</th><th>Tag</th><th>Category</th><th>Difficulty</th><th>Adult</th><th>Time submitted</th><th>Submitted by</th>
