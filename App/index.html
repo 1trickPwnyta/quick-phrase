@@ -60,6 +60,20 @@
 						var menuItemEdgy = document.getElementById("menuItemEdgy");
 						menuItemEdgy.parentNode.removeChild(menuItemEdgy);
 					}
+					
+					// Workaround for lack of CSS "vw" support in Android <4.4
+					if (parseFloat(device.version) < 4.39) {
+						var viewport = function() {
+							var e = window, a = 'inner';
+							if (!('innerWidth' in window )) {
+								a = 'client';
+								e = document.documentElement || document.body;
+							}
+							return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
+						}
+						var vw = (viewport().width/100);
+						document.body.style.fontSize = vw*5 + 'px';
+					}
 				}
 				
 				// Load all the game data

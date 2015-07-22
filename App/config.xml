@@ -32,5 +32,6 @@
 	<gap:plugin name="nl.x-services.plugins.insomnia" version="4.0.1" />
 	<gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
 	<gap:plugin name="org.apache.cordova.vibration" version="0.3.11" />
+	<gap:plugin name="org.apache.cordova.device" />
 
 </widget>

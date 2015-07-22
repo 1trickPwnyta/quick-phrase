@@ -80,6 +80,8 @@
     position: absolute;
     right: 4px;
     top: 4px;
+	width: 8%;
+	height: 5%;
     cursor: pointer;
 }
 

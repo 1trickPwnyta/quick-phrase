@@ -159,7 +159,9 @@ function showStandardDialog(htmlContent, callback, includeMoreIcon, title, okBut
 		div.style.lineHeight = lineHeight;
 	if (includeMoreIcon) {
 		div.onscroll = function() {
-			this.removeChild(this.moreImage);
+			if (this.moreImage.parentNode == this) {
+				this.removeChild(this.moreImage);
+			}
 		};
 		var moreImage = document.createElement("img");
 		moreImage.className = "standardDialogMoreIcon";

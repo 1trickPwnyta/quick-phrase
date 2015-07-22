@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'standard';
-	src: url('../fonts/font.woff') format('woff');
+	src: url('../fonts/font.woff') format('woff'), url('../fonts/font.svg') format('svg');
 }
 
 html {
@@ -44,6 +44,11 @@ body {
 select, input {
 	font-family: standard;
 	font-size: 125%;
+}
+
+input[type="checkbox"] {
+	zoom: 2;
+	vertical-align: middle;
 }
 
 #main {
@@ -146,6 +151,8 @@ header a {
 	position: absolute;
 	right: 16%;
 	font-size: 125%;
+	line-height: 100%;
+	top: 1.5%;
 }
 
 #mainMenuDimmer {
@@ -228,4 +235,6 @@ header a {
 	position: absolute;
 	right: 0%;
 	bottom: 0%;
+	width: 12%;
+	height: 7.5%;
 }
