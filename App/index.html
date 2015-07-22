@@ -2,6 +2,7 @@
 <html lang="en-us">
 	<head>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=0" />
 		
 		<!-- Style for dialog boxes -->
 		<link href="style/dialog.css" rel="stylesheet" />
@@ -86,7 +87,7 @@
 				<a id="menuButton" href="#" onclick="menuButtonClick(); return false;">
 					<img id="menuButtonIcon" src="images/menu.png" alt="Menu" />
 				</a>
-				<a href="#" onclick="menuItemHelpClick(); return false;" style="display: block; float: right; margin-right: 6%; font-size: 125%;">?</a>
+				<a id="helpButton" href="#" onclick="menuItemHelpClick(); return false;">?</a>
 				<!-- Display the app name -->
 				<script>document.write(APP_NAME);</script>
 			</header>
