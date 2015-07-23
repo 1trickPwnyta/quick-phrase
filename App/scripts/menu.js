@@ -218,7 +218,8 @@ function showTagFlaggingDialog(tag) {
 			
 			// Remove the tag from the line-up
 			for (var i = 0; i < tags.length; i++) {
-				if (tags[i].id == id) {
+				alert(tags[i].text);
+				if (tags[i].id == tag.id) {
 					tags.splice(i, 1);
 					i--;
 				}
