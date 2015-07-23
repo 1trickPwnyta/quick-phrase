@@ -213,6 +213,16 @@ function showTagFlaggingDialog(tag) {
 					dialog.showMessage(APP_NAME + " couldn't report the tag. Check your Internet connection and try again.");
 				}
 			});
+			
+			deleteTagFromLocalDatabase(tag.id);
+			
+			// Remove the tag from the line-up
+			for (var i = 0; i < tags.length; i++) {
+				if (tags[i].id == id) {
+					tags.splice(i, 1);
+					i--;
+				}
+			}
 		}
 	}, false, "What's wrong?", null, "inherit", false, function(response) {
 		if (response) {
