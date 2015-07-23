@@ -75,6 +75,22 @@ function saveTagsInLocalDatabase(newTags) {
 }
 
 //
+// Deletes a tag from the local database.
+//
+function deleteTagFromLocalDatabase(int id) {
+	// This only works if we're in PhoneGap
+	if (PHONEGAP) {
+		
+		db.transaction(function(tx) {
+			// Make a query to delete it
+			var query = "DELETE FROM tag WHERE id = " + id;
+			tx.executeSql(query);
+		});
+		
+	}
+}
+
+//
 // Loads difficulty settings from the local database.
 //
 function loadDifficultiesFromLocalDatabase(callback) {
