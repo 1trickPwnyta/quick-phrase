@@ -77,7 +77,7 @@ function saveTagsInLocalDatabase(newTags) {
 //
 // Deletes a tag from the local database.
 //
-function deleteTagFromLocalDatabase(int id) {
+function deleteTagFromLocalDatabase(id) {
 	// This only works if we're in PhoneGap
 	if (PHONEGAP) {
 		
