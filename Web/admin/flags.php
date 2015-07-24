@@ -16,7 +16,7 @@
 	}
 	
 	// Build a query to get the flagged tags
-	$query = "SELECT flagged_tag.id AS id, text, category.name AS category, category.id AS category_id, difficulty_rating, edgy, reason FROM flagged_tag INNER JOIN tag ON tag.id = flagged_tag.tag_id INNER JOIN category on category.id = tag.category_id ORDER BY flagged_tag.id";
+	$query = "SELECT flagged_tag.id AS id, tag_id, text, category.name AS category, category.id AS category_id, difficulty_rating, edgy, reason FROM flagged_tag INNER JOIN tag ON tag.id = flagged_tag.tag_id INNER JOIN category on category.id = tag.category_id ORDER BY flagged_tag.id";
 	
 	// Get flagged tags from the database
 	$db = mysqlConnect();
@@ -38,7 +38,7 @@
 	<?php
 		for ($i = 0; $i < count($tags); $i++) {
 			echo 
-				"<tr id=\"tagRow{$tags[$i]['id']}\">
+				"<tr id=\"tagRow{$tags[$i]['id']}\" class=\"{$tags[$i]['tag_id']}\">
 					<td><a href=\"#\" onclick=\"dismissFlaggedTag({$tags[$i]['id']}); return false;\">Dismiss</a></td>
 					<td><a id=\"textCell{$tags[$i]['id']}\" href=\"#\" onclick=\"setText({$tags[$i]['id']}); return false;\">".htmlentities($tags[$i]['text'])."</a></td>
 					<td><a id=\"categoryCell{$tags[$i]['id']}\" href=\"#\" onclick=\"setCategory({$tags[$i]['id']}); return false;\">{$tags[$i]['category_id']} {$tags[$i]['category']}</td>

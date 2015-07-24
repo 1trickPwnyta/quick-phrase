@@ -121,6 +121,11 @@ function reject() {
 }
 
 function getTagById(id, getDifficulty) {
+	var tagRow = document.getElementById("tagRow" + id);
+	var tag_id = null;
+	if (tagRow) {
+		tag_id = parseInt(tagRow.className);
+	}
 	var text = document.getElementById("textCell" + id).innerHTML;
 	var categoryId = document.getElementById("categoryCell" + id).innerHTML.split(" ")[0];
 	var difficulty = parseInt(document.getElementById("difficultyCell" + id).innerHTML);
@@ -132,6 +137,7 @@ function getTagById(id, getDifficulty) {
 
 	return {
 		id: id,
+		tag_id: tag_id,
 		text: text,
 		categoryId: categoryId,
 		difficulty: difficulty,
@@ -202,13 +208,34 @@ function setEdgy(id) {
 }
 
 function dismissAllFlaggedTags() {
+	document.getElementById("waitingScreen").style.display = "block";
+	var tags = [];
+	var rows = document.getElementById("tagTable").getElementsByTagName("tr");
 	
+	for (var i = 1; i < rows.length; i++) {
+		var id = parseInt(rows[i].id.replace("tagRow", ""));
+		tags.push(getTagById(id));
+	}
+	
+	ajax("POST", "dismissFlaggedTags.php", [
+					{name: "tags", value: JSON.stringify(tags)}
+	], function(response, status) {
+		if (status == 200) {
+			for (var i = 1; i < rows.length; i++) {
+				rows[i].parentNode.removeChild(rows[i]);
+				i--;
+			}
+		} else {
+			dialog.showMessage("The tags could not be dismissed. HTTP status code " + status + ".");
+		}
+		document.getElementById("waitingScreen").style.display = "none";
+	});
 }
 
 function dismissFlaggedTag(id) {
 	document.getElementById("waitingScreen").style.display = "block";
 	ajax("POST", "dismissFlaggedTags.php", [
-					{name: "tags", value: [id]}
+					{name: "tags", value: JSON.stringify([getTagById(id)])}
 	], function(response, status) {
 		if (status == 200) {
 			var row = document.getElementById("tagRow" + id);
