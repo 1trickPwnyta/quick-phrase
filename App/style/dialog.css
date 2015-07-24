@@ -3,8 +3,8 @@
 .dialog-top {
     display: table;
     position: fixed;
-    left: 0px;
-    top: 0px;
+    left: 0%;
+    top: 0%;
     width: 100%;
 	height: 100%;
 	z-index: 1000;
@@ -23,7 +23,7 @@
     color: white;   /* dialog box text color */
     width: 80%;
     font-size: 120%;
-    padding: 24px 8px;
+    padding: 12% 4%;
     position: relative;
     display: inline-block;
     text-align: left;
@@ -44,17 +44,16 @@
 
 .dialog-dialog-box input[type="text"], .dialog-dialog-box input[type="number"] {
     width: 100%;
-    margin: 8px 0px;
-	border: 2px solid black;
+    margin: 4% 0%;
+	border: 1% solid black;
 }
 
 .dialog-dialog-box input[type="button"], .dialog-dialog-box input[type="submit"] {
-    margin: 8px;
-    padding: 4px 12px;
+    margin: 4%;
+    padding: 2% 6%;
     background-color: #DE4343;  /* button color */
     color: white;   /* button text color */
     font-size: 120%;
-    border: 0px;
     border-radius: 2px;
     font-family: inherit;
     cursor: pointer;
@@ -75,8 +74,8 @@
 
 .dialog-close-button {
     position: absolute;
-    right: 4px;
-    top: 4px;
+    right: 2%;
+    top: 2%;
 	width: 8%;
     cursor: pointer;
 }
