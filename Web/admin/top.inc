@@ -1,3 +1,7 @@
+<?php
+	require_once("functions.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en-us">
 	<head>
@@ -10,7 +14,7 @@
 		<script src="../ajax.js"></script>
 		<script src="../applicationRoot.js"></script>
 		<script src="../dialog.js"></script>
-		<script src="./admin.js"></script>
+		<script src="./admin.js.php"></script>
 	</head>
 	<body>
 		<div id="waitingScreen">

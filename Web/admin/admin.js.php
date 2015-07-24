@@ -1,3 +1,7 @@
+<?php
+	require_once("functions.php");
+?>
+
 function selectAll() {
 	var checkBoxes = document.getElementById("tagTable").getElementsByTagName("input");
 	for (var i = 0; i < checkBoxes.length; i++) {
@@ -195,4 +199,23 @@ function setEdgy(id) {
 	dialog.confirm(function(response) {
 		edgyCell.innerHTML = response.toString();
 	}, "Does this tag contain adult content?");
+}
+
+function dismissAllFlaggedTags() {
+	
+}
+
+function dismissFlaggedTag(id) {
+	document.getElementById("waitingScreen").style.display = "block";
+	ajax("POST", "dismissFlaggedTags.php", [
+					{name: "tags", value: [id]}
+	], function(response, status) {
+		if (status == 200) {
+			var row = document.getElementById("tagRow" + id);
+			row.parentNode.removeChild(row);
+		} else {
+			dialog.showMessage("The tag could not be dismissed. HTTP status code " + status + ".");
+		}
+		document.getElementById("waitingScreen").style.display = "none";
+	});
 }
