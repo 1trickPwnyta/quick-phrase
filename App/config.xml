@@ -3,7 +3,7 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "com.kangaroostandard.grabtag"
         versionCode = "2" 
-        version     = "1.0.1" >
+        version     = "1.0.1a" >
 
     <!-- versionCode is optional and Android only -->
 
