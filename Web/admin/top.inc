@@ -25,3 +25,9 @@
 		</div>
 		<h2>Grab Tag Administration</h2>
 		<h4>Version 1.0.1</h4>
+		<nav>
+			<ul>
+				<li><a href="index.php">Unapproved tags</a></li>
+				<li><a href="flags.php">Reported tags</a></li>
+			</ul>
+		</nav>
