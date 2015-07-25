@@ -554,7 +554,7 @@ function menuItemVibrateChange() {
 function menuItemTagCreationClick() {
 	playSound(CLICK_SOUND_FILE);
 	window.setTimeout(function() {
-		navigateAway("https://www.kangaroostandard.com/GrabTag/tagCreation/");
+		navigateAway(TAG_CREATION_URL);
 	}, 100);
 }
 

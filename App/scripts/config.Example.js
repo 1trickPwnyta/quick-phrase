@@ -8,6 +8,8 @@ var WEB_SERVICE_URL = 								// Web service URL for remote data
 var WEB_SERVICE_TIMEOUT = 10000;					// Web service calls time out after this many ms
 var TAG_LOAD_QUANTITY = 100;						// Number of tags requested in each web service call
 var TAG_RELOAD_QUANTITY = 50;						// Number of loaded tags left when more are needed
+var TAG_CREATION_URL = 								// URL for the Grab Tag Online link in the menu
+		"https://www.kangaroostandard.com/GrabTag/tagCreation/";
 
 // Default settings
 var DEFAULT_MIN_TIME_PER_STAGE = 25000;
