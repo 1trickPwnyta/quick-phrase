@@ -35,8 +35,7 @@
             }
 
 #### Android Application Setup ####
-
-1. Copy the config.Example.js file and name it config.js. Open the file and modify the configuration parameters as necessary.
+Copy the config.Example.js file and name it config.js. Open the file and modify the configuration parameters as necessary.
 
 ##### Google Play Edition #####
 * The Google Play edition of the app prevents edgy/adult tags from showing up in the game.
