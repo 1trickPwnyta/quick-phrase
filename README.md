@@ -35,6 +35,23 @@
                 ]
             }
 
+9. Download the PEAR installer from http://pear.php.net/go-pear.phar and save it to the PHP folder.
+10. Run this command in the PHP folder:
+
+        php go-pear.phar
+
+11. Select "system".
+12. Accept the default directories and press Enter.
+13. Agree to alter php.ini with the path.
+14. Run the following command to install SMTP classes:
+
+        pear install Net_SMTP
+
+14. Run the following command to install PEAR Mail (use the latest version):
+
+        pear install Mail-1.2.0
+
+
 #### Android Application Setup ####
 Copy the config.Example.js file and name it config.js. Open the file and modify the configuration parameters as necessary.
 
