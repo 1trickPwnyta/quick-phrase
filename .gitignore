@@ -1,3 +1,4 @@
 *.apk
 *.zip
 /App/scripts/config.js
+Thumbs.db
