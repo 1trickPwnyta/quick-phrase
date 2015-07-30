@@ -70,7 +70,7 @@
 						menuItemEdgy.parentNode.removeChild(menuItemEdgy);
 					}
 					
-					// Workaround for lack of CSS "vw" support in Android <4.4
+					// Workaround for lack of CSS "vw" support in Android 4.3-
 					if (parseFloat(device.version) < 4.39) {
 						var viewport = function() {
 							var e = window, a = 'inner';

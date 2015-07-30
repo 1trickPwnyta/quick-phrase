@@ -315,6 +315,23 @@ function showStandardDialog(htmlContent, callback, includeMoreIcon, title, okBut
 	form.appendChild(div);
 	form.appendChild(backDiv);
 	form.style.height = "80vh";
+	
+	if (PHONEGAP) {
+		// Workaround for lack of CSS "vh" support in Android 4.3-
+		if (parseFloat(device.version) < 4.39) {
+			var viewport = function() {
+				var e = window, a = 'inner';
+				if (!('innerWidth' in window )) {
+					a = 'client';
+					e = document.documentElement || document.body;
+				}
+				return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
+			}
+			var vh = (viewport().height/100);
+			form.style.height = vh*80 + 'px';
+		}
+	}
+	
 	dialog.custom(form, function(form) {
 		if (callback)
 			callback(form !== false);
