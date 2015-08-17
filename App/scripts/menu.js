@@ -97,6 +97,7 @@ function showCategories() {
 		checkbox.id = "categoryCheckbox" + i;
 		checkbox.category = categories[i].id;
 		checkbox.checked = sCategoryIds.indexOf(categories[i].id) != -1 || sCategoryIds.length == 0;
+		checkbox.onchange = function(){playSound(CLICK_SOUND_FILE);};
 		checkboxCell.appendChild(checkbox);
 		row.appendChild(checkboxCell);
 		
