@@ -98,3 +98,4 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 
 ### Upgrading to Version 1.2.0 ###
 1. Add ip_address column to flagged_tag table. VARCHAR 32, allow null, default null.
+2. Add usage tables as defined in Usage Tracking wiki.
