@@ -95,3 +95,6 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
     * tag_id int(4) references tag.id on delete cascade
     * reason varchar(256) not null
 6. Update the SP icon in the SAML IdP configuration.
+
+### Upgrading to Version 1.2.0 ###
+1. Add ip_address column to flagged_tag table. VARCHAR 32, allow null, default null.
