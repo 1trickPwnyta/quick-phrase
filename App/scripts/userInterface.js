@@ -582,35 +582,24 @@ function menuItemScoreClick(teamId) {
 	
 	// Get input from user
 	dialog.getNumber(function(response) {
-	
-		// Ignore empty input
-		if (response === false || response == "")
-			return;
-		
-		// Evaluate input
-		response = parseInt(response);
-		if (response < 0) {
-			dialog.showMessage("Nobody can have a negative score.");
-			response = 0;
-		}
-		if (response >= sWinningPoint) {
-			if (sNumberOfTeams == 2) {
-				if (sNumberOfTeams == 2)
-					dialog.showMessage("You can't just win that easily!");
-				response = sWinningPoint - 1;
-				changeScore(teamId, response);
-				showMenu();
-			} else {
-				// Check if the user really wants to eliminate the team
-				dialog.confirm(function (response) {
-					if (response)
-						changeScore(teamId, SCORE_ELIMINATED);
-					showMenu();
-				}, "This will eliminate Team " + (teamId + 1) + ". Are you sure?", function() {playSound(CLICK_SOUND_FILE);});
-			}
-		} else {
+		if (response || response === 0) {
+			response = parseInt(response);
 			changeScore(teamId, response);
 			showMenu();
 		}
-	}, "What's the score?", scores[teamId], null, function() {playSound(CLICK_SOUND_FILE);});
+	}, "What's the score?", scores[teamId], null, function(response) {
+		playSound(CLICK_SOUND_FILE);
+		
+		if (response || response === 0) {
+			// Validate input
+			response = parseInt(response);
+			if (response < 0) {
+				dialog.showMessage("Nobody can have a negative score.");
+				return false;
+			} else if (response >= sWinningPoint) {
+				dialog.showMessage("Set the score to something less than " + sWinningPoint + ".");
+				return false;
+			}
+		}
+	});
 }
