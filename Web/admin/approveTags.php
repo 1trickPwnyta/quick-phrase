@@ -20,6 +20,15 @@
 	$approve = (int) $_POST["approve"];
 	$reason = $_POST["reason"];
 	
+	// Sort the incoming tags
+	function compareTag($a, $b) {
+		if ($a->id == $b->id) {
+			return 0;
+		}
+		return ($a->id < $b->id)? -1: 1;
+	}
+	usort($tags, "compareTag");
+	
 	$ids = array();
 	for ($i = 0; $i < count($tags); $i++) {
 		array_push($ids, $tags[$i]->id);
@@ -32,7 +41,8 @@
 	$query = "
 	SELECT text, category.id AS category_id, category.name AS category_name, submitter FROM unapproved_tag
 	INNER JOIN category ON category.id = unapproved_tag.category_id
-	WHERE unapproved_tag.id IN ($ids)";
+	WHERE unapproved_tag.id IN ($ids)
+	ORDER BY unapproved_tag.id";
 	
 	// Get unapproved tag from the database
 	$statement = $db->query($query);
