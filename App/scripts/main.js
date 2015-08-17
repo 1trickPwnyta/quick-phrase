@@ -87,6 +87,15 @@ function advanceTimeStage() {
 		// Remember a point has not yet been given for the round that just ended
 		pointGiven = false;
 		
+		// Allow the device to sleep now that the round is over
+		if (PHONEGAP) {
+			window.plugins.insomnia.allowSleepAgain();
+		}
+		
+		// Disable the next button to prevent accidental starting of the next round
+		disableNext();
+		window.setTimeout(enableNext, 1000);
+		
 	} else {
 		document.getElementById("menuButtonIcon").src = "images/stop.png";
 		document.getElementById("usedTagsButton").style.display = "none";
@@ -99,6 +108,11 @@ function advanceTimeStage() {
 	if (timeStage == TIME_STAGE_1) {
 		usedTags = new Array();
 		beep();
+		
+		// Don't allow the device to sleep while the round is in progress
+		if (PHONEGAP) {
+			window.plugins.insomnia.keepAwake();
+		}
 	}
 }
 

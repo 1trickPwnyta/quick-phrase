@@ -50,9 +50,6 @@
 				}, 1000);
 				
 				if (PHONEGAP) {
-					// Don't allow the device to sleep while the game is open
-					window.plugins.insomnia.keepAwake();
-					
 					// Set the Android back button action
 					document.addEventListener("backbutton", backButtonClick, false);
 					
