@@ -11,8 +11,8 @@
 	
 	// Build a query
 	$query =
-		"INSERT INTO flagged_tag (tag_id, reason) VALUES (
-			$id, {$db->quote($reason)}
+		"INSERT INTO flagged_tag (tag_id, reason, ip_address) VALUES (
+			$id, {$db->quote($reason)}, {$db->quote($_SERVER['REMOTE_ADDR'])}
 		)";
 
 	// Insert the flag into the database
