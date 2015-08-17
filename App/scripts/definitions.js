@@ -12,6 +12,7 @@ var TIME_STAGE_1 = 1;
 var TIME_STAGE_2 = 2;
 var TIME_STAGE_FINAL = 3;
 var SCORE_ELIMINATED = "out";
+var SOUND_NONE = "none";
 
 // Device information
 var PHONEGAP = window.cordova;						// Defined when running as a PhoneGap app

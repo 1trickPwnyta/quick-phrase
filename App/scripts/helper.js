@@ -20,27 +20,30 @@ function htmlEncode(html) {
 // Plays a sound from a file
 //
 function playSound(soundFile) {
-	if (PHONEGAP) {
-		
-		// Check if the sound is already loaded
-		if (!medias[soundFile]) {
-		
-			// Load the sound to both stores
-			medias[soundFile] = new Media(getPhoneGapPath() + soundFile);
-			medias2[soundFile] = new Media(getPhoneGapPath() + soundFile);
+	if (soundFile != SOUND_NONE) {
+		if (PHONEGAP) {
 			
+			// Check if the sound is already loaded
+			if (!medias[soundFile]) {
+			
+				// Load the sound to both stores
+				medias[soundFile] = new Media(getPhoneGapPath() + soundFile);
+				medias2[soundFile] = new Media(getPhoneGapPath() + soundFile);
+				
+			}
+			
+			// Play the sound from an alternating store
+			if (mediasAlternator)
+				medias[soundFile].play();
+			else
+				medias2[soundFile].play();
+			mediasAlternator = !mediasAlternator;
+			
+		} else {
+			// Play the sound for a browser
+			new Audio(soundFile).play();
 		}
-		
-		// Play the sound from an alternating store
-		if (mediasAlternator)
-			medias[soundFile].play();
-		else
-			medias2[soundFile].play();
-		mediasAlternator = !mediasAlternator;
-		
-	} else
-		// Play the sound for a browser
-		new Audio(soundFile).play();
+	}
 }
 
 //
