@@ -179,3 +179,12 @@ function flagTag(tag, reason, callback) {
 		}
 	}, WEB_SERVICE_TIMEOUT);
 }
+
+function submitUsageClick(location) {
+	// Call the web service to submit the click
+	ajax("GET", WEB_SERVICE_URL + "/usage/clicks.php", [
+		{name: "location", value: location}
+	], function(response, status) {
+		// Ignore the response
+	}, WEB_SERVICE_TIMEOUT);
+}
