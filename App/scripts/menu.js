@@ -31,6 +31,25 @@ function showMenu() {
 	if (!gameOver) {
 		scoreSettingsDiv.innerHTML = "<div class=\"menuHeader\">Score</div>";
 		
+		// Add the restart option if at least one point has been made
+		var scoreHappened = false;
+		for (var i = 0; i < scores.length; i++) {
+			if (scores[i] > 0) {
+				scoreHappened = true;
+				break;
+			}
+		}
+		if (scoreHappened) {
+			var restartGameMenuItem = document.createElement("div");
+			restartGameMenuItem.id = "menuItemRestartGame";
+			restartGameMenuItem.className = "menuItem";
+			restartGameMenuItem.onclick = function() {
+				menuItemRestartGameClick();
+			};
+			restartGameMenuItem.innerHTML = "Reset scores";
+			scoreSettingsDiv.appendChild(restartGameMenuItem);
+		}
+		
 		// Get the score for each team
 		for (var i = 0; i < scores.length; i++) {
 			var menuItem = document.createElement("div");

@@ -145,6 +145,13 @@
 					<img id="mainMenuCloseIcon" class="middle" src="images/delete.png" /> Return to game
 				</div>
 				
+				<div class="menuItem" onclick="menuItemTagCreationClick();">
+					Grab Tag Online<br />
+					<em>Create your own tags!</em>
+				</div>
+				<div class="menuItem" onclick="menuItemHelpClick();">Help</div>
+				<div class="menuItem" onclick="menuItemAboutClick();">About</div>
+				
 				<!-- Holds the score menu items when a game is in progress -->
 				<div id="scoreSettings"></div>
 				
@@ -222,14 +229,6 @@
 					<input id="menuItemVibrateCheckBox" type="checkbox" class="menuItemValue" onchange="menuItemVibrateChange();" />
 					Vibrate
 				</label>
-				
-				<div class="menuHeader">Other</div>
-				<div class="menuItem" onclick="menuItemTagCreationClick();">
-					Grab Tag Online<br />
-					<em>Create your own tags!</em>
-				</div>
-				<div class="menuItem" onclick="menuItemHelpClick();">Help</div>
-				<div class="menuItem" onclick="menuItemAboutClick();">About</div>
 			</div>
 		</div>
 	</body>

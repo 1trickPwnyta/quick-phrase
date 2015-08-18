@@ -597,6 +597,21 @@ function menuItemAboutClick() {
 }
 
 //
+// Restart game menu item click event.
+//
+function menuItemRestartGameClick() {
+	playSound(CLICK_SOUND_FILE);
+	dialog.confirm(function(response) {
+		if (response) {
+			submitUsageClick("/menu/restart");
+			newGame(true);
+			showMenu();
+			showReadyScreen();
+		}
+	}, "The current game will end. Is that okay?");
+}
+
+//
 // Score menu item click event.
 //
 function menuItemScoreClick(teamId) {
