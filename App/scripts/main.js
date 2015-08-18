@@ -119,6 +119,7 @@ function advanceTimeStage(stopped) {
 		}
 		
 		submitUsageClick("/round/start");
+		submitSettings();
 	}
 }
 

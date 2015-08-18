@@ -159,6 +159,9 @@ function loadStatsFromWebService(callback) {
 	}, WEB_SERVICE_TIMEOUT);
 }
 
+//
+// Reports a tag to the admin for evaluation.
+//
 function flagTag(tag, reason, callback) {
 	// Call the web service to flag the tag
 	ajax("POST", WEB_SERVICE_URL + "/flagTag.php", [
@@ -180,6 +183,9 @@ function flagTag(tag, reason, callback) {
 	}, WEB_SERVICE_TIMEOUT);
 }
 
+//
+// Submits usage data about a location that was clicked or an event that occurred.
+//
 function submitUsageClick(location) {
 	if (!sDeveloperMode) {
 		// Call the web service to submit the click
@@ -190,3 +196,31 @@ function submitUsageClick(location) {
 		}, WEB_SERVICE_TIMEOUT);
 	}
 }
+
+//
+// Submits usage data about what settings values are in play.
+//
+function submitSettings() {
+	if (!sDeveloperMode) {
+		// Call the web service to submit the settings
+		ajax("POST", WEB_SERVICE_URL + "/usage/settings.php", [
+			{name: "categories", value: JSON.stringify(sCategoryIds)},
+			{name: "difficulty", value: sDifficulty},
+			{name: "maxWordsPerTag", value: sMaxWordsPerTag},
+			{name: "maxCharactersPerTag", value: sMaxCharactersPerTag},
+			{name: "edgy", value: sEdgy? 1: 0},
+			{name: "showCategory", value: sShowCategory? 1: 0},
+			{name: "showSubmittedBy", value: sShowAuthor? 1: 0},
+			{name: "pointsToWin", value: sWinningPoint},
+			{name: "numberOfTeams", value: sNumberOfTeams},
+			{name: "minRoundSeconds", value: Math.round(sMinTimePerStage*3/1000)},
+			{name: "maxRoundSeconds", value: Math.round(sMaxTimePerStage*3/1000)},
+			{name: "timerTick", value: sBeepSoundFile},
+			{name: "theme", value: sStyleSheet},
+			{name: "vibrate", value: sVibrate? 1: 0}
+		], function(response, status) {
+			// Ignore the response
+		}, WEB_SERVICE_TIMEOUT);
+	}
+}
+

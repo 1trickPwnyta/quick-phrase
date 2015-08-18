@@ -27,7 +27,7 @@
 			{$db->quote($location)}
 		)";
 
-	// Insert the tag into the database
+	// Insert the click into the database
 	$rowsAffected = $db->exec($query);
 
 	// Validate the result
