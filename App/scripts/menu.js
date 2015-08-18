@@ -284,7 +284,7 @@ function showAbout() {
 			(stats.today > 0? "Added today: <span class=\"stats stats-today\">" + stats.today + "</span><br />" : "") + 
 			(stats.this_week > 0? "In the last week: <span class=\"stats stats-this-week\">" + stats.this_week + "</span><br />" : "") + 
 			(stats.this_month > 0? "In the last 30 days: <span class=\"stats stats-this-month\">" + stats.this_month + "</span><br />" : "") + 
-			(stats.all_time > 0? "Total: <span class=\"stats stats-total\">" + stats.all_time.toLocaleString() + "</span><br />" : "")
+			(stats.all_time > 0? "Total: <span class=\"stats stats-total\">" + parseInt(stats.all_time).toLocaleString() + "</span><br />" : "")
 			: ""), 
 		null, 
 		false, 
