@@ -678,6 +678,26 @@ function changeEdgy(edgy, callback) {
 }
 
 //
+// Changes the developer mode user setting.
+//
+function changeDeveloperMode(developerMode, callback) {
+	// Change the setting
+	sDeveloperMode = developerMode;
+	
+	if (PHONEGAP)
+		// Save the setting in the local database
+		db.transaction(function(tx) {
+			setSetting(tx, "sDeveloperMode", JSON.stringify(sDeveloperMode));
+			if (callback)
+				callback();
+		});
+	else {
+		if (callback)
+			callback();
+	}
+}
+
+//
 // Changes the name of a team.
 //
 function changeTeamName(teamId, newName, callback) {

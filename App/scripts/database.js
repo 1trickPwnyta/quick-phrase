@@ -208,6 +208,10 @@ function loadSettings(callback) {
 				sEdgy = JSON.parse(value);
 				settingsLoaded++;
 			});
+			getSetting(tx, "sDeveloperMode", JSON.stringify(sDeveloperMode), function(value) {
+				sDeveloperMode = JSON.parse(value);
+				settingsLoaded++;
+			});
 			getSetting(tx, "sTeamNames", JSON.stringify(sTeamNames), function(value) {
 				sTeamNames = JSON.parse(value);
 				settingsLoaded++;

@@ -51,6 +51,23 @@
 				
 				submitUsageClick("/app/open");
 				
+				// Add long-click to about button in the menu to turn on developer mode
+				var aboutItem = document.getElementById("menuItemAbout");
+				aboutItem.onmouseup = function() {
+					// Cancel the long press
+					window.clearTimeout(pressTimer)
+					return false;
+				};
+				(function(aboutItem) {
+					aboutItem.onmousedown = function() {
+						// Wait for a long press
+						pressTimer = window.setTimeout(function() {
+							menuItemAboutLongClick();
+						}, 1000);
+						return false; 
+					};
+				})(aboutItem);
+				
 				if (PHONEGAP) {
 					// Set the Android back button action
 					document.addEventListener("backbutton", backButtonClick, false);
@@ -150,7 +167,7 @@
 					<em>Create your own tags!</em>
 				</div>
 				<div class="menuItem" onclick="menuItemHelpClick();">Help</div>
-				<div class="menuItem" onclick="menuItemAboutClick();">About</div>
+				<div id="menuItemAbout" class="menuItem" onclick="menuItemAboutClick();">About</div>
 				
 				<!-- Holds the score menu items when a game is in progress -->
 				<div id="scoreSettings"></div>

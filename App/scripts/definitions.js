@@ -34,7 +34,7 @@ var TAG_FLAGGING_REASONS = [						// Possible reasons for flagging a tag
 ];
 
 // User Settings
-var settingsCount = 15;								// Must be equal to the number of settings below
+var settingsCount = 16;								// Must be equal to the number of settings below
 	var sMinTimePerStage = DEFAULT_MIN_TIME_PER_STAGE;	// Minimum ms for each time stage
 	var sMaxTimePerStage = DEFAULT_MAX_TIME_PER_STAGE;	// Maximum ms for each time stage
 	var sNumberOfTeams = DEFAULT_NUMBER_OF_TEAMS;	// Number of teams playing the game
@@ -50,6 +50,7 @@ var settingsCount = 15;								// Must be equal to the number of settings below
 	var sTeamNames = DEFAULT_TEAM_NAMES;			// Non-default team names
 	var sShowCategory = DEFAULT_SHOW_CATEGORY;		// Whether to show tag categories in-game
 	var sShowAuthor = DEFAULT_SHOW_AUTHOR;			// Whether to show tag submitters in-game
+	var sDeveloperMode = DEFAULT_DEVELOPER_MODE;	// Whether to enable developer mode (no usage reporting)
 
 // Global variables
 var tags = new Array();								// Holds the currently loaded tags

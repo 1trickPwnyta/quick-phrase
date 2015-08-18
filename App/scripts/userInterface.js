@@ -597,6 +597,32 @@ function menuItemAboutClick() {
 }
 
 //
+//About menu item long click event.
+//
+function menuItemAboutLongClick() {
+	playSound(CLICK_SOUND_FILE);
+	
+	if (!sDeveloperMode) {
+		dialog.confirm(function(response) {
+			playSound(CLICK_SOUND_FILE);
+			if (response) {
+				submitUsageClick("/menu/about/developermode/on");
+				changeDeveloperMode(true);
+			}
+		}, "Developer mode is turned off. Do you want to turn it on?");
+	} else {
+		dialog.confirm(function(response) {
+			playSound(CLICK_SOUND_FILE);
+			if (response) {
+				changeDeveloperMode(false, function() {
+					submitUsageClick("/menu/about/developermode/off");
+				});
+			}
+		}, "Developer mode is turned on. Do you want to turn it off?");
+	}
+}
+
+//
 // Restart game menu item click event.
 //
 function menuItemRestartGameClick() {
