@@ -99,6 +99,7 @@ function scoreButtonClick(button) {
 	
 	scores[button.team]++;
 	playSound(BUTTON_SOUND_FILE);
+	submitUsageClick("/team/" + button.team);
 	
 	// Remember a point has been given now for the last round
 	pointGiven = true;
@@ -109,10 +110,10 @@ function scoreButtonClick(button) {
 	// Check if the team has reached the winning (or elimination) point
 	if (scores[button.team] >= sWinningPoint) {
 		// Respond based on number of teams
-		if (sNumberOfTeams == 2)
+		if (sNumberOfTeams == 2) {
 			// This team has won the game
 			teamWin(button.team);
-		else
+		} else
 			// This team has been eliminated
 			eliminateTeam(button.team);
 	}
@@ -127,6 +128,7 @@ function scoreButtonLongClick(button) {
 		return;
 		
 	playSound(CLICK_SOUND_FILE);
+	submitUsageClick("/team/" + button.team + "/name");
 	
 	// Get input from user
 	dialog.getString(function(response) {
@@ -159,10 +161,13 @@ function nextButtonClick() {
 		return;
 	
 	playSound(BUTTON_SOUND_FILE);
+	submitUsageClick("/next");
 	
 	// If the game has not started, start a new game
-	if (gameOver)
+	if (gameOver) {
+		submitUsageClick("/game/start");
 		newGame(true);
+	}
 		
 	var setNextTag = function() {
 		var tag = nextTag();
@@ -213,11 +218,24 @@ function menuButtonClick() {
 	// If a round is in progress, this button's function is to stop the round
 	if (timeStage != TIME_STAGE_NOT_STARTED) {
 		dialog.confirm(function(response) {
-			if (response && timeStage != TIME_STAGE_NOT_STARTED)
+			if (response && timeStage != TIME_STAGE_NOT_STARTED) {
+				submitUsageClick("/stop");
 				stopGame();
+			}
 		}, "Are you sure you want to stop the game?", function() {playSound(CLICK_SOUND_FILE);});
-	} else
+	} else {
+		submitUsageClick("/menu");
 		showMenu();
+	}
+}
+
+//
+// Help button click event.
+//
+function helpButtonClick() {
+	playSound(CLICK_SOUND_FILE);
+	submitUsageClick("/help");
+	showHelp();
 }
 
 //
@@ -225,7 +243,7 @@ function menuButtonClick() {
 //
 function usedTagsButtonClick() {
 	playSound(CLICK_SOUND_FILE);
-	
+	submitUsageClick("/usedTags");
 	showUsedTags();
 }
 
@@ -253,6 +271,7 @@ function backButtonClick() {
 //
 function menuItemCategoryIdsClick() {
 	playSound(CLICK_SOUND_FILE);
+	submitUsageClick("/menu/categories");
 	showCategories();
 }
 
@@ -553,6 +572,7 @@ function menuItemVibrateChange() {
 //
 function menuItemTagCreationClick() {
 	playSound(CLICK_SOUND_FILE);
+	submitUsageClick("/menu/tagCreation");
 	window.setTimeout(function() {
 		navigateAway(TAG_CREATION_URL);
 	}, 100);
@@ -563,6 +583,7 @@ function menuItemTagCreationClick() {
 //
 function menuItemHelpClick() {
 	playSound(CLICK_SOUND_FILE);
+	submitUsageClick("/menu/help");
 	showHelp();
 }
 
@@ -571,6 +592,7 @@ function menuItemHelpClick() {
 //
 function menuItemAboutClick() {
 	playSound(CLICK_SOUND_FILE);
+	submitUsageClick("/menu/about");
 	showAbout();
 }
 

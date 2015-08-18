@@ -175,6 +175,7 @@ function showUsedTags() {
 //
 function showTagFlaggingDialog(tag) {
 	playSound(CLICK_SOUND_FILE);
+	submitUsageClick("/usedTags/" + tag.id + "/flag");
 	var div = document.createElement("div");
 	
 	var questionSpan = document.createElement("span");
@@ -255,13 +256,10 @@ function showHelp() {
 // Shows the about window.
 //
 function showAbout() {
-	stats = {
-		all_time: 8500
-	};
 	showStandardDialog(
 		"Version " + APP_VERSION + "<br />" + 
-			"&copy; " + APP_COPYRIGHT_YEAR + " <a href=\"#\" onclick=\"window.open('" + APP_AUTHOR_LINK + "', '_system'); return false;\">" + APP_AUTHOR + "</a><br />" + 
-			"Email: <a href=\"mailto:" + APP_AUTHOR_EMAIL + "\">" + APP_AUTHOR_EMAIL + "</a><br />" + 
+			"&copy; " + APP_COPYRIGHT_YEAR + " <a href=\"#\" onclick=\"submitUsageClick('/menu/about/author/webSite'); window.open('" + APP_AUTHOR_LINK + "', '_system'); return false;\">" + APP_AUTHOR + "</a><br />" + 
+			"Email: <a href=\"mailto:" + APP_AUTHOR_EMAIL + "\" onclick=\"submitUsageClick('/menu/about/author/email');\">" + APP_AUTHOR_EMAIL + "</a><br />" + 
 			"<br /><br />" + (stats? 
 			"New tags in " + APP_NAME + ": <br /><br />" + 
 			(stats.today > 0? "Added today: <span class=\"stats stats-today\">" + stats.today + "</span><br />" : "") + 

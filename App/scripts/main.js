@@ -59,7 +59,7 @@ function beep() {
 //
 // Advances to the next time stage
 //
-function advanceTimeStage() {
+function advanceTimeStage(stopped) {
 	timeStage++;
 	
 	// Check if the round is over now
@@ -96,6 +96,10 @@ function advanceTimeStage() {
 		disableNext();
 		window.setTimeout(enableNext, 1000);
 		
+		if (!stopped) {
+			submitUsageClick("/round/complete");
+		}
+		
 	} else {
 		document.getElementById("menuButtonIcon").src = "images/stop.png";
 		document.getElementById("usedTagsButton").style.display = "none";
@@ -113,6 +117,8 @@ function advanceTimeStage() {
 		if (PHONEGAP) {
 			window.plugins.insomnia.keepAwake();
 		}
+		
+		submitUsageClick("/round/start");
 	}
 }
 
@@ -236,6 +242,7 @@ function loadScores() {
 // Ends the game in victory for the selected team.
 //
 function teamWin(teamId) {
+	submitUsageClick("/game/complete");
 	setTag(sTeamNames[teamId] + " wins!");
 	gameOver = true;
 	playSound(WIN_SOUND_FILE);
@@ -286,7 +293,7 @@ function resetScores() {
 function stopGame() {
 	// Cause the round to complete
 	timeStage = TIME_STAGE_FINAL;
-	advanceTimeStage();
+	advanceTimeStage(true);
 	timeStageAtLastBeep = TIME_STAGE_FINAL;
 	
 	setTag("Game stopped.");

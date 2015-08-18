@@ -49,6 +49,8 @@
 					document.getElementById("splashscreen").className = "hidden";
 				}, 1000);
 				
+				submitUsageClick("/app/open");
+				
 				if (PHONEGAP) {
 					// Set the Android back button action
 					document.addEventListener("backbutton", backButtonClick, false);
@@ -112,7 +114,7 @@
 				<a id="menuButton" class="header-button" href="#" onclick="menuButtonClick(); return false;">
 					<img id="menuButtonIcon" class="header-button-icon" src="images/menu.png" alt="Menu" />
 				</a>
-				<a id="helpButton" class="header-button" href="#" onclick="menuItemHelpClick(); return false;">
+				<a id="helpButton" class="header-button" href="#" onclick="helpButtonClick(); return false;">
 					<img id="helpButtonIcon" class="header-button-icon" src="images/help.png" alt="Help" />
 				</a>
 				<a id="usedTagsButton" class="header-button" href="#" onclick="usedTagsButtonClick(); return false;">

@@ -2,6 +2,8 @@
 	include "../mysql.php";
 	require_once "../global.php";
 	
+	header("Access-Control-Allow-Origin: null");
+	
 	// Get parameters
 	$location = $_GET["location"];
 	
