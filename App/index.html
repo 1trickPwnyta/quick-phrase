@@ -38,18 +38,26 @@
 				if (PHONEGAP) {
 					// Set the deviceready callback
 					document.addEventListener("deviceready", onDeviceReady, false);
+					
+					// Set the pause and resume callbacks
+					document.addEventListener("pause", function() {
+						submitUsageClick("/app/pause");
+					}, false);
+					document.addEventListener("resume", function() {
+						submitUsageClick("/app/resume");
+					}, false);
 				} else
 					// Just call the deviceready callback directly
 					onDeviceReady();
 			};
 			
 			function onDeviceReady() {
+				submitUsageClick("/app/open");
+				
 				// Hide the splash screen and load the main screen after one second
 				window.setTimeout(function() {
 					document.getElementById("splashscreen").className = "hidden";
 				}, 1000);
-				
-				submitUsageClick("/app/open");
 				
 				// Add long-click to about button in the menu to turn on developer mode
 				var aboutItem = document.getElementById("menuItemAbout");
