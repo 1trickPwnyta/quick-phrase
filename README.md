@@ -100,3 +100,4 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 1. Add ip_address column to flagged_tag table. VARCHAR 32, allow null, default null.
 2. Add usage tables as defined in Usage Tracking wiki.
 3. Add DEFAULT_DEVELOPER_MODE to config.js in the app.
+4. Add DEFAULT_FRESH_INSTALL = true to config.js in the app.
