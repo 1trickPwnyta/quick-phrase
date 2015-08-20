@@ -1,6 +1,6 @@
 // App information
 var APP_NAME = "Grab Tag";
-var APP_VERSION = "1.2.0a";
+var APP_VERSION = "1.2.0";
 var APP_AUTHOR = "Kangaroo Standard";
 var APP_AUTHOR_LINK = "https://www.kangaroostandard.com/";
 var APP_AUTHOR_EMAIL = "support@kangaroostandard.com";
