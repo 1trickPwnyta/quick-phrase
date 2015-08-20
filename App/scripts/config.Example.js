@@ -28,3 +28,4 @@ var DEFAULT_TEAM_NAMES = ["Team 1", "Team 2", "Team 3", "Team 4", "Team 5", "Tea
 var DEFAULT_SHOW_CATEGORY = false;
 var DEFAULT_SHOW_AUTHOR = true;
 var DEFAULT_DEVELOPER_MODE = false;
+var DEFAULT_FRESH_INSTALL = true;

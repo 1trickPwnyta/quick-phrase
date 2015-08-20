@@ -107,6 +107,12 @@
 				loadDifficulties();
 				loadStatsFromWebService();
 				loadSettings(function() {
+					// Send fresh install click if this is a fresh install
+					if (sFreshInstall) {
+						submitUsageClick("/app/freshInstall");
+						changeFreshInstall(false);
+					}
+					
 					applyTheme();
 					loadTags(true, showReadyScreen);
 					resetScores();

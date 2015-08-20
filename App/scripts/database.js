@@ -212,6 +212,10 @@ function loadSettings(callback) {
 				sDeveloperMode = JSON.parse(value);
 				settingsLoaded++;
 			});
+			getSetting(tx, "sFreshInstall", JSON.stringify(sFreshInstall), function(value) {
+				sFreshInstall = JSON.parse(value);
+				settingsLoaded++;
+			});
 			getSetting(tx, "sTeamNames", JSON.stringify(sTeamNames), function(value) {
 				sTeamNames = JSON.parse(value);
 				settingsLoaded++;
