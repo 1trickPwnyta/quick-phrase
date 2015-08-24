@@ -104,3 +104,4 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 
 ### Upgrading to Version 2.0.0 ###
 1. Change web service URL path to /CatchPhrasePanic instead of /GrabTag, but maintain a mapping from /GrabTag to /CatchPhrasePanic for backward compatibility.
+2. Update references to /GrabTag to /CatchPhrasePanic - in the app, at the IdP, links on web sites, etc.
