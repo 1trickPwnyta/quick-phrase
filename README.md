@@ -107,7 +107,7 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 2. Update references to /GrabTag to /CatchPhrasePanic - in the app, at the IdP, links on web sites, etc.
 3. Update SP ID to reflect new name.
 4. Update AD admin group name.
+8. Rename the MySQL database and user to catch_phrase_pan.
 5. Update config.php in /Web with new values as appropriate.
 6. Update applicationRoot.js in /Web with the new application root.
 7. Update config.js in the app with the new URL path.
-8. Rename the MySQL database and user to catch_phrase_pan.
