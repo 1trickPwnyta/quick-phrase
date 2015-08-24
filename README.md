@@ -110,4 +110,4 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 5. Update config.php in /Web with new values as appropriate.
 6. Update applicationRoot.js in /Web with the new application root.
 7. Update config.js in the app with the new URL path.
-8. Rename the MySQL database and user to catch_phrase_panic.
+8. Rename the MySQL database and user to catch_phrase_pan.
