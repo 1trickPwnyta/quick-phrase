@@ -20,9 +20,9 @@
 8. Example IdP configuration using Kangaroo Standard IAM:
 
             {
-                "SpId": "dev.grabtag",
-                "AssertionConsumerServiceUrl": "https://dev.kangaroostandard.com/simplesaml/module.php/saml/sp/saml2-acs.php/dev.grabtag",
-                "SingleLogoutServiceUrl": "https://dev.kangaroostandard.com/simplesaml/module.php/saml/sp/saml2-logout.php/dev.grabtag",
+                "SpId": "CatchPhrasePanic",
+                "AssertionConsumerServiceUrl": "https://dev.kangaroostandard.com/simplesaml/module.php/saml/sp/saml2-acs.php/CatchPhrasePanic",
+                "SingleLogoutServiceUrl": "https://dev.kangaroostandard.com/simplesaml/module.php/saml/sp/saml2-logout.php/CatchPhrasePanic",
                 "AttributeRequirements": [
                     {
                         "SamlAttributeName": "EmailAddress",
@@ -30,7 +30,7 @@
                     },
                     {
                         "SamlAttributeName": "Admin",
-                        "DirectoryAttributeName": "CN=Grab Tag Administrators,CN=Users,DC=dev,DC=kangaroostandard,DC=com"
+                        "DirectoryAttributeName": "CN=Catch-Phrase Panic Administrators,CN=Users,DC=dev,DC=kangaroostandard,DC=com"
                     }
                 ]
             }
@@ -63,25 +63,25 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 
 ##### Debug Build #####
 1. Create a zip folder called phonegap.zip in the root directory of the repository and put the contents of the App folder inside it.
-2. Go to the Grab Tag project in Adobe PhoneGap Build.
+2. Go to the Catch-Phrase Panic project in Adobe PhoneGap Build.
 3. Click on Update code. Upload the phonegap.zip file.
 4. Once the build has completed, click on the apk button to download the apk.
-5. Store the GrabTag-debug.apk file in the root directory of the repository.
+5. Store the CatchPhrasePanic-debug.apk file in the root directory of the repository.
 6. Install the build onto your device using the following command:
 
-        adb install GrabTag-debug.apk
+        adb install CatchPhrasePanic-debug.apk
 
 ##### Release Build #####
 1. Create a zip folder called phonegap.zip in the root directory of the repository and put the contents of the App folder inside it.
-2. Go to the Grab Tag project in Adobe PhoneGap Build.
+2. Go to the Catch-Phrase Panic project in Adobe PhoneGap Build.
 3. Click on Update code. Upload the phonegap.zip file.
 4. Select a signing key to sign the build with.
 5. Unlock the key by entering the keystore and key passwords (both are the same).
 4. Once the build has completed, click on the apk button to download the apk.
-5. Store the GrabTag-release.apk file in the root directory of the repository.
+5. Store the CatchPhrasePanic-release.apk file in the root directory of the repository.
 6. Install the build onto your device using the following command:
 
-        adb install GrabTag-release.apk
+        adb install CatchPhrasePanic-release.apk
 
 
 ### Upgrading to Version 1.1.0 ###
@@ -107,3 +107,6 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 2. Update references to /GrabTag to /CatchPhrasePanic - in the app, at the IdP, links on web sites, etc.
 3. Update SP ID to reflect new name.
 4. Update AD admin group name.
+5. Update config.php in /Web with new values as appropriate.
+6. Update applicationRoot.js in /Web with the new application root.
+7. Update config.js in the app with the new URL path.
