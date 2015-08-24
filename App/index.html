@@ -160,13 +160,13 @@
 			<!-- Holds the score buttons -->
 			<div id="scores"></div>
 			
-			<!-- Holds the current tag, or game status messages -->
+			<!-- Holds the current phrase, or game status messages -->
 			<div id="tag"></div>
 			
-			<!-- Shows metadata for the current tag -->
+			<!-- Shows metadata for the current phrase -->
 			<div id="tag-metadata"></div>
 			
-			<!-- Advances to the next tag, or starts the game -->
+			<!-- Advances to the next phrase, or starts the game -->
 			<a id="nextButton" href="#" onmouseup="nextButtonClick(); return false;">Next</a>
 			
 			<!-- The main menu, hidden by default -->
@@ -177,8 +177,8 @@
 				</div>
 				
 				<div class="menuItem" onclick="menuItemTagCreationClick();">
-					Grab Tag Online<br />
-					<em>Create your own tags!</em>
+					Catch-Phrase Panic Online<br />
+					<em>Create your own phrases!</em>
 				</div>
 				<div class="menuItem" onclick="menuItemHelpClick();">Help</div>
 				<div id="menuItemAbout" class="menuItem" onclick="menuItemAboutClick();">About</div>
@@ -186,23 +186,23 @@
 				<!-- Holds the score menu items when a game is in progress -->
 				<div id="scoreSettings"></div>
 				
-				<div class="menuHeader">Tags</div>
+				<div class="menuHeader">Phrase Options</div>
 				<div id="menuItemCategoryIds" class="menuItem" onclick="menuItemCategoryIdsClick();">
-					Tag categories: <span class="menuItemValue"></span>
+					Categories: <span class="menuItemValue"></span>
 				</div>
 				<div id="menuItemDifficulty" class="menuItem">
 					Difficulty: <select class="menuItemValue" onchange="menuItemDifficultyChange();"></select>
 				</div>
 				<div id="menuItemMaxWords" class="menuItem" onclick="menuItemMaxWordsClick();">
-					Max words per tag: <span class="menuItemValue"></span>
+					Max words per phrase: <span class="menuItemValue"></span>
 				</div>
 				<div id="menuItemMaxCharacters" class="menuItem" onclick="menuItemMaxCharactersClick();">
-					Max characters per tag: <span class="menuItemValue"></span>
+					Max characters per phrase: <span class="menuItemValue"></span>
 				</div>
 				<!-- Label instead of div; wraps the checkbox it is "for" so that the whole row is clickable -->
 				<label id="menuItemEdgy" class="menuItem" for="menuItemEdgyCheckBox" style="display: block;">
 					<input id="menuItemEdgyCheckBox" type="checkbox" class="menuItemValue" onchange="menuItemEdgyChange();" />
-					Include adult-themed tags
+					Include adult-only phrases
 				</label>
 				<!-- Label instead of div; wraps the checkbox it is "for" so that the whole row is clickable -->
 				<label id="menuItemShowCategory" class="menuItem" for="menuItemShowCategoryCheckBox" style="display: block;">

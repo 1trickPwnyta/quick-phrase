@@ -30,7 +30,7 @@
 			$category, {$db->quote($text)}, $userid
 		)";
 
-	// Insert the tag into the database
+	// Insert the phrase into the database
 	$rowsAffected = $db->exec($query);
 
 	// Validate the result

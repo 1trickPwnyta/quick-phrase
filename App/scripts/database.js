@@ -1,13 +1,13 @@
 //
-// Loads new tags from the local database.
+// Loads new phrases from the local database.
 //
 function loadTagsFromLocalDatabase(callback) {
 	// In this case, there was no response from the web service
 	if (PHONEGAP) {
 	
-		// Load tags from the local database
+		// Load phrases from the local database
 		db.transaction(function(tx) {
-			// Make a query to get the tags based on settings
+			// Make a query to get the phrases based on settings
 			var query = "SELECT * FROM tag ";
 			query += "WHERE category_id IN (";
 			if (sCategoryIds.length > 0) {
@@ -27,7 +27,7 @@ function loadTagsFromLocalDatabase(callback) {
 			query += "LIMIT " + TAG_LOAD_QUANTITY + " ";
 			
 			tx.executeSql(query, [], function(tx, res) {
-				// Add the resulting tags to the list
+				// Add the resulting phrases to the list
 				for (var i = 0; i < res.rows.length; i++) {
 					var tag = res.rows.item(i);
 					tag.text = tag.tag;
@@ -47,7 +47,7 @@ function loadTagsFromLocalDatabase(callback) {
 }
 
 //
-// Saves tags in the local database for later.
+// Saves phrases in the local database for later.
 //
 function saveTagsInLocalDatabase(newTags) {
 	// This only works if we're in PhoneGap
@@ -63,7 +63,7 @@ function saveTagsInLocalDatabase(newTags) {
 			}
 			tx.executeSql(query);
 			
-			// If we have too many local tags, delete about half of them, randomly
+			// If we have too many local phrases, delete about half of them, randomly
 			tx.executeSql("SELECT COUNT(*) AS c FROM tag", [], function(tx, res) {
 				if (res.rows.item(0).c > MAX_LOCAL_TAGS) {
 					tx.executeSql("DELETE FROM tag WHERE (RANDOM() % 2) = 0");
@@ -75,7 +75,7 @@ function saveTagsInLocalDatabase(newTags) {
 }
 
 //
-// Deletes a tag from the local database.
+// Deletes a phrase from the local database.
 //
 function deleteTagFromLocalDatabase(id) {
 	// This only works if we're in PhoneGap

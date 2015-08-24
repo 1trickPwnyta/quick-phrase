@@ -1,5 +1,5 @@
 // App information
-var APP_NAME = "Grab Tag";
+var APP_NAME = "Catch-Phrase Panic";
 var APP_VERSION = "1.2.0";
 var APP_AUTHOR = "Kangaroo Standard";
 var APP_AUTHOR_LINK = "https://www.kangaroostandard.com/";
@@ -25,7 +25,7 @@ var BUTTON_SOUND_FILE = "sounds/button.wav";		// Plays when the Next button or s
 var CLICK_SOUND_FILE = "sounds/click.wav";			// Plays when various menu items are clicked
 
 // Other constants
-var TAG_FLAGGING_REASONS = [						// Possible reasons for flagging a tag
+var TAG_FLAGGING_REASONS = [						// Possible reasons for flagging a phrase
 	"Wrong category",
 	"Too difficult",
 	"Offensive/inappropriate",
@@ -40,26 +40,26 @@ var settingsCount = 17;								// Must be equal to the number of settings below
 	var sNumberOfTeams = DEFAULT_NUMBER_OF_TEAMS;	// Number of teams playing the game
 	var sWinningPoint = DEFAULT_WINNING_POINT;		// Points to win, or to be eliminated in 3+ team play
 	var sBeepSoundFile = DEFAULT_BEEP_SOUND_FILE;	// Sound file to play when the timer ticks
-	var sDifficulty = DEFAULT_DIFFICULTY;			// Tag difficulty setting
-	var sMaxWordsPerTag = DEFAULT_MAX_WORDS_PER_TAG;	// Maximum words per tag
-	var sMaxCharactersPerTag = DEFAULT_MAX_CHARACTERS_PER_TAG;	// Maximum characters per tag
-	var sCategoryIds = DEFAULT_CATEGORY_IDS;		// Selected tag categories
+	var sDifficulty = DEFAULT_DIFFICULTY;			// Phrase difficulty setting
+	var sMaxWordsPerTag = DEFAULT_MAX_WORDS_PER_TAG;	// Maximum words per phrase
+	var sMaxCharactersPerTag = DEFAULT_MAX_CHARACTERS_PER_TAG;	// Maximum characters per phrase
+	var sCategoryIds = DEFAULT_CATEGORY_IDS;		// Selected phrase categories
 	var sStyleSheet = DEFAULT_STYLE_SHEET;			// Path to style sheet used by theme
 	var sVibrate = DEFAULT_VIBRATE;					// Turns vibration on
-	var sEdgy = DEFAULT_EDGY;						// Allows adult-oriented tags
+	var sEdgy = DEFAULT_EDGY;						// Allows adult-only phrases
 	var sTeamNames = DEFAULT_TEAM_NAMES;			// Non-default team names
-	var sShowCategory = DEFAULT_SHOW_CATEGORY;		// Whether to show tag categories in-game
-	var sShowAuthor = DEFAULT_SHOW_AUTHOR;			// Whether to show tag submitters in-game
+	var sShowCategory = DEFAULT_SHOW_CATEGORY;		// Whether to show phrase categories in-game
+	var sShowAuthor = DEFAULT_SHOW_AUTHOR;			// Whether to show phrase submitters in-game
 	var sDeveloperMode = DEFAULT_DEVELOPER_MODE;	// Whether to enable developer mode (no usage reporting)
 	var sFreshInstall = DEFAULT_FRESH_INSTALL;		// Whether the app is freshly installed
 
 // Global variables
-var tags = new Array();								// Holds the currently loaded tags
-var usedTags = new Array();							// Holds the tags that have been used in the current round
-var loadingTags = false;							// Whether new tags are currently loading
+var tags = new Array();								// Holds the currently loaded phrases
+var usedTags = new Array();							// Holds the phrases that have been used in the current round
+var loadingTags = false;							// Whether new phrases are currently loading
 var difficulties = [];								// Holds all possible difficulty settings
 var categories = [];								// Holds all possible categories
-var stats;											// Object that holds tag creation stats
+var stats;											// Object that holds new phrase creation stats
 var scores;											// Array that holds team scores
 var timeStage = TIME_STAGE_NOT_STARTED;				// The round's current time stage
 var timeStageAtLastBeep = TIME_STAGE_NOT_STARTED;	// Time stage that was in effect at the last timer tick

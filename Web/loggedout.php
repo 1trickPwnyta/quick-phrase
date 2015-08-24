@@ -9,7 +9,7 @@
 		<link rel="icon" href="<?php echo $APPLICATION_ROOT_PATH; ?>favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" href="<?php echo $APPLICATION_ROOT_PATH; ?>favicon.ico" type="image/x-icon" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-		<title>Grab Tag Logout</title>
+		<title>Catch-Phrase Panic Logout</title>
 		<style>
 			@font-face {
 				font-family: 'standard';

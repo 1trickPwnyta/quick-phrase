@@ -20,7 +20,7 @@
 	
 	$db = mysqlConnect();
 	for ($i = 0; $i < count($tags); $i++) {
-		// Build a query to update the tag
+		// Build a query to update the phrase
 		$query = 
 			"UPDATE tag 
 			SET category_id = {$tags[$i]->categoryId}, 
@@ -29,13 +29,13 @@
 			edgy = {$tags[$i]->edgy}
 			WHERE id = {$tags[$i]->tag_id}";
 		
-		// Update the tag in the database
+		// Update the phrase in the database
 		$db->exec($query);
 			
-		// Build a query to remove the tag from the flagged table
+		// Build a query to remove the phrase from the flagged table
 		$query = "DELETE FROM flagged_tag WHERE id = {$tags[$i]->id}";
 		
-		// Delete the tag from the flagged table
+		// Delete the phrase from the flagged table
 		$rowsAffected = $db->exec($query);
 	}
 ?>

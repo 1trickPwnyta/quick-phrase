@@ -1,5 +1,5 @@
 //
-// Sets the tag on the screen.
+// Sets the phrase on the screen.
 //
 function setTag(text, authorUsername, categoryName) {
 	document.getElementById("tag").innerHTML = text;
@@ -191,7 +191,7 @@ function nextButtonClick() {
 				if (timeStage == TIME_STAGE_NOT_STARTED)
 					advanceTimeStage();
 			
-				// The user wants to continue anyway, so start the next round with the next tag
+				// The user wants to continue anyway, so start the next round with the next phrase
 				pointGiven = true;
 				setNextTag();
 			}
@@ -203,7 +203,7 @@ function nextButtonClick() {
 		if (timeStage == TIME_STAGE_NOT_STARTED)
 			advanceTimeStage();
 	
-		// Go to the next tag
+		// Go to the next phrase
 		setNextTag();
 		
 	}
@@ -239,7 +239,7 @@ function helpButtonClick() {
 }
 
 //
-// Used tags button click event.
+// Used phrases button click event.
 //
 function usedTagsButtonClick() {
 	playSound(CLICK_SOUND_FILE);
@@ -306,7 +306,7 @@ function menuItemMaxWordsClick() {
 		if (response || response === 0) {
 			response = parseInt(response);
 			if (response != 0 && response < 1) {
-				dialog.showMessage("Tags must contain at least one word.");
+				dialog.showMessage("Phrases must contain at least one word.");
 				return false;
 			}
 		}
@@ -356,7 +356,7 @@ function menuItemEdgyChange() {
 			else
 				// Otherwise uncheck the box
 				document.getElementById("menuItemEdgyCheckBox").checked = false;
-		}, true, "Adult-Themed Tags", "I Agree");
+		}, true, "Adult-Only Phrases", "I Agree");
 	} else
 		// If disabling the setting, just allow it
 		changeEdgy(false, showMenu);
@@ -568,7 +568,7 @@ function menuItemVibrateChange() {
 }
 
 //
-// Tag creation menu item click event.
+// Phrase creation menu item click event.
 //
 function menuItemTagCreationClick() {
 	playSound(CLICK_SOUND_FILE);

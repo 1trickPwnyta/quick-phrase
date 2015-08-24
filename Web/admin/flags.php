@@ -15,10 +15,10 @@
 		exit;
 	}
 	
-	// Build a query to get the flagged tags
+	// Build a query to get the flagged phrases
 	$query = "SELECT flagged_tag.id AS id, tag_id, text, category.name AS category, category.id AS category_id, difficulty_rating, edgy, reason FROM flagged_tag INNER JOIN tag ON tag.id = flagged_tag.tag_id INNER JOIN category on category.id = tag.category_id ORDER BY flagged_tag.id";
 	
-	// Get flagged tags from the database
+	// Get flagged phrases from the database
 	$db = mysqlConnect();
 	$statement = $db->query($query);
 	$tags = array();
@@ -33,7 +33,7 @@
 </div>
 <table id="tagTable">
 	<tr>
-		<th></th><th>Tag</th><th>Category</th><th>Difficulty</th><th>Adult</th><th>Reason</th>
+		<th></th><th>Phrase</th><th>Category</th><th>Difficulty</th><th>Adult</th><th>Reason</th>
 	</tr>
 	<?php
 		for ($i = 0; $i < count($tags); $i++) {

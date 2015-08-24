@@ -20,7 +20,7 @@
 	$approve = (int) $_POST["approve"];
 	$reason = $_POST["reason"];
 	
-	// Sort the incoming tags
+	// Sort the incoming phrases
 	function compareTag($a, $b) {
 		if ($a->id == $b->id) {
 			return 0;
@@ -37,14 +37,14 @@
 	
 	$db = mysqlConnect();
 	
-	// Build a query to get the original unapproved tags
+	// Build a query to get the original unapproved phrases
 	$query = "
 	SELECT text, category.id AS category_id, category.name AS category_name, submitter FROM unapproved_tag
 	INNER JOIN category ON category.id = unapproved_tag.category_id
 	WHERE unapproved_tag.id IN ($ids)
 	ORDER BY unapproved_tag.id";
 	
-	// Get unapproved tag from the database
+	// Get unapproved phrases from the database
 	$statement = $db->query($query);
 	$databaseTags = array();
 	while ($row = $statement->fetch(PDO::FETCH_ASSOC))
@@ -69,7 +69,7 @@
 		$userEmail = $users[0]["email_address"];
 		
 		if ($approve > 0) {
-			// Compare the original unapproved tag to the one being approved
+			// Compare the original unapproved phrase to the one being approved
 			if (trim(strtolower($databaseTags[$i]["text"])) != trim(strtolower($tags[$i]->text)))
 				$changedText = true;
 			if ($databaseTags[$i]["category_id"] != $tags[$i]->categoryId) {
@@ -87,12 +87,12 @@
 				$newCategory = $categories[0]["name"];
 			}
 			
-			// Build a query to insert the tag
+			// Build a query to insert the phrase
 			$query = 
 				"INSERT INTO tag (category_id, text, difficulty_rating, edgy, submitter)
 				VALUES ({$tags[$i]->categoryId}, {$db->quote(html_entity_decode($tags[$i]->text))}, {$tags[$i]->difficulty}, {$tags[$i]->edgy}, {$databaseTags[$i]["submitter"]})";
 			
-			// Insert the tag into the database
+			// Insert the phrase into the database
 			$rowsAffected = $db->exec($query);
 			
 			// Validate the result
@@ -104,7 +104,7 @@
 				continue;
 			}
 			
-			// Add the tag to the list of approved tags for its submitter
+			// Add the phrase to the list of approved phrases for its submitter
 			$submitterTags = $tagsBySubmitter[$userEmail];
 			if ($submitterTags == null) {
 				$submitterTags = array();
@@ -118,7 +118,7 @@
 			));
 			$tagsBySubmitter[$userEmail] = $submitterTags;
 		} else {
-			// Add the tag to the list of rejected tags for its submitter
+			// Add the phrase to the list of rejected phrases for its submitter
 			$submitterTags = $tagsBySubmitter[$userEmail];
 			if ($submitterTags == null) {
 				$submitterTags = array();
@@ -129,10 +129,10 @@
 			$tagsBySubmitter[$userEmail] = $submitterTags;
 		}
 			
-		// Build a query to remove the tag from the unapproved table
+		// Build a query to remove the phrase from the unapproved table
 		$query = "DELETE FROM unapproved_tag WHERE id = {$tags[$i]->id}";
 		
-		// Delete the tag from the unapproved table
+		// Delete the phrase from the unapproved table
 		$rowsAffected = $db->exec($query);
 	}
 	
@@ -142,29 +142,29 @@
 	}
 	
 	foreach ($tagsBySubmitter as $userEmail => $submitterTags) {
-		$from = "Grab Tag <$APPLICATION_EMAIL_ADDRESS>";
+		$from = "Catch-Phrase Panic <$APPLICATION_EMAIL_ADDRESS>";
 		$to = $userEmail;
-		$subject = "Your new tag".(count($submitterTags) > 1? "s": "");
+		$subject = "Your new phrase".(count($submitterTags) > 1? "s": "");
 		
 		$body = "";
 		for ($i = 0; $i < count($submitterTags); $i++) {
 			if ($approve > 0) {
 				if ($submitterTags[$i]['changedText'] || $submitterTags[$i]['changedCategory']) {
-					$body .= "Your tag '{$submitterTags[$i]['original']['text']}' was approved with the following changes: \r\n";
+					$body .= "Your phrase '{$submitterTags[$i]['original']['text']}' was approved with the following changes: \r\n";
 					if ($submitterTags[$i]['changedText'])
-						$body .= "Your tag is now \"{$submitterTags[$i]['approved']->text}\". \r\n";
+						$body .= "Your phrase is now \"{$submitterTags[$i]['approved']->text}\". \r\n";
 					if ($submitterTags[$i]['changedCategory'])
-						$body .= "Your tag's category is now {$submitterTags[$i]['newCategoryName']}. \r\n";
+						$body .= "Your phrase's category is now {$submitterTags[$i]['newCategoryName']}. \r\n";
 				} else
-					$body .= "Your tag '{$submitterTags[$i]['original']['text']}' was approved. \r\n";
+					$body .= "Your phrase '{$submitterTags[$i]['original']['text']}' was approved. \r\n";
 			} else {
-				$body .= "Your tag '{$submitterTags[$i]['original']['text']}' was rejected for the following reason: \r\n";
+				$body .= "Your phrase '{$submitterTags[$i]['original']['text']}' was rejected for the following reason: \r\n";
 				$body .= $reason." \r\n";
 			}
 			$body .= "\r\n";
 		}
 		if ($approve > 0) {
-			$body .= "Your tag".(count($submitterTags) > 1? "s are": " is")." now being used in the game everywhere. \r\n";
+			$body .= "Your phrase".(count($submitterTags) > 1? "s are": " is")." now being used in the game everywhere. \r\n";
 		}
 		$body .= "Thank you! \r\n";
 		

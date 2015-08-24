@@ -15,10 +15,10 @@
 		exit;
 	}
 	
-	// Build a query to get the unapproved tags
+	// Build a query to get the unapproved phrases
 	$query = "SELECT unapproved_tag.id AS id, text, category.name AS category, category.id AS category_id, time_submitted, user.username AS submitter FROM unapproved_tag INNER JOIN category on category.id = unapproved_tag.category_id INNER JOIN user on user.id = unapproved_tag.submitter ORDER BY unapproved_tag.id";
 	
-	// Get unapproved tags from the database
+	// Get unapproved phrases from the database
 	$db = mysqlConnect();
 	$statement = $db->query($query);
 	$tags = array();
@@ -54,7 +54,7 @@
 </div>
 <table id="tagTable">
 	<tr>
-		<th></th><th>Tag</th><th>Category</th><th>Difficulty</th><th>Adult</th><th>Time submitted</th><th>Submitted by</th>
+		<th></th><th>Phrase</th><th>Category</th><th>Difficulty</th><th>Adult</th><th>Time submitted</th><th>Submitted by</th>
 	</tr>
 	<?php
 		for ($i = 0; $i < count($tags); $i++) {

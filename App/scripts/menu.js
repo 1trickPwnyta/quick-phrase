@@ -163,7 +163,7 @@ function showCategories() {
 }
 
 //
-// Shows the used tags window.
+// Shows the used phrases window.
 //
 function showUsedTags() {
 	var message = "";
@@ -175,7 +175,7 @@ function showUsedTags() {
 				break;
 			}
 		}
-		message += "<a class=\"flag-tag\" href=\"#\" onclick=\"showTagFlaggingDialog(" + JSON.stringify(usedTags[i]).replace(/\"/g, "&quot;") + "); return false;\"><img src=\"images/flag.png\" alt=\"Flag\" title=\"Report this tag\" /></a>";
+		message += "<a class=\"flag-tag\" href=\"#\" onclick=\"showTagFlaggingDialog(" + JSON.stringify(usedTags[i]).replace(/\"/g, "&quot;") + "); return false;\"><img src=\"images/flag.png\" alt=\"Flag\" title=\"Report this phrase\" /></a>";
 		message += htmlEncode(usedTags[i].text) + "<br /><span class=\"used-tag\">from <span class=\"tag-category\">" + category.name + "</span>" + (usedTags[i].authorName? "; submitted by <span class=\"tag-author\">" + usedTags[i].authorName + "</span>": "") + "</span>" + (i < usedTags.length - 1? "<hr />": "");
 	}
 
@@ -183,14 +183,14 @@ function showUsedTags() {
 		message,
 		null, 
 		usedTags.length > 7, 
-		"Tags used last round", 
+		"Phrases used last round", 
 		null, 
 		null, 
 		true);
 }
 
 //
-// Show the tag-flagging dialog.
+// Show the phrase-flagging dialog.
 //
 function showTagFlaggingDialog(tag) {
 	playSound(CLICK_SOUND_FILE);
@@ -231,13 +231,13 @@ function showTagFlaggingDialog(tag) {
 				if (success) {
 					dialog.showMessage("Thank you for your feedback.");
 				} else {
-					dialog.showMessage(APP_NAME + " couldn't report the tag. Check your Internet connection and try again.");
+					dialog.showMessage(APP_NAME + " couldn't report the phrase. Check your Internet connection and try again.");
 				}
 			});
 			
 			deleteTagFromLocalDatabase(tag.id);
 			
-			// Remove the tag from the line-up
+			// Remove the phrase from the line-up
 			for (var i = 0; i < tags.length; i++) {
 				if (tags[i].id == tag.id) {
 					tags.splice(i, 1);
@@ -257,7 +257,7 @@ function showTagFlaggingDialog(tag) {
 			
 			// Validate that a reason was selected
 			if (!reason) {
-				dialog.showMessage("Select a reason for reporting this tag.", null, function() {playSound(CLICK_SOUND_FILE);});
+				dialog.showMessage("Select a reason for reporting this phrase.", null, function() {playSound(CLICK_SOUND_FILE);});
 				return false;
 			}
 		}
@@ -280,7 +280,7 @@ function showAbout() {
 			"&copy; " + APP_COPYRIGHT_YEAR + " <a href=\"#\" onclick=\"submitUsageClick('/menu/about/author/webSite'); window.open('" + APP_AUTHOR_LINK + "', '_system'); return false;\">" + APP_AUTHOR + "</a><br />" + 
 			"Email: <a href=\"mailto:" + APP_AUTHOR_EMAIL + "\" onclick=\"submitUsageClick('/menu/about/author/email');\">" + APP_AUTHOR_EMAIL + "</a><br />" + 
 			"<br /><br />" + (stats? 
-			"New tags in " + APP_NAME + ": <br /><br />" + 
+			"New phrases in " + APP_NAME + ": <br /><br />" + 
 			(stats.today > 0? "Added today: <span class=\"stats stats-today\">" + stats.today + "</span><br />" : "") + 
 			(stats.this_week > 0? "In the last week: <span class=\"stats stats-this-week\">" + stats.this_week + "</span><br />" : "") + 
 			(stats.this_month > 0? "In the last 30 days: <span class=\"stats stats-this-month\">" + stats.this_month + "</span><br />" : "") + 
@@ -452,13 +452,13 @@ function changeMaximumTime(time, callback) {
 }
 
 //
-// Changes the difficulty user setting and reloads tags.
+// Changes the difficulty user setting and reloads phrases.
 //
 function changeDifficulty(difficulty, callback) {
 	// Change the setting
 	sDifficulty = difficulty;
 	
-	// Reload tags with new difficulty setting
+	// Reload phrases with new difficulty setting
 	showLoadingScreen();
 	loadTags(true, showReadyScreen);
 	
@@ -476,7 +476,7 @@ function changeDifficulty(difficulty, callback) {
 }
 
 //
-// Changes the categories user setting and reloads tags.
+// Changes the categories user setting and reloads phrases.
 //
 function changeCategories(categoryIds, callback) {
 	// Change the setting
@@ -488,7 +488,7 @@ function changeCategories(categoryIds, callback) {
 		// Just use the list of categories we calculated
 		sCategoryIds = categoryIds;
 	
-	// Reload new tags with the new categories
+	// Reload new phrases with the new categories
 	showLoadingScreen();
 	loadTags(true, showReadyScreen);
 	
@@ -506,13 +506,13 @@ function changeCategories(categoryIds, callback) {
 }
 
 //
-// Changes the max words user setting and reloads tags.
+// Changes the max words user setting and reloads phrases.
 //
 function changeMaxWords(words, callback) {
 	// Change the setting
 	sMaxWordsPerTag = words;
 	
-	// Load new tags with the max words
+	// Load new phrases with the max words
 	showLoadingScreen();
 	loadTags(true, showReadyScreen);
 	
@@ -530,13 +530,13 @@ function changeMaxWords(words, callback) {
 }
 
 //
-// Changes the max characters user setting and reloads tags.
+// Changes the max characters user setting and reloads phrases.
 //
 function changeMaxCharacters(characters, callback) {
 	// Change the setting
 	sMaxCharactersPerTag = characters;
 	
-	// Load new tags with the max characters
+	// Load new phrases with the max characters
 	showLoadingScreen();
 	loadTags(true, showReadyScreen);
 	
@@ -654,13 +654,13 @@ function changeShowAuthor(showAuthor, callback) {
 }
 
 //
-// Changes the edgy user setting and reloads tags.
+// Changes the edgy user setting and reloads phrases.
 //
 function changeEdgy(edgy, callback) {
 	// Change the setting
 	sEdgy = edgy
 	
-	// Load more tags with edginess changed
+	// Load more phrases with edginess changed
 	showLoadingScreen();
 	loadTags(true, showReadyScreen);
 	

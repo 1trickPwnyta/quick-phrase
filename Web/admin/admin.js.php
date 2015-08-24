@@ -22,7 +22,7 @@ function approve() {
 	}
 	
 	if (ids.length == 0) {
-		dialog.showMessage("Please select at least one tag to approve.");
+		dialog.showMessage("Please select at least one phrase to approve.");
 		return;
 	}
 	
@@ -36,7 +36,7 @@ function approve() {
 	}
 	
 	document.getElementById("waitingScreen").style.display = "block";
-	ajax("POST", "approveTags.php", [
+	ajax("POST", "approvePhrases.php", [
 					{name: "tags", value: JSON.stringify(tagsToApprove)}, 
 					{name: "approve", value: 1}
 	], function(response, status) {
@@ -66,7 +66,7 @@ function approve() {
 				dialog.showMessage(message);
 			}
 		} else {
-			dialog.showMessage("The tags could not be approved. HTTP status code " + status + ".");
+			dialog.showMessage("The phrases could not be approved. HTTP status code " + status + ".");
 		}
 		document.getElementById("waitingScreen").style.display = "none";
 	});
@@ -83,7 +83,7 @@ function reject() {
 	}
 	
 	if (ids.length == 0) {
-		dialog.showMessage("Please select at least one tag to reject.");
+		dialog.showMessage("Please select at least one phrase to reject.");
 		return;
 	}
 
@@ -99,7 +99,7 @@ function reject() {
 			}
 			
 			document.getElementById("waitingScreen").style.display = "block";
-			ajax("POST", "approveTags.php", [
+			ajax("POST", "approvePhrases.php", [
 							{name: "tags", value: JSON.stringify(tagsToReject)}, 
 							{name: "approve", value: 0},
 							{name: "reason", value: reason}
@@ -112,12 +112,12 @@ function reject() {
 						}
 					}
 				} else {
-					dialog.showMessage("The tags could not be rejected. HTTP status code " + status + ".");
+					dialog.showMessage("The phrases could not be rejected. HTTP status code " + status + ".");
 				}
 				document.getElementById("waitingScreen").style.display = "none";
 			});
 		}
-	}, "Please enter a reason for rejecting these tags.");
+	}, "Please enter a reason for rejecting these phrases.");
 }
 
 function getTagById(id, getDifficulty) {
@@ -204,7 +204,7 @@ function setEdgy(id) {
 	var edgyCell = document.getElementById("edgyCell" + id);
 	dialog.confirm(function(response) {
 		edgyCell.innerHTML = response.toString();
-	}, "Does this tag contain adult content?");
+	}, "Does this phrase contain adult content?");
 }
 
 function dismissAllFlaggedTags() {
@@ -217,7 +217,7 @@ function dismissAllFlaggedTags() {
 		tags.push(getTagById(id));
 	}
 	
-	ajax("POST", "dismissFlaggedTags.php", [
+	ajax("POST", "dismissFlaggedPhrases.php", [
 					{name: "tags", value: JSON.stringify(tags)}
 	], function(response, status) {
 		if (status == 200) {
@@ -226,7 +226,7 @@ function dismissAllFlaggedTags() {
 				i--;
 			}
 		} else {
-			dialog.showMessage("The tags could not be dismissed. HTTP status code " + status + ".");
+			dialog.showMessage("The phrases could not be dismissed. HTTP status code " + status + ".");
 		}
 		document.getElementById("waitingScreen").style.display = "none";
 	});
@@ -234,14 +234,14 @@ function dismissAllFlaggedTags() {
 
 function dismissFlaggedTag(id) {
 	document.getElementById("waitingScreen").style.display = "block";
-	ajax("POST", "dismissFlaggedTags.php", [
+	ajax("POST", "dismissFlaggedPhrases.php", [
 					{name: "tags", value: JSON.stringify([getTagById(id)])}
 	], function(response, status) {
 		if (status == 200) {
 			var row = document.getElementById("tagRow" + id);
 			row.parentNode.removeChild(row);
 		} else {
-			dialog.showMessage("The tag could not be dismissed. HTTP status code " + status + ".");
+			dialog.showMessage("The phrase could not be dismissed. HTTP status code " + status + ".");
 		}
 		document.getElementById("waitingScreen").style.display = "none";
 	});

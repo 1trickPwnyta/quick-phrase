@@ -1,12 +1,12 @@
 <?php
 
-$APPLICATION_ROOT_PATH = "/GrabTag/";
-$MYSQL_DATABASE_NAME = "grab_tag";
-$MYSQL_DATABASE_USERNAME = "grab_tag";
+$APPLICATION_ROOT_PATH = "/CatchPhrasePanic/";
+$MYSQL_DATABASE_NAME = "catch_phrase_pan";
+$MYSQL_DATABASE_USERNAME = "catch_phrase_pan";
 $MYSQL_DATABASE_PASSWORD = "";
-$APPLICATION_EMAIL_ADDRESS = "grabtag@example.com";
-$SUPPORT_EMAIL_ADDRESS = "grabtag@example.com";
-$SAML_SP_ID = "grab_tag";
+$APPLICATION_EMAIL_ADDRESS = "CatchPhrasePanic@example.com";
+$SUPPORT_EMAIL_ADDRESS = "CatchPhrasePanic@example.com";
+$SAML_SP_ID = "CatchPhrasePanic";
 $SIMPLESAML_AUTOLOAD_PATH = 'C:/Program Files (x86)/simplesamlphp/lib/_autoload.php';
 $SIMPLESAML_LOGOUT_URL_RELATIVE = "/simplesaml/module.php/core/as_logout.php";
 $SMTP_HOST = "ssl://smtp.gmail.com";

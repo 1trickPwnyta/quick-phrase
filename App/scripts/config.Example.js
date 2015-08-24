@@ -1,15 +1,15 @@
-var APP_GOOGLEPLAY_EDITION = true;					// Removes the option to allow adult-themed tags
+var APP_GOOGLEPLAY_EDITION = true;					// Removes the option to allow adult-only phrases
 var BEEP_INTERVAL = 500;							// Timer tick ms during final time stage of round
 var VIBRATION_DURATION = 100;						// ms duration of device vibration when vibration is on
 var DB_NAME = "grab_tag";							// Name of the SQLite database for local data
-var MAX_LOCAL_TAGS = 5000;							// Max number of tags to be kept in local database
+var MAX_LOCAL_TAGS = 5000;							// Max number of phrases to be kept in local database
 var WEB_SERVICE_URL = 								// Web service URL for remote data
-		"https://www.kangaroostandard.com/GrabTag";
+		"https://www.kangaroostandard.com/CatchPhrasePanic";
 var WEB_SERVICE_TIMEOUT = 10000;					// Web service calls time out after this many ms
-var TAG_LOAD_QUANTITY = 100;						// Number of tags requested in each web service call
-var TAG_RELOAD_QUANTITY = 50;						// Number of loaded tags left when more are needed
-var TAG_CREATION_URL = 								// URL for the Grab Tag Online link in the menu
-		"https://www.kangaroostandard.com/GrabTag/tagCreation/";
+var TAG_LOAD_QUANTITY = 100;						// Number of phrases requested in each web service call
+var TAG_RELOAD_QUANTITY = 50;						// Number of loaded phrases left when more are needed
+var TAG_CREATION_URL = 								// URL for the Catch-Phrase Panic Online link in the menu
+		"https://www.kangaroostandard.com/CatchPhrasePanic/tagCreation/";
 
 // Default settings
 var DEFAULT_MIN_TIME_PER_STAGE = 25000;

@@ -1,10 +1,10 @@
 //
-// Loads new tags from the web service.
+// Loads new phrases from the web service.
 //
 function loadTagsFromWebService(callback) {
-	// Call the web service for tags
-	ajax("GET", WEB_SERVICE_URL + "/getTags.php", [
-		{name: "numberOfTags", value: TAG_LOAD_QUANTITY},
+	// Call the web service for phrases
+	ajax("GET", WEB_SERVICE_URL + "/getPhrases.php", [
+		{name: "numberOfPhrases", value: TAG_LOAD_QUANTITY},
 		{name: "categoryIds", value: JSON.stringify(sCategoryIds)},
 		{name: "difficultyId", value: sDifficulty},
 		{name: "maxCharacters", value: sMaxCharactersPerTag},
@@ -15,19 +15,19 @@ function loadTagsFromWebService(callback) {
 		// Check if the web service returns a valid response
 		if (response) {
 			
-			// Get the new tags from the web service response, add them to the list
+			// Get the new phrases from the web service response, add them to the list
 			var newTags = JSON.parse(response);
 			for (var i = 0; i < newTags.length; i++)
 				tags.push(newTags[i]);
 			
-			// Check if there are any tags loaded now, otherwise return failure
+			// Check if there are any phrases loaded now, otherwise return failure
 			if (tags.length == 0) {
 				if (callback)
 					callback(false);
 				return;
 			}
 			
-			// Store the new tags in the local database
+			// Store the new phrases in the local database
 			saveTagsInLocalDatabase(newTags);
 			
 			// Return success
@@ -136,7 +136,7 @@ function loadCategoriesFromWebService(callback) {
 }
 
 //
-// Loads tag stats from the web service.
+// Loads new phrase stats from the web service.
 //
 function loadStatsFromWebService(callback) {
 	// Call the web service for stats
@@ -160,11 +160,11 @@ function loadStatsFromWebService(callback) {
 }
 
 //
-// Reports a tag to the admin for evaluation.
+// Reports a phrase to the admin for evaluation.
 //
 function flagTag(tag, reason, callback) {
-	// Call the web service to flag the tag
-	ajax("POST", WEB_SERVICE_URL + "/flagTag.php", [
+	// Call the web service to flag the phrase
+	ajax("POST", WEB_SERVICE_URL + "/flagPhrase.php", [
 		{name: "id", value: tag.id},
 		{name: "reason", value: reason}
 	], function(response, status) {

@@ -12,13 +12,13 @@ function newGame(start) {
 }
 
 //
-// Returns the next tag from the list of loaded tags, loads more if necessary
+// Returns the next phrase from the list of loaded phrases, loads more if necessary
 //
 function nextTag() {
-	// Pop the next tag from the loaded tag list
+	// Pop the next phrase from the loaded tag list
 	var nextTag = tags.pop();
 	
-	// Load more tags if we're running low
+	// Load more phrases if we're running low
 	if (tags.length <= TAG_RELOAD_QUANTITY && !loadingTags)
 		loadTags();
 		
@@ -124,22 +124,22 @@ function advanceTimeStage(stopped) {
 }
 
 //
-// Loads more tags, erasing any previously loaded unused tags if eraseOldTags is true
+// Loads more phrases, erasing any previously loaded unused phrases if eraseOldTags is true
 //
 function loadTags(eraseOldTags, callback) {
-	// Remember we are in the middle of loading more tags
+	// Remember we are in the middle of loading more phrases
 	loadingTags = true;
 	
-	// If erasing old tags, start with an empty array
+	// If erasing old phrases, start with an empty array
 	if (eraseOldTags)
 		tags = new Array();
 	
-	// Try to load more tags from the web service first
+	// Try to load more phrases from the web service first
 	loadTagsFromWebService(function(success) {
 		// If the web service call failed, try the local database
 		if (!success)
 			loadTagsFromLocalDatabase(function() {
-				// If no tags are loaded, that's an error
+				// If no phrases are loaded, that's an error
 				loadingTags = false;
 				if (tags.length == 0)
 					showLoadingError();
