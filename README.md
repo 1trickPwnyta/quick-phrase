@@ -101,3 +101,6 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 2. Add usage tables as defined in Usage Tracking wiki.
 3. Add DEFAULT_DEVELOPER_MODE to config.js in the app.
 4. Add DEFAULT_FRESH_INSTALL = true to config.js in the app.
+
+### Upgrading to Version 2.0.0 ###
+1. Change web service URL path to /CatchPhrasePanic instead of /GrabTag, but maintain a mapping from /GrabTag to /CatchPhrasePanic for backward compatibility.
