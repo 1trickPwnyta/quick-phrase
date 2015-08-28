@@ -56,6 +56,7 @@ var settingsCount = 17;								// Must be equal to the number of settings below
 // Global variables
 var tags = new Array();								// Holds the currently loaded phrases
 var usedTags = new Array();							// Holds the phrases that have been used in the current round
+var usedTagsOverall = new Array();					// Holds the phrases that have been used the whole time the app was open
 var loadingTags = false;							// Whether new phrases are currently loading
 var difficulties = [];								// Holds all possible difficulty settings
 var categories = [];								// Holds all possible categories

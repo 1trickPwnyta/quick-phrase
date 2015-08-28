@@ -155,6 +155,31 @@ function loadTags(eraseOldTags, callback) {
 }
 
 //
+// Process a load of phrases, removing any that have already been used.
+//
+function processPhraseLoad(phraseLoad) {
+	var phrasesRemoved = new Array();
+	
+	for (var i = 0; i < phraseLoad.length; i++) {
+		for (var j = 0; j < usedTagsOverall.length; j++) {
+			if (phraseLoad[i].text == usedTagsOverall[j].text) {
+				phrasesRemoved.push(phraseLoad[i]);
+				phraseLoad.splice(i--, 1);
+			}
+		}
+		
+		// If we removed half of the phrases that were loaded, forget about the used phrases and start over
+		if (phrasesRemoved.length >= TAG_LOAD_QUANTITY/2) {
+			usedTagsOverall = new Array();
+			for (var j = 0; j < phrasesRemoved.length; j++) {
+				phraseLoad.push(phrasesRemoved[j]);
+			}
+			break;
+		}
+	}
+}
+
+//
 // Loads all possible difficulty settings.
 //
 function loadDifficulties() {

@@ -17,6 +17,7 @@ function loadTagsFromWebService(callback) {
 			
 			// Get the new phrases from the web service response, add them to the list
 			var newTags = JSON.parse(response);
+			processPhraseLoad(newTags);
 			for (var i = 0; i < newTags.length; i++)
 				tags.push(newTags[i]);
 			

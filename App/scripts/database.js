@@ -28,11 +28,16 @@ function loadTagsFromLocalDatabase(callback) {
 			
 			tx.executeSql(query, [], function(tx, res) {
 				// Add the resulting phrases to the list
+				var newTags = new Array();
 				for (var i = 0; i < res.rows.length; i++) {
 					var tag = res.rows.item(i);
 					tag.text = tag.tag;
-					tags.push(tag);
+					newTags.push(tag);
 				}
+				
+				processPhraseLoad(newTags);
+				for (var i = 0; i < newTags.length; i++)
+					tags.push(newTags[i]);
 				
 				if (callback)
 					callback();
