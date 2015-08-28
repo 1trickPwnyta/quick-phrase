@@ -111,3 +111,4 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 6. Update applicationRoot.js in /Web with the new application root.
 7. Update config.js in the app with the new URL path.
 8. Add DEFAULT_DATA_VERSION = null in config.js.
+9. Remove DEFAULT_FRESH_INSTALL from config.js.
