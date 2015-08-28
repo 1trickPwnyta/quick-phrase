@@ -140,8 +140,10 @@ var dialog = {
     * prompt: question to ask of the user.
 	* closeFunction: an optional function to call when the user clicks on a button that closes the dialog 
 	* box. For example, to play a sound.
+	* yesButtonText: optional custom text for the yes button
+	* noButtonText: optional custom text for the no button
     */
-    confirm: function (returnFunction, prompt, closeFunction) {
+    confirm: function (returnFunction, prompt, closeFunction, yesButtonText, noButtonText) {
         // Create the dialog box
         var dialogBox = this.createDialogBox();
 
@@ -173,12 +175,18 @@ var dialog = {
         var yesButton = document.createElement("input");
         yesButton.type = "submit";
         yesButton.value = "Yes";
+        // Set the custom button text, if any
+        if (yesButtonText)
+        	yesButton.value = yesButtonText;
         buttonDiv.appendChild(yesButton);
 
         // Create the no button
         var noButton = document.createElement("input");
         noButton.type = "button";
         noButton.value = "No";
+        // Set the custom button text, if any
+        if (noButtonText)
+        	noButton.value = noButtonText;
         noButton.dialogBox = dialogBox;
         noButton.onclick = function () {
             // Pass false to the dialog box's close function

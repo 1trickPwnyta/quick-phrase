@@ -1,5 +1,5 @@
 // App information
-var APP_NAME = "Catch-Phrase Panic!";
+var APP_NAME = "Catch-Phrase Panic";
 var APP_VERSION = "1.2.0";
 var APP_AUTHOR = "Kangaroo Standard";
 var APP_AUTHOR_LINK = "https://www.kangaroostandard.com/";
@@ -68,6 +68,9 @@ var pointGiven = true;								// Whether a point has been given for the last rou
 var gameOver = true;								// Whether a game is not currently in progress
 var beepTimer = null;								// A window.setTimeout timer for the next timer tick
 var timeStageTimer = null;							// A window.setTimeout timer for advancing the time stage
+var timeStageStartTime = null;						// The time at which the last time staged began
+var timeStageLength = 0;							// The total length of the current time stage
+var timeStageTimeRemaining = 0;						// The number of milliseconds remaining in the current time stage when paused
 var db;												// A SQLite database object
 var settingsLoaded = 0;								// Number of settings loaded from the local database
 var settingsLoadWaitInterval = null;				// An interval timer that waits for all settings to load

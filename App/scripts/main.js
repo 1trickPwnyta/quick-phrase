@@ -101,11 +101,13 @@ function advanceTimeStage(stopped) {
 		}
 		
 	} else {
-		document.getElementById("menuButtonIcon").src = "images/stop.png";
+		document.getElementById("menuButtonIcon").src = "images/pause.png";
 		document.getElementById("usedTagsButton").style.display = "none";
 		
 		// Set a new timeout for advancing the time stage again
-		timeStageTimer = window.setTimeout(advanceTimeStage, sMinTimePerStage + Math.floor((Math.random() * (sMaxTimePerStage - sMinTimePerStage))));
+		timeStageStartTime = (new Date()).getTime();
+		timeStageLength = sMinTimePerStage + Math.floor((Math.random() * (sMaxTimePerStage - sMinTimePerStage)));
+		timeStageTimer = window.setTimeout(advanceTimeStage, timeStageLength);
 	}
 	
 	// If the round just started, perform the very first timer tick
@@ -120,6 +122,51 @@ function advanceTimeStage(stopped) {
 		
 		submitUsageClick("/round/start");
 		submitSettings();
+	}
+}
+
+//
+// Pauses the game.
+//
+function pause() {
+	submitUsageClick("/game/pause");
+	
+	// Find out how much time is remaining in the current time stage
+	timeStageTimeRemaining = timeStageLength - ((new Date()).getTime() - timeStageStartTime);
+	
+	// Stop the beep timer interval
+	if (beepTimer != null)
+		clearInterval(beepTimer);
+		
+	// Stop the time stage timer timeout
+	if (timeStageTimer != null)
+		clearTimeout(timeStageTimer);
+	
+	// Allow the device to sleep now that the game is paused
+	if (PHONEGAP) {
+		window.plugins.insomnia.allowSleepAgain();
+	}
+	
+	timeStage = TIME_STAGE_NOT_STARTED;
+}
+
+//
+// Unpauses the game.
+//
+function unpause() {
+	submitUsageClick("/game/resume");
+	
+	// Reset the timeout for advancing the time stage with the remaining time
+	timeStageTimer = window.setTimeout(advanceTimeStage, timeStageTimeRemaining);
+	
+	var currentTimeStage = timeStageAtLastBeep;
+	timeStageAtLastBeep = TIME_STAGE_NOT_STARTED;
+	timeStage = currentTimeStage;
+	beep();
+	
+	// Don't allow the device to sleep while the round is in progress
+	if (PHONEGAP) {
+		window.plugins.insomnia.keepAwake();
 	}
 }
 
@@ -329,6 +376,8 @@ function resetScores() {
 // Stops a round currently in progress.
 //
 function stopGame() {
+	submitUsageClick("/round/stop");
+	
 	// Cause the round to complete
 	timeStage = TIME_STAGE_FINAL;
 	advanceTimeStage(true);
