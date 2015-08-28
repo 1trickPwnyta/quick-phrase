@@ -1,5 +1,5 @@
 // App information
-var APP_NAME = "Catch-Phrase Panic";
+var APP_NAME = "Catch-Phrase Panic!";
 var APP_VERSION = "1.2.0";
 var APP_AUTHOR = "Kangaroo Standard";
 var APP_AUTHOR_LINK = "https://www.kangaroostandard.com/";
