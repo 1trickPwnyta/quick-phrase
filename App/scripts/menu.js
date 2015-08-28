@@ -698,16 +698,16 @@ function changeDeveloperMode(developerMode, callback) {
 }
 
 //
-// Changes the fresh install user setting.
+// Changes the data version user setting.
 //
-function changeFreshInstall(freshInstall, callback) {
+function changeDataVersion(dataVersion, callback) {
 	// Change the setting
-	sFreshInstall = freshInstall;
+	sDataVersion = dataVersion;
 	
 	if (PHONEGAP)
 		// Save the setting in the local database
 		db.transaction(function(tx) {
-			setSetting(tx, "sFreshInstall", JSON.stringify(sFreshInstall));
+			setSetting(tx, "sDataVersion", sDataVersion);
 			if (callback)
 				callback();
 		});

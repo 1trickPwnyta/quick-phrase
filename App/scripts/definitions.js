@@ -51,7 +51,7 @@ var settingsCount = 17;								// Must be equal to the number of settings below
 	var sShowCategory = DEFAULT_SHOW_CATEGORY;		// Whether to show phrase categories in-game
 	var sShowAuthor = DEFAULT_SHOW_AUTHOR;			// Whether to show phrase submitters in-game
 	var sDeveloperMode = DEFAULT_DEVELOPER_MODE;	// Whether to enable developer mode (no usage reporting)
-	var sFreshInstall = DEFAULT_FRESH_INSTALL;		// Whether the app is freshly installed
+	var sDataVersion = DEFAULT_DATA_VERSION;		// The app version of the stored data (if any)
 
 // Global variables
 var tags = new Array();								// Holds the currently loaded phrases

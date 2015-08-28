@@ -13,7 +13,7 @@
 		echo 0;
 		exit;
 	}
-	if (preg_match("/[^\\/\\w\\d]/", $location)) {
+	if (preg_match("/[^\\/\\w\\d\\.]/", $location)) {
 		http_response_code(400);
 		echo 0;
 		exit;
