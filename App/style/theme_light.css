@@ -4,7 +4,6 @@
 
 header {
 	background-color: #474747;
-	box-shadow: 0px 2px 2px #B2B2B2;
 }
 
 #tag {
@@ -12,15 +11,10 @@ header {
 	color: black;
 }
 
-.enabledNextButton {
-	box-shadow: 2px 2px 2px #B2B2B2;
-}
-
-.disabledNextButton {
-	box-shadow: 2px 2px 2px #B2B2B2;
-}
-
 .teamScore {
 	background-color: #474747;
-	box-shadow: 2px 2px 2px #B2B2B2;
+}
+
+#tag-metadata {
+	color: black;
 }
