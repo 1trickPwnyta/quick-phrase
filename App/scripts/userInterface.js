@@ -139,9 +139,9 @@ function scoreButtonLongClick(button) {
 		
 		// Evaluate input
 		response = htmlEncode(response);
-		if (response.length > 64) {
-			dialog.showMessage("No more than 64 characters are allowed.");
-			response = response.substring(0, 64);
+		if (response.length > MAX_TEAM_NAME_CHARACTERS) {
+			dialog.showMessage("No more than " + MAX_TEAM_NAME_CHARACTERS + " characters are allowed.");
+			response = response.substring(0, MAX_TEAM_NAME_CHARACTERS);
 		}
 		changeTeamName(button.team, response, loadScores);
 		
@@ -348,8 +348,8 @@ function menuItemMaxCharactersClick() {
 		if (response || response === 0) {
 			// Validate input
 			response = parseInt(response);
-			if (response != 0 && response < 6) {
-				dialog.showMessage("Use at least six characters.");
+			if (response != 0 && response < MIN_MAX_CHARACTERS) {
+				dialog.showMessage("Use at least " + MIN_MAX_CHARACTERS + " characters.");
 				return false;
 			}
 		}
@@ -362,7 +362,7 @@ function menuItemMaxCharactersClick() {
 //
 function menuItemMaxCharactersIncrease() {
 	if (sMaxCharactersPerTag == 0) {
-		changeMaxCharacters(6, showMenu);
+		changeMaxCharacters(MIN_MAX_CHARACTERS, showMenu);
 	} else {
 		changeMaxCharacters(sMaxCharactersPerTag + 1, showMenu);
 	}
@@ -372,7 +372,7 @@ function menuItemMaxCharactersIncrease() {
 // Max characters menu item decrease event.
 //
 function menuItemMaxCharactersDecrease() {
-	if (sMaxCharactersPerTag <= 6) {
+	if (sMaxCharactersPerTag <= MIN_MAX_CHARACTERS) {
 		changeMaxCharacters(0, showMenu);
 	} else {
 		changeMaxCharacters(sMaxCharactersPerTag - 1, showMenu);
@@ -451,16 +451,16 @@ function menuItemWinningPointClick() {
 					if (response > 0)
 						dialog.showMessage("Someone already has that many points. At least one more point is required.");
 					else
-						dialog.showMessage("At least one point must be required.");
+						dialog.showMessage("At least " + MIN_WINNING_POINT + " point" + (MIN_WINNING_POINT > 1? "s": "") + " must be required.");
 					return false;
 				}
 			} else {
-				if (response < 1) {
-					dialog.showMessage("At least one point must be required.");
+				if (response < MIN_WINNING_POINT) {
+					dialog.showMessage("At least " + MIN_WINNING_POINT + " point" + (MIN_WINNING_POINT > 1? "s": "") + " must be required.");
 					return false;
 				}
-				if (response > 99) {
-					dialog.showMessage("No more than 99 points are allowed.");
+				if (response > MAX_WINNING_POINT) {
+					dialog.showMessage("No more than " + MAX_WINNING_POINT + " points are allowed.");
 					return false;
 				}
 			}
@@ -504,11 +504,11 @@ function menuItemNumberOfTeamsClick() {
 				if (response || response === 0) {
 					// Validate input
 					response = parseInt(response);
-					if (response < 2) {
-						dialog.showMessage("At least two teams are required.");
+					if (response < MIN_NUMBER_OF_TEAMS) {
+						dialog.showMessage("At least " + MIN_NUMBER_OF_TEAMS + " team" + (MIN_NUMBER_OF_TEAMS > 1? "s": "") + " are required.");
 						return false;
-					} else if (response > 8) {
-						dialog.showMessage("No more than eight teams are allowed.");
+					} else if (response > MAX_NUMBER_OF_TEAMS) {
+						dialog.showMessage("No more than " + MAX_NUMBER_OF_TEAMS + " teams are allowed.");
 						return false;
 					}
 				}
@@ -560,8 +560,8 @@ function menuItemMinimumTimeClick() {
 			response = parseInt(response);
 			// Convert to ms and divide by 3 to calculate the round time
 			response = Math.round(response*1000/3);
-			if (response < 20000) {
-				dialog.showMessage("At least 60 seconds are required.");
+			if (response < Math.round(MIN_ROUND_SECONDS*1000/3)) {
+				dialog.showMessage("At least " + MIN_ROUND_SECONDS + " seconds are required.");
 				return false;
 			}
 		}
@@ -604,8 +604,8 @@ function menuItemMaximumTimeClick() {
 			response = parseInt(response);
 			// Convert to ms and divide by 3 to calculate round time
 			response = Math.round(response*1000/3);
-			if (response < 20000) {
-				dialog.showMessage("At least 60 seconds are required.");
+			if (response < Math.round(MIN_ROUND_SECONDS*1000/3)) {
+				dialog.showMessage("At least " + MIN_ROUND_SECONDS + " seconds are required.");
 				return false;
 			}
 		}

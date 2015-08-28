@@ -10,6 +10,13 @@ var TAG_LOAD_QUANTITY = 100;						// Number of phrases requested in each web ser
 var TAG_RELOAD_QUANTITY = 50;						// Number of loaded phrases left when more are needed
 var TAG_CREATION_URL = 								// URL for the Catch-Phrase Panic Online link in the menu
 		"https://www.kangaroostandard.com/CatchPhrasePanic/tagCreation/";
+var MAX_TEAM_NAME_CHARACTERS = 64;					// Maximum number of characters allowed in team names
+var MIN_MAX_CHARACTERS = 6;							// Minimum setting for the maximum characters per phrase
+var MIN_WINNING_POINT = 1;							// Minimum number of points for winning the game
+var MAX_WINNING_POINT = 99;							// Maximum number of points required to win the game
+var MIN_NUMBER_OF_TEAMS = 2;						// Minimum number of teams required to play the game
+var MAX_NUMBER_OF_TEAMS = 8;						// Maximum number of teams allowed to play the game
+var MIN_ROUND_SECONDS = 60;							// Minimum number of seconds a round must last
 
 // Default settings
 var DEFAULT_MIN_TIME_PER_STAGE = 25000;
