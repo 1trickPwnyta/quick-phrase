@@ -24,6 +24,16 @@ function showMenu() {
 		document.getElementById("menuItemEdgyCheckBox").checked = sEdgy;
 	}
 	
+	// Update the status of increase/decrease buttons
+	document.getElementById("menuItemMaxWordsDecrease").disabled = sMaxWordsPerTag <= 0;
+	document.getElementById("menuItemMaxCharactersDecrease").disabled = sMaxCharactersPerTag <= 0;
+	document.getElementById("menuItemWinningPointIncrease").disabled = sWinningPoint >= 99;
+	document.getElementById("menuItemWinningPointDecrease").disabled = sWinningPoint <= 1;
+	document.getElementById("menuItemNumberOfTeamsIncrease").disabled = sNumberOfTeams >= 8;
+	document.getElementById("menuItemNumberOfTeamsDecrease").disabled = sNumberOfTeams <= 2;
+	document.getElementById("menuItemMinimumTimeDecrease").disabled = sMinTimePerStage <= 20000;
+	document.getElementById("menuItemMaximumTimeDecrease").disabled = sMaxTimePerStage <= 20000;
+	
 	// Also update the scores displayed in the menu
 	var scoreSettingsDiv = document.getElementById("scoreSettings");
 	

@@ -237,6 +237,32 @@ header a {
 	background-color: #979797;
 }
 
+.menuItemIncrease, .menuItemDecrease {
+	float: right;
+	margin-right: 4%;
+	border: 0px;
+	outline: none;
+	background: none;
+	width: 32px;
+	height: 32px;
+}
+
+.menuItemIncrease {
+	background: url('../images/increase.png');
+}
+
+.menuItemIncrease:disabled {
+	background: url('../images/increase-disabled.png');
+}
+
+.menuItemDecrease {
+	background: url('../images/decrease.png');
+}
+
+.menuItemDecrease:disabled {
+	background: url('../images/decrease-disabled.png');
+}
+
 .visible {
 	visibility: visible;
 	opacity: 1;

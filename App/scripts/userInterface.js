@@ -317,6 +317,20 @@ function menuItemMaxWordsClick() {
 }
 
 //
+// Max words menu item increase event.
+//
+function menuItemMaxWordsIncrease() {
+	changeMaxWords(sMaxWordsPerTag + 1, showMenu);
+}
+
+//
+// Max words menu item decrease event.
+//
+function menuItemMaxWordsDecrease() {
+	changeMaxWords(sMaxWordsPerTag - 1, showMenu);
+}
+
+//
 // Max characters menu item click event.
 //
 function menuItemMaxCharactersClick() {
@@ -341,6 +355,28 @@ function menuItemMaxCharactersClick() {
 		}
 		
 	});
+}
+
+//
+// Max characters menu item increase event.
+//
+function menuItemMaxCharactersIncrease() {
+	if (sMaxCharactersPerTag == 0) {
+		changeMaxCharacters(6, showMenu);
+	} else {
+		changeMaxCharacters(sMaxCharactersPerTag + 1, showMenu);
+	}
+}
+
+//
+// Max characters menu item decrease event.
+//
+function menuItemMaxCharactersDecrease() {
+	if (sMaxCharactersPerTag <= 6) {
+		changeMaxCharacters(0, showMenu);
+	} else {
+		changeMaxCharacters(sMaxCharactersPerTag - 1, showMenu);
+	}
 }
 
 //
@@ -433,6 +469,20 @@ function menuItemWinningPointClick() {
 }
 
 //
+// Winning point menu item increase event.
+//
+function menuItemWinningPointIncrease() {
+	changeWinningPoint(sWinningPoint + 1, showMenu);
+}
+
+//
+//Winning point menu item increase event.
+//
+function menuItemWinningPointDecrease() {
+	changeWinningPoint(sWinningPoint - 1, showMenu);
+}
+
+//
 // Number of teams menu item click event.
 //
 function menuItemNumberOfTeamsClick() {
@@ -475,6 +525,20 @@ function menuItemNumberOfTeamsClick() {
 }
 
 //
+// Number of teams menu item increase event.
+//
+function menuItemNumberOfTeamsIncrease() {
+	changeNumberOfTeams(sNumberOfTeams + 1, showMenu);
+}
+
+//
+// Number of teams menu item decrease event.
+//
+function menuItemNumberOfTeamsDecrease() {
+	changeNumberOfTeams(sNumberOfTeams - 1, showMenu);
+}
+
+//
 // Minimum time menu item click event.
 //
 function menuItemMinimumTimeClick() {
@@ -505,6 +569,20 @@ function menuItemMinimumTimeClick() {
 }
 
 //
+// Minimum time menu item increase event.
+//
+function menuItemMinimumTimeIncrease() {
+	changeMinimumTime(Math.round((Math.round(sMinTimePerStage*3/1000) + 1)*1000/3), showMenu);
+}
+
+//
+// Minimum time menu item decrease event.
+//
+function menuItemMinimumTimeDecrease() {
+	changeMinimumTime(Math.round((Math.round(sMinTimePerStage*3/1000) - 1)*1000/3), showMenu);
+}
+
+//
 // Maximum time menu item click event.
 //
 function menuItemMaximumTimeClick() {
@@ -532,6 +610,20 @@ function menuItemMaximumTimeClick() {
 			}
 		}
 	});
+}
+
+//
+// Maximum time menu item increase event.
+//
+function menuItemMaximumTimeIncrease() {
+	changeMaximumTime(Math.round((Math.round(sMaxTimePerStage*3/1000) + 1)*1000/3), showMenu);
+}
+
+//
+// Maximum time menu item decrease event.
+//
+function menuItemMaximumTimeDecrease() {
+	changeMaximumTime(Math.round((Math.round(sMaxTimePerStage*3/1000) - 1)*1000/3), showMenu);
 }
 
 //
