@@ -161,13 +161,6 @@ function processPhraseLoad(phraseLoad) {
 	var phrasesRemoved = new Array();
 	
 	for (var i = 0; i < phraseLoad.length; i++) {
-		for (var j = 0; j < usedTagsOverall.length; j++) {
-			if (phraseLoad[i].text == usedTagsOverall[j].text) {
-				phrasesRemoved.push(phraseLoad[i]);
-				phraseLoad.splice(i--, 1);
-			}
-		}
-		
 		// If we removed half of the phrases that were loaded, forget about the used phrases and start over
 		if (phrasesRemoved.length >= TAG_LOAD_QUANTITY/2) {
 			usedTagsOverall = new Array();
@@ -175,6 +168,25 @@ function processPhraseLoad(phraseLoad) {
 				phraseLoad.push(phrasesRemoved[j]);
 			}
 			break;
+		}
+		
+		var removed = false;
+		for (var j = 0; j < usedTagsOverall.length; j++) {
+			if (phraseLoad[i].text == usedTagsOverall[j].text) {
+				phrasesRemoved.push(phraseLoad[i]);
+				phraseLoad.splice(i--, 1);
+				removed = true;
+				break;
+			}
+		}
+		if (removed) {
+			continue;
+		}
+		for (var j = 0; j < tags.length; j++) {
+			if (phraseLoad[i].text == tags[j].text) {
+				phraseLoad.splice(i--, 1);
+				break;
+			}
 		}
 	}
 }
