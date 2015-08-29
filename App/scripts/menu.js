@@ -275,6 +275,38 @@ function showTagFlaggingDialog(tag) {
 }
 
 //
+// Shows the prompt for rating the app.
+//
+function showRatingPrompt() {
+	submitUsageClick("/rating");
+	dialog.buttons(
+		function(response) {
+			if (response == "Rate this app") {
+				submitUsageClick("/rating/rate");
+				changePromptForRating(false);
+				if (PHONEGAP) {
+					navigateAway(APP_RATING_URL_MARKET);
+				} else {
+					navigateAway(APP_RATING_URL_HTTP);
+				}
+			} else if (response == "Remind me later" || !response) {
+				submitUsageClick("/rating/later");
+			} else if (response == "No thanks") {
+				submitUsageClick("/rating/no");
+				changePromptForRating(false);
+			}
+		},
+		"Having fun? Tell us what you think!",
+		function() {playSound(CLICK_SOUND_FILE);},
+		[
+		    "Rate this app",
+		    "Remind me later",
+		    "No thanks"
+		]
+	);
+}
+
+//
 // Shows the help window.
 //
 function showHelp() {

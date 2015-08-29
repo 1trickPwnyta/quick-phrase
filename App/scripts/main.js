@@ -327,13 +327,22 @@ function loadScores() {
 // Ends the game in victory for the selected team.
 //
 function teamWin(teamId) {
+	lockUi();
+	
 	submitUsageClick("/game/complete");
-	gamesSinceStart++;
 	changeGamesSinceRatingPrompt(sGamesSinceRatingPrompt + 1);
 	setTag(sTeamNames[teamId] + " wins!");
 	gameOver = true;
 	playSound(WIN_SOUND_FILE);
 	showConfetti();
+	
+	window.setTimeout(function() {
+		if (sGamesSinceRatingPrompt >= GAMES_UNTIL_RATING_PROMPT) {
+			changeGamesSinceRatingPrompt(0);
+			showRatingPrompt();
+		}
+		unlockUi();
+	}, 2500);
 }
 
 //

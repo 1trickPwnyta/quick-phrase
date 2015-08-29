@@ -87,4 +87,3 @@ var medias = {};									// Holds loaded sound objects
 var medias2 = {};									// Holds duplicate sound objects
 var mediasAlternator = false;						// Determines which sound store to play from
 var pressTimer;										// A window.setTimeout timer for detecting long taps
-var gamesSinceStart = 0;							// Number of games completed since the app was started

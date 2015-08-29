@@ -21,6 +21,7 @@ var APP_RATING_URL_HTTP = 							// URL of the app's rating page using HTTP
 		"https://play.google.com/store/apps/details?id=com.kangaroostandard.grabtag";
 var APP_RATING_URL_MARKET = 						// URL of the app's rating page using the market protocol
 		"market://details?id=com.kangaroostandard.grabtag";
+var GAMES_UNTIL_RATING_PROMPT = 10;					// Number of games played before the rating prompt appears
 
 // Default settings
 var DEFAULT_MIN_TIME_PER_STAGE = 25000;
