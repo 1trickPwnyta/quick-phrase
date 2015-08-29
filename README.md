@@ -119,3 +119,5 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 14. Add MIN_NUMBER_OF_TEAMS = 2 to config.js.
 15. Add MAX_NUMBER_OF_TEAMS = 8 to config.js.
 16. Add MIN_ROUND_SECONDS = 60 to config.js.
+17. Add APP_RATING_URL_HTTP to config.js.
+18. Add APP_RATING_URL_MARKET to config.js.
