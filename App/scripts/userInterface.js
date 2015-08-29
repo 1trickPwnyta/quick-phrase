@@ -236,7 +236,7 @@ function menuButtonClick() {
 		dialog.buttons(function(response) {
 			if (response == "Stop the game") {
 				stopGame();
-			} else if (response == "Resume"){
+			} else if (response == "Resume" || !response){
 				unpause();
 			}
 		}, "Game paused.", function() {playSound(CLICK_SOUND_FILE);}, ["Resume", "Stop the game"]);

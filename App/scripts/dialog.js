@@ -9,13 +9,17 @@ var CLOSE_BUTTON_CLASS_NAME = "dialog-close-button";            // The CSS class
 var DEFAULT_FORM_SUBMIT_BUTTON = "Submit";                      // The default text for the form submit button, if any
 var FADE_DURATION = 200;										// CSS transition milliseconds for fading a menu out
 
+var dialogFocusDummy = document.createElement("a");
+dialogFocusDummy.href = "#";
+dialogFocusDummy.onclick = function() {return false;};
+
 var dialog = {
 
     /**
     * Creates a generic dialog box. Can be customized however. Returns the dialog 
     * box element.
     */
-    createDialogBox: function () {
+    createDialogBox: function (suppressFocus) {
         // Create the top element
 		var dialogTop = document.createElement("div");
 		dialogTop.className = TOP_CLASS_NAME;
@@ -71,17 +75,23 @@ var dialog = {
 			dialogBox.className = DIALOG_BOX_CLASS_NAME + " " + VISIBLE_CLASS_NAME;
 			
 			// Select the first input field, if any
-			var forms = dialogBox.getElementsByTagName("form");
-			if (forms.length > 0) {
-				var form = forms[0];
-				for (var i = 0; i < form.length; i++)
-					if (form[i] && form[i].type != "hidden") {
-						if (form[i].type != "submit" && form[i].select)
-							form[i].select();
-						else if (form[i].focus)
-							form[i].focus();
-						break;
-					}
+			if (!dialogFocusDummy.parentNode) {
+				document.body.appendChild(dialogFocusDummy);
+			}
+			dialogFocusDummy.focus();
+			if (!suppressFocus) {
+				var forms = dialogBox.getElementsByTagName("form");
+				if (forms.length > 0) {
+					var form = forms[0];
+					for (var i = 0; i < form.length; i++)
+						if (form[i] && form[i].type != "hidden") {
+							if (form[i].type != "submit" && form[i].type != "button" && form[i].select)
+								form[i].select();
+							else if (form[i].focus)
+								form[i].focus();
+							break;
+						}
+				}
 			}
 		}, 1);
 
@@ -355,7 +365,7 @@ var dialog = {
     */
     buttons: function (returnFunction, prompt, closeFunction, buttonText) {
     	// Create the dialog box
-    	var dialogBox = this.createDialogBox();
+    	var dialogBox = this.createDialogBox(true);
 	
     	// Set the dialog box's return function
     	dialogBox.returnFunction = returnFunction;
@@ -372,7 +382,7 @@ var dialog = {
     	var inputForm = document.createElement("form");
     	inputForm.action = "#";
     	inputForm.dialogBox = dialogBox;
-
+    	
     	// Create the button div
     	var buttonDiv = document.createElement("div");
     	buttonDiv.className = BUTTON_DIV_CLASS_NAME;
@@ -409,7 +419,7 @@ var dialog = {
     */
     custom: function (form, returnFunction, prompt, buttonText, hideCancel, closeFunction) {
         // Create the dialog box
-        var dialogBox = this.createDialogBox();
+        var dialogBox = this.createDialogBox(true);
 
         // Set the dialog box's return function
         dialogBox.returnFunction = returnFunction;
