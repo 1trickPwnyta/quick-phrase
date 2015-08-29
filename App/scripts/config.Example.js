@@ -17,6 +17,10 @@ var MAX_WINNING_POINT = 99;							// Maximum number of points required to win th
 var MIN_NUMBER_OF_TEAMS = 2;						// Minimum number of teams required to play the game
 var MAX_NUMBER_OF_TEAMS = 8;						// Maximum number of teams allowed to play the game
 var MIN_ROUND_SECONDS = 60;							// Minimum number of seconds a round must last
+var APP_RATING_URL_HTTP = 							// URL of the app's rating page using HTTP
+		"https://play.google.com/store/apps/details?id=com.kangaroostandard.grabtag";
+var APP_RATING_URL_MARKET = 						// URL of the app's rating page using the market protocol
+		"market://details?id=com.kangaroostandard.grabtag";
 
 // Default settings
 var DEFAULT_MIN_TIME_PER_STAGE = 25000;
