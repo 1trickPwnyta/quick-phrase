@@ -221,6 +221,10 @@ function loadSettings(callback) {
 				sDataVersion = value;
 				settingsLoaded++;
 			});
+			getSetting(tx, "sPromptForRating", JSON.stringify(sPromptForRating), function(value) {
+				sPromptForRating = JSON.parse(value);
+				settingsLoaded++;
+			});
 			getSetting(tx, "sTeamNames", JSON.stringify(sTeamNames), function(value) {
 				sTeamNames = JSON.parse(value);
 				settingsLoaded++;

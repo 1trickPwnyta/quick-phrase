@@ -34,7 +34,7 @@ var TAG_FLAGGING_REASONS = [						// Possible reasons for flagging a phrase
 ];
 
 // User Settings
-var settingsCount = 17;								// Must be equal to the number of settings below
+var settingsCount = 18;								// Must be equal to the number of settings below
 	var sMinTimePerStage = DEFAULT_MIN_TIME_PER_STAGE;	// Minimum ms for each time stage
 	var sMaxTimePerStage = DEFAULT_MAX_TIME_PER_STAGE;	// Maximum ms for each time stage
 	var sNumberOfTeams = DEFAULT_NUMBER_OF_TEAMS;	// Number of teams playing the game
@@ -52,6 +52,7 @@ var settingsCount = 17;								// Must be equal to the number of settings below
 	var sShowAuthor = DEFAULT_SHOW_AUTHOR;			// Whether to show phrase submitters in-game
 	var sDeveloperMode = DEFAULT_DEVELOPER_MODE;	// Whether to enable developer mode (no usage reporting)
 	var sDataVersion = DEFAULT_DATA_VERSION;		// The app version of the stored data (if any)
+	var sPromptForRating = DEFAULT_PROMPT_FOR_RATING;	// Whether to prompt the user to rate the app
 
 // Global variables
 var tags = new Array();								// Holds the currently loaded phrases

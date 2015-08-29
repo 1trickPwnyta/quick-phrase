@@ -728,6 +728,26 @@ function changeDataVersion(dataVersion, callback) {
 }
 
 //
+// Changes the prompt for rating user setting.
+//
+function changePromptForRating(promptForRating, callback) {
+	// Change the setting
+	sPromptForRating = promptForRating;
+	
+	if (PHONEGAP)
+		// Save the setting in the local database
+		db.transaction(function(tx) {
+			setSetting(tx, "sPromptForRating", sPromptForRating);
+			if (callback)
+				callback();
+		});
+	else {
+		if (callback)
+			callback();
+	}
+}
+
+//
 // Changes the name of a team.
 //
 function changeTeamName(teamId, newName, callback) {
