@@ -343,6 +343,58 @@ var dialog = {
         // Add the form to the dialog box
         dialogBox.appendChild(inputForm);
     },
+    
+   /**
+    * Shows a dialog box with a number of buttons for the user to click.
+    * returnFunction: a function to call when the user finishes with the dialog. The parameter passed 
+    * to this function will be the text on the button they clicked, or false if the user cancelled.
+    * prompt: optional prompt to display to the user.
+ 	* closeFunction: an optional function to call when the user clicks on a button that closes the dialog 
+ 	* box. For example, to play a sound.
+ 	* buttonText: an array of strings that define the text on the buttons
+    */
+    buttons: function (returnFunction, prompt, closeFunction, buttonText) {
+    	// Create the dialog box
+    	var dialogBox = this.createDialogBox();
+	
+    	// Set the dialog box's return function
+    	dialogBox.returnFunction = returnFunction;
+    	dialogBox.closeFunction = closeFunction;
+
+    	// Set the prompt, if any
+    	if (prompt) {
+    		var promptSpan = document.createElement("span");
+    		promptSpan.innerHTML = prompt;
+    		dialogBox.appendChild(promptSpan);
+    	}
+
+    	// Create the form
+    	var inputForm = document.createElement("form");
+    	inputForm.action = "#";
+    	inputForm.dialogBox = dialogBox;
+
+    	// Create the button div
+    	var buttonDiv = document.createElement("div");
+    	buttonDiv.className = BUTTON_DIV_CLASS_NAME;
+    	inputForm.appendChild(buttonDiv);
+
+    	// Create the buttons
+    	for (var i = 0; i < buttonText.length; i++) {
+	    	var button = document.createElement("input");
+	    	button.type = "button";
+	    	button.value = buttonText[i];
+	    	button.dialogBox = dialogBox;
+	    	button.onclick = function () {
+	    		// Pass the button's text to the dialog box's close function
+	    		this.dialogBox.close(buttonText[i]);
+	    	};
+	    	buttonDiv.appendChild(button);
+	    	buttonDiv.appendChild(document.createElement("br"));
+    	}
+
+    	// Add the form to the dialog box
+    	dialogBox.appendChild(inputForm);
+ },
 
     /**
     * Shows a dialog box with a custom form for entering input.
