@@ -121,3 +121,4 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 16. Add MIN_ROUND_SECONDS = 60 to config.js.
 17. Add APP_RATING_URL_HTTP to config.js.
 18. Add APP_RATING_URL_MARKET to config.js.
+19. Add DEFAULT_PROMPT_FOR_RATING = true to config.js.
