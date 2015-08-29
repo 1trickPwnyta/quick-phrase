@@ -122,3 +122,4 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 17. Add APP_RATING_URL_HTTP to config.js.
 18. Add APP_RATING_URL_MARKET to config.js.
 19. Add DEFAULT_PROMPT_FOR_RATING = true to config.js.
+20. Add DEFAULT_GAMES_SINCE_RATING_PROMPT = 0 to config.js.
