@@ -328,6 +328,8 @@ function loadScores() {
 //
 function teamWin(teamId) {
 	submitUsageClick("/game/complete");
+	gamesSinceStart++;
+	changeGamesSinceRatingPrompt(sGamesSinceRatingPrompt + 1);
 	setTag(sTeamNames[teamId] + " wins!");
 	gameOver = true;
 	playSound(WIN_SOUND_FILE);
