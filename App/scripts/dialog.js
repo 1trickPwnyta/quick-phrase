@@ -386,7 +386,7 @@ var dialog = {
 	    	button.dialogBox = dialogBox;
 	    	button.onclick = function () {
 	    		// Pass the button's text to the dialog box's close function
-	    		this.dialogBox.close(buttonText[i]);
+	    		this.dialogBox.close(this.value);
 	    	};
 	    	buttonDiv.appendChild(button);
 	    	buttonDiv.appendChild(document.createElement("br"));
