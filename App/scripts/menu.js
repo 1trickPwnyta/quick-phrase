@@ -748,6 +748,26 @@ function changePromptForRating(promptForRating, callback) {
 }
 
 //
+// Changes the games since rating prompt user setting.
+//
+function changeGamesSinceRatingPrompt(gamesSinceRatingPrompt, callback) {
+	// Change the setting
+	sGamesSinceRatingPrompt = gamesSinceRatingPrompt;
+	
+	if (PHONEGAP)
+		// Save the setting in the local database
+		db.transaction(function(tx) {
+			setSetting(tx, "sGamesSinceRatingPrompt", sGamesSinceRatingPrompt);
+			if (callback)
+				callback();
+		});
+	else {
+		if (callback)
+			callback();
+	}
+}
+
+//
 // Changes the name of a team.
 //
 function changeTeamName(teamId, newName, callback) {

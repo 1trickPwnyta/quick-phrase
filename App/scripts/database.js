@@ -225,6 +225,10 @@ function loadSettings(callback) {
 				sPromptForRating = JSON.parse(value);
 				settingsLoaded++;
 			});
+			getSetting(tx, "sGamesSinceRatingPrompt", sGamesSinceRatingPrompt, function(value) {
+				sGamesSinceRatingPrompt = parseInt(value);
+				settingsLoaded++;
+			});
 			getSetting(tx, "sTeamNames", JSON.stringify(sTeamNames), function(value) {
 				sTeamNames = JSON.parse(value);
 				settingsLoaded++;
