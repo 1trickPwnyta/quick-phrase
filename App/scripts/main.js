@@ -337,7 +337,7 @@ function teamWin(teamId) {
 	showConfetti();
 	
 	window.setTimeout(function() {
-		if (sGamesSinceRatingPrompt >= GAMES_UNTIL_RATING_PROMPT) {
+		if (sGamesSinceRatingPrompt >= GAMES_UNTIL_RATING_PROMPT && sPromptForRating) {
 			changeGamesSinceRatingPrompt(0);
 			showRatingPrompt();
 		}
