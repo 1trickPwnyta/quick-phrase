@@ -233,13 +233,13 @@ function menuButtonClick() {
 	// If a round is in progress, this button's function is to pause the game
 	if (timeStage != TIME_STAGE_NOT_STARTED) {
 		pause();
-		dialog.confirm(function(response) {
-			if (response) {
+		dialog.buttons(function(response) {
+			if (response == "Stop the game") {
 				stopGame();
-			} else {
+			} else if (response == "Resume"){
 				unpause();
 			}
-		}, "Game paused.", function() {playSound(CLICK_SOUND_FILE);}, "Stop", "Resume");
+		}, "Game paused.", function() {playSound(CLICK_SOUND_FILE);}, ["Resume", "Stop the game"]);
 	} else {
 		submitUsageClick("/menu");
 		showMenu();
