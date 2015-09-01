@@ -98,7 +98,7 @@ function loadDifficultiesFromLocalDatabase(callback) {
 		// Load difficulties from the local database
 		difficulties = new Array("");	// First element should be nothing
 		db.transaction(function(tx) {
-			var query = "SELECT name FROM difficulty_level ORDER BY id";
+			var query = "SELECT id, name FROM difficulty_level ORDER BY id";
 			tx.executeSql(query, [], function(tx, res) {
 				for (var i = 0; i < res.rows.length; i++) {
 					var difficulty = res.rows.item(i);
