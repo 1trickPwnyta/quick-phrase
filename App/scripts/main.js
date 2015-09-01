@@ -164,7 +164,7 @@ function loadDifficulties() {
 		if (!success)
 			loadDifficultiesFromLocalDatabase(function() {
 				// If no difficulties are loaded, that's an error
-				if (difficulties.length == 0)
+				if (difficulties.length <= 1)
 					showLoadingError();
 				else
 					updateDifficultySelector();
@@ -184,7 +184,7 @@ function loadCategories() {
 		if (!success)
 			loadCategoriesFromLocalDatabase(function() {
 				// If no categories are loaded, that's an error
-				if (categories.length == 0)
+				if (categories.length <= 1)
 					showLoadingError();
 			});
 	});
