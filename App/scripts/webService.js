@@ -110,17 +110,28 @@ function loadCategoriesFromWebService(callback) {
 			if (PHONEGAP) {
 				// Store categories in the local database
 				db.transaction(function(tx) {
-					// First, delete all current categories from the database
-					tx.executeSql("DELETE FROM category WHERE 1=1");
+					// First, delete all non-custom categories from the database
+					tx.executeSql("DELETE FROM category WHERE custom = 0");
 					// Create a query to insert all the categories into the database
-					var query = "INSERT INTO category (id, name) VALUES ";
+					var query = "INSERT INTO category (id, name, custom) VALUES ";
 					for (var i = 1; i < categories.length; i++) {
-						query += "(" + categories[i].id + ", '" + categories[i].name.replace("'", "''") + "')";
+						query += "(" + categories[i].id + ", '" + categories[i].name.replace("'", "''") + "', 0)";
 						if (i < categories.length - 1)
 							query += ", ";
 					}
 					tx.executeSql(query);
 				});
+				
+				// TODO Add custom categories to the ones from the web service
+				/*db.transaction(function(tx) {
+					var query = "SELECT name FROM category ORDER BY name";
+					tx.executeSql(query, [], function(tx, res) {
+						for (var i = 0; i < res.rows.length; i++) {
+							var category = res.rows.item(i);
+							categories.push(category);
+						}
+					});
+				});*/
 			}
 			
 			// Return success
