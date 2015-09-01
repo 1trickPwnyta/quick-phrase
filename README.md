@@ -111,7 +111,6 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 6. Update applicationRoot.js in /Web with the new application root.
 7. Update config.js in the app with the new URL path.
 8. Add DEFAULT_DATA_VERSION = null in config.js.
-9. Remove DEFAULT_FRESH_INSTALL from config.js.
 10. Add MAX_TEAM_NAME_CHARACTERS = 64 to config.js.
 11. Add MIN_MAX_CHARACTERS = 6 to config.js.
 12. Add MIN_WINNING_POINT = 1 to config.js.
