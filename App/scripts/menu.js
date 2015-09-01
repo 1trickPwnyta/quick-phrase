@@ -318,9 +318,9 @@ function showHelp() {
 //
 function showAbout() {
 	showStandardDialog(
-		"Version " + APP_VERSION + "<br />" + 
+		"<span style=\"font-size: 75%;\">(formerly <em>Grab Tag</em>)</span><br /><br />Version " + APP_VERSION + "<br />" + 
 			"&copy; " + APP_COPYRIGHT_YEAR + " <a href=\"#\" onclick=\"submitUsageClick('/menu/about/author/webSite'); window.open('" + APP_AUTHOR_LINK + "', '_system'); return false;\">" + APP_AUTHOR + "</a><br />" + 
-			"Email: <a href=\"mailto:" + APP_AUTHOR_EMAIL + "\" onclick=\"submitUsageClick('/menu/about/author/email');\">" + APP_AUTHOR_EMAIL + "</a><br />" + 
+			"<a href=\"mailto:" + APP_AUTHOR_EMAIL + "\" onclick=\"submitUsageClick('/menu/about/author/email');\">" + APP_AUTHOR_EMAIL + "</a><br />" + 
 			"<br /><br />" + (stats? 
 			"New phrases in " + APP_NAME + ": <br /><br />" + 
 			(stats.today > 0? "Added today: <span class=\"stats stats-today\">" + stats.today + "</span><br />" : "") + 
