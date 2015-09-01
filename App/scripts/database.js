@@ -103,7 +103,7 @@ function loadDifficultiesFromLocalDatabase(callback) {
 		// Load difficulties from the local database
 		difficulties = new Array("");	// First element should be nothing
 		db.transaction(function(tx) {
-			var query = "SELECT name FROM difficulty_level ORDER BY id";
+			var query = "SELECT id, name FROM difficulty_level ORDER BY id";
 			tx.executeSql(query, [], function(tx, res) {
 				for (var i = 0; i < res.rows.length; i++) {
 					var difficulty = res.rows.item(i);
@@ -131,7 +131,7 @@ function loadCategoriesFromLocalDatabase(callback) {
 		
 		db.transaction(function(tx) {
 			// Get categories from the database and put them into the category list
-			var query = "SELECT name FROM category ORDER BY name";
+			var query = "SELECT id, name FROM category ORDER BY name";
 			tx.executeSql(query, [], function(tx, res) {
 				for (var i = 0; i < res.rows.length; i++) {
 					var category = res.rows.item(i);
