@@ -126,7 +126,7 @@ function loadCategoriesFromLocalDatabase(callback) {
 		
 		db.transaction(function(tx) {
 			// Get categories from the database and put them into the category list
-			var query = "SELECT name FROM category ORDER BY name";
+			var query = "SELECT id, name FROM category ORDER BY name";
 			tx.executeSql(query, [], function(tx, res) {
 				for (var i = 0; i < res.rows.length; i++) {
 					var category = res.rows.item(i);
