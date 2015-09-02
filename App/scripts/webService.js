@@ -10,10 +10,10 @@ function loadTagsFromWebService(callback) {
 		{name: "maxCharacters", value: sMaxCharactersPerTag},
 		{name: "maxWords", value: sMaxWordsPerTag},
 		{name: "edgy", value: (sEdgy && !APP_GOOGLEPLAY_EDITION? 1: 0)}
-	], function(response) {
+	], function(response, status) {
 		
 		// Check if the web service returns a valid response
-		if (response) {
+		if (status == 200) {
 			
 			// Get the new tags from the web service response, add them to the list
 			var newTags = JSON.parse(response);
@@ -34,8 +34,8 @@ function loadTagsFromWebService(callback) {
 			if (callback)
 				callback(true);
 			
-		} else {
-			// The web service call failed (timed out), so return failure
+		} else if (status < 0) {
+			// The web service call failed, so return failure
 			if (callback)
 				callback(false);
 		}
@@ -47,8 +47,8 @@ function loadTagsFromWebService(callback) {
 //
 function loadDifficultiesFromWebService(callback) {
 	// Make a web service call
-	ajax("GET", WEB_SERVICE_URL + "/getDifficulties.php", [], function(response) {
-		if (response) {
+	ajax("GET", WEB_SERVICE_URL + "/getDifficulties.php", [], function(response, status) {
+		if (status == 200) {
 		
 			// Parse the difficulties from the web service response
 			difficulties = JSON.parse(response);
@@ -80,8 +80,8 @@ function loadDifficultiesFromWebService(callback) {
 			if (callback)
 				callback(true);
 			
-		} else {
-			// The web service call failed (timed out)
+		} else if (status < 0) {
+			// The web service call failed
 			if (callback)
 				callback(false);
 		}
@@ -93,8 +93,8 @@ function loadDifficultiesFromWebService(callback) {
 //
 function loadCategoriesFromWebService(callback) {
 	// Call the web service
-	ajax("GET", WEB_SERVICE_URL + "/getCategories.php", [], function(response) {
-		if (response) {
+	ajax("GET", WEB_SERVICE_URL + "/getCategories.php", [], function(response, status) {
+		if (status == 200) {
 		
 			// Parse the category data from the web service response
 			categories = JSON.parse(response);
@@ -127,8 +127,8 @@ function loadCategoriesFromWebService(callback) {
 				callback(true);
 			
 		}
-		else {
-			// The web service call failed (timed out)
+		else if (status < 0) {
+			// The web service call failed
 			if (callback)
 				callback(false);
 		}
@@ -140,9 +140,9 @@ function loadCategoriesFromWebService(callback) {
 //
 function loadStatsFromWebService(callback) {
 	// Call the web service for stats
-	ajax("GET", WEB_SERVICE_URL + "/getStats.php", [], function(response) {
+	ajax("GET", WEB_SERVICE_URL + "/getStats.php", [], function(response, status) {
 		// Check if the web service returns a valid response
-		if (response) {
+		if (status == 200) {
 			
 			// Get the stats from the web service response
 			stats = JSON.parse(response);
@@ -151,8 +151,8 @@ function loadStatsFromWebService(callback) {
 			if (callback)
 				callback(true);
 			
-		} else {
-			// The web service call failed (timed out), so return failure
+		} else if (status < 0) {
+			// The web service call failed, so return failure
 			if (callback)
 				callback(false);
 		}
@@ -175,8 +175,8 @@ function flagTag(tag, reason, callback) {
 			if (callback)
 				callback(true);
 			
-		} else {
-			// The web service call failed (timed out), so return failure
+		} else if (status < 0) {
+			// The web service call failed, so return failure
 			if (callback)
 				callback(false);
 		}
