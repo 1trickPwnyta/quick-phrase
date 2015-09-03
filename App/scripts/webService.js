@@ -38,6 +38,10 @@ function loadTagsFromWebService(callback) {
 			// The web service call failed, so return failure
 			if (callback)
 				callback(false);
+		} else {
+			// The web service call timed out, so return failure
+			if (callback)
+				callback(false);
 		}
 	}, WEB_SERVICE_TIMEOUT);
 }
@@ -82,6 +86,10 @@ function loadDifficultiesFromWebService(callback) {
 			
 		} else if (status < 0) {
 			// The web service call failed
+			if (callback)
+				callback(false);
+		} else {
+			// The web service call timed out
 			if (callback)
 				callback(false);
 		}
@@ -131,6 +139,10 @@ function loadCategoriesFromWebService(callback) {
 			// The web service call failed
 			if (callback)
 				callback(false);
+		} else {
+			// The web service call timed out
+			if (callback)
+				callback(false);
 		}
 	}, WEB_SERVICE_TIMEOUT);
 }
@@ -155,6 +167,10 @@ function loadStatsFromWebService(callback) {
 			// The web service call failed, so return failure
 			if (callback)
 				callback(false);
+		} else {
+			// The web service call timed out, so return failure
+			if (callback)
+				callback(false);
 		}
 	}, WEB_SERVICE_TIMEOUT);
 }
@@ -177,6 +193,10 @@ function flagTag(tag, reason, callback) {
 			
 		} else if (status < 0) {
 			// The web service call failed, so return failure
+			if (callback)
+				callback(false);
+		} else {
+			// The web service call timed out, so return failure
 			if (callback)
 				callback(false);
 		}
