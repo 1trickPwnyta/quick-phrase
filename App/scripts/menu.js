@@ -408,17 +408,8 @@ function changeWinningPoint(point, callback) {
 	// Change the setting
 	sWinningPoint = point;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sWinningPoint", sWinningPoint);
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sWinningPoint", sWinningPoint, callback);
 }
 
 //
@@ -432,17 +423,8 @@ function changeNumberOfTeams(number, callback) {
 	newGame();
 	showReadyScreen();
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sNumberOfTeams", sNumberOfTeams);
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sNumberOfTeams", sNumberOfTeams, callback);
 }
 
 //
@@ -455,18 +437,10 @@ function changeMinimumTime(time, callback) {
 	if (time > sMaxTimePerStage)
 		sMaxTimePerStage = time;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sMinTimePerStage", sMinTimePerStage);
-			setSetting(tx, "sMaxTimePerStage", sMaxTimePerStage);
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sMinTimePerStage", sMinTimePerStage, function() {
+		setSetting("sMaxTimePerStage", sMaxTimePerStage, callback);
+	});
 }
 
 //
@@ -479,18 +453,10 @@ function changeMaximumTime(time, callback) {
 	if (time < sMinTimePerStage)
 		sMinTimePerStage = time;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sMaxTimePerStage", sMaxTimePerStage);
-			setSetting(tx, "sMinTimePerStage", sMinTimePerStage);
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sMaxTimePerStage", sMaxTimePerStage, function() {
+		setSetting("sMinTimePerStage", sMinTimePerStage, callback);
+	});
 }
 
 //
@@ -504,17 +470,8 @@ function changeDifficulty(difficulty, callback) {
 	showLoadingScreen();
 	loadTags(true, showReadyScreen);
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sDifficulty", sDifficulty);
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sDifficulty", sDifficulty, callback);
 }
 
 //
@@ -534,17 +491,8 @@ function changeCategories(categoryIds, callback) {
 	showLoadingScreen();
 	loadTags(true, showReadyScreen);
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sCategoryIds", JSON.stringify(sCategoryIds));
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sCategoryIds", JSON.stringify(sCategoryIds), callback);
 }
 
 //
@@ -558,17 +506,8 @@ function changeMaxWords(words, callback) {
 	showLoadingScreen();
 	loadTags(true, showReadyScreen);
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sMaxWordsPerTag", sMaxWordsPerTag);
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sMaxWordsPerTag", sMaxWordsPerTag, callback);
 }
 
 //
@@ -582,17 +521,8 @@ function changeMaxCharacters(characters, callback) {
 	showLoadingScreen();
 	loadTags(true, showReadyScreen);
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sMaxCharactersPerTag", sMaxCharactersPerTag);
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sMaxCharactersPerTag", sMaxCharactersPerTag, callback);
 }
 
 //
@@ -602,17 +532,8 @@ function changeBeepSoundFile(soundFile, callback) {
 	// Change the setting
 	sBeepSoundFile = soundFile;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sBeepSoundFile", sBeepSoundFile);
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sBeepSoundFile", sBeepSoundFile, callback);
 }
 
 //
@@ -622,17 +543,8 @@ function changeStyleSheet(styleSheet, callback) {
 	// Change the setting
 	sStyleSheet = styleSheet;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sStyleSheet", sStyleSheet);
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sStyleSheet", sStyleSheet, callback);
 }
 
 //
@@ -642,17 +554,8 @@ function changeVibrate(vibrate, callback) {
 	// Change the setting
 	sVibrate = vibrate;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sVibrate", JSON.stringify(sVibrate));
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sVibrate", JSON.stringify(sVibrate), callback);
 }
 
 //
@@ -662,17 +565,8 @@ function changeShowCategory(showCategory, callback) {
 	// Change the setting
 	sShowCategory = showCategory;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sShowCategory", JSON.stringify(sShowCategory));
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sShowCategory", JSON.stringify(sShowCategory), callback);
 }
 
 //
@@ -682,17 +576,8 @@ function changeShowAuthor(showAuthor, callback) {
 	// Change the setting
 	sShowAuthor = showAuthor;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sShowAuthor", JSON.stringify(sShowAuthor));
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sShowAuthor", JSON.stringify(sShowAuthor), callback);
 }
 
 //
@@ -706,17 +591,8 @@ function changeEdgy(edgy, callback) {
 	showLoadingScreen();
 	loadTags(true, showReadyScreen);
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sEdgy", JSON.stringify(sEdgy));
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sEdgy", JSON.stringify(sEdgy), callback);
 }
 
 //
@@ -726,17 +602,8 @@ function changeDeveloperMode(developerMode, callback) {
 	// Change the setting
 	sDeveloperMode = developerMode;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sDeveloperMode", JSON.stringify(sDeveloperMode));
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sDeveloperMode", JSON.stringify(sDeveloperMode), callback);
 }
 
 //
@@ -746,17 +613,8 @@ function changeDataVersion(dataVersion, callback) {
 	// Change the setting
 	sDataVersion = dataVersion;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sDataVersion", sDataVersion);
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sDataVersion", sDataVersion, callback);
 }
 
 //
@@ -766,17 +624,8 @@ function changePromptForRating(promptForRating, callback) {
 	// Change the setting
 	sPromptForRating = promptForRating;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sPromptForRating", sPromptForRating);
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sPromptForRating", sPromptForRating, callback);
 }
 
 //
@@ -786,17 +635,8 @@ function changeGamesSinceRatingPrompt(gamesSinceRatingPrompt, callback) {
 	// Change the setting
 	sGamesSinceRatingPrompt = gamesSinceRatingPrompt;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sGamesSinceRatingPrompt", sGamesSinceRatingPrompt);
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sGamesSinceRatingPrompt", sGamesSinceRatingPrompt, callback);
 }
 
 //
@@ -806,15 +646,6 @@ function changeTeamName(teamId, newName, callback) {
 	// Change the setting
 	sTeamNames[teamId] = newName;
 	
-	if (PHONEGAP)
-		// Save the setting in the local database
-		db.transaction(function(tx) {
-			setSetting(tx, "sTeamNames", JSON.stringify(sTeamNames));
-			if (callback)
-				callback();
-		});
-	else {
-		if (callback)
-			callback();
-	}
+	// Save the setting in the local database
+	setSetting("sTeamNames", JSON.stringify(sTeamNames), callback);
 }

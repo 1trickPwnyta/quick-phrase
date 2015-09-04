@@ -71,8 +71,6 @@
 					// Set the Android back button action
 					document.addEventListener("backbutton", backButtonClick, false);
 					
-					initializeLocalDatabase();
-					
 					// Hide the edgy option in the Google Play edition
 					if (APP_GOOGLEPLAY_EDITION) {
 						var menuItemEdgy = document.getElementById("menuItemEdgy");
@@ -94,25 +92,25 @@
 					}
 				}
 				
+				initializeLocalDatabase();
+				
 				// Load all the game data
 				showLoadingScreen();
 				loadCategories();
 				loadDifficulties();
 				loadStatsFromWebService();
 				loadSettings(function() {
-					if (PHONEGAP) {
-						// Send fresh install click if this is a fresh install
-						// or upgrade click if this is an upgrade
-						if (!sDataVersion) {
-							submitUsageClick("/app/" + APP_VERSION + "/freshInstall");
-							changeDataVersion(APP_VERSION);
-							
-							// For fresh installs, load started tags into the database
-							saveTagsInLocalDatabase(starterPhrases);
-						} else if (sDataVersion != APP_VERSION) {
-							submitUsageClick("/app/" + APP_VERSION + "/upgrade");
-							changeDataVersion(APP_VERSION);
-						}
+					// Send fresh install click if this is a fresh install
+					// or upgrade click if this is an upgrade
+					if (!sDataVersion) {
+						submitUsageClick("/app/" + APP_VERSION + "/freshInstall");
+						changeDataVersion(APP_VERSION);
+						
+						// For fresh installs, load starter tags into the database
+						saveTagsInLocalDatabase(starterPhrases);
+					} else if (sDataVersion != APP_VERSION) {
+						submitUsageClick("/app/" + APP_VERSION + "/upgrade");
+						changeDataVersion(APP_VERSION);
 					}
 					
 					submitUsageClick("/app/" + APP_VERSION + "/open");

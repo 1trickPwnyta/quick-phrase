@@ -65,9 +65,7 @@ function loadDifficultiesFromWebService(callback) {
 				return;
 			}
 			
-			if (PHONEGAP) {
-				saveDifficultiesInLocalDatabase(difficulties);
-			}
+			saveDifficultiesInLocalDatabase(difficulties);
 			
 			// Return success
 			if (callback)
@@ -103,9 +101,7 @@ function loadCategoriesFromWebService(callback) {
 				return;
 			}
 			
-			if (PHONEGAP) {
-				saveCategoriesInLocalDatabase(categories);
-			}
+			saveCategoriesInLocalDatabase(categories);
 			
 			// Return success
 			if (callback)
