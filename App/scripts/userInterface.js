@@ -681,10 +681,8 @@ function menuItemVibrateChange() {
 //
 function menuItemTagCreationClick() {
 	playSound(CLICK_SOUND_FILE);
-	submitUsageClick("/menu/tagCreation");
-	window.setTimeout(function() {
-		navigateAway(TAG_CREATION_URL);
-	}, 100);
+	submitUsageClick("/menu/customPhrases");
+	showCustomPhrases();
 }
 
 //

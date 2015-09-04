@@ -307,6 +307,77 @@ function showRatingPrompt() {
 }
 
 //
+// Shows the custom phrases window.
+//
+function showCustomPhrases() {
+	var hardId = 14;
+	var hardIsCustom = false;
+	
+	playSound(CLICK_SOUND_FILE);
+	var div = document.createElement("div");
+	div.style.height = "100%";
+	
+	// TODO Create category menu
+	
+	div.appendChild(document.createElement("br"));
+	
+	var phraseDiv;
+	var updatePhrases = function() {
+		// Create row for each custom phrase
+		loadAllCustomPhrasesFromLocalDatabase(hardId, hardIsCustom, function (customPhrases) {
+			phraseDiv.innerHTML = "";
+			
+			for (var i = 0; i < customPhrases.length; i++) {
+				var row = document.createElement("div");
+				row.className = "phrase";
+				
+				var deleteButton = document.createElement("a");
+				deleteButton.className = "deletePhrase";
+				deleteButton.href = "#";
+				deleteButton.rowid = customPhrases[i].rowid;
+				deleteButton.onclick = function() {
+					playSound(CLICK_SOUND_FILE);
+					deleteCustomPhraseFromLocalDatabase(this.rowid, updatePhrases);
+				};
+				deleteButton.innerHTML = "<img src=\"images/delete.png\" title=\"Delete\" alt=\"X\" />";
+				row.appendChild(deleteButton);
+				
+				var phraseTextSpan = document.createElement("span");
+				phraseTextSpan.innerHTML = customPhrases[i].text;
+				row.appendChild(phraseTextSpan);
+				
+				phraseDiv.appendChild(row);
+			}
+		});
+	};
+	
+	// Create a button for new custom phrases
+	var newPhraseButton = document.createElement("input");
+	newPhraseButton.type = "button";
+	newPhraseButton.value = "New phrase";
+	newPhraseButton.onclick = function() {
+		playSound(CLICK_SOUND_FILE);
+		// Get input from user
+		dialog.getString(function(response) {
+			if (response) {
+				response = htmlEncode(response);
+				saveCustomPhraseInLocalDatabase(response, hardId, hardIsCustom, updatePhrases);
+			}
+		}, "New phrase", "", null, function() {playSound(CLICK_SOUND_FILE);});
+	};
+	div.appendChild(newPhraseButton);
+	
+	div.appendChild(document.createElement("br"));
+	
+	phraseDiv = document.createElement("div");
+	phraseDiv.className = "customPhrases";
+	div.appendChild(phraseDiv);
+	updatePhrases();
+	
+	showStandardDialog(div, null, false, "Custom phrases", null, "inherit", true);
+}
+
+//
 // Shows the help window.
 //
 function showHelp() {
@@ -340,7 +411,7 @@ function showAbout() {
 // Shows a standard dialog window with HTML content.
 // htmlContent: An HTML string to display in the window or a DOM element.
 // callback: A function to call when the user dismisses the window.
-// includeMoreIcon: Whether to show the "more" icon at the bottom of the window.
+// includeMoreIcon: Does nothing.
 // title: The title to display at the top of the window.
 // okButtonText: An optional string to display on the OK/accept button instead of "OK".
 // lineHeight: An optional CSS line-height to use instead of "100%".

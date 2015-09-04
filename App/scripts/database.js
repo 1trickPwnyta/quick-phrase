@@ -5,12 +5,12 @@ function initializeLocalDatabase() {
 	if (PHONEGAP) {
 		db = window.sqlitePlugin.openDatabase({name: DB_NAME});
 	} else {
-		db = openDatabase(APP_NAME, APP_VERSION, APP_NAME, 10 * 1024 * 1024);
+		db = openDatabase(APP_NAME, "", APP_NAME, 10 * 1024 * 1024);
 	}
 	
 	db.transaction(function(tx) {
 		tx.executeSql("CREATE TABLE IF NOT EXISTS tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)");
-		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_phrase (id integer, category_id integer, tag text)");
+		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_phrase (category_id integer, is_custom_category integer, tag text)");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS category (id integer, name text)");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_category (id integer, name text)");
@@ -22,7 +22,6 @@ function initializeLocalDatabase() {
 // Loads new phrases from the local database.
 //
 function loadTagsFromLocalDatabase(callback) {
-	// Load phrases from the local database
 	db.transaction(function(tx) {
 		// Make a query to get the phrases based on settings
 		var query = "SELECT * FROM tag ";
@@ -93,6 +92,110 @@ function deleteTagFromLocalDatabase(id) {
 		// Make a query to delete it
 		var query = "DELETE FROM tag WHERE id = " + id;
 		tx.executeSql(query);
+	});
+}
+
+//
+// Loads custom phrases from the local database.
+//
+function loadCustomPhrasesFromLocalDatabase(callback) {
+	db.transaction(function(tx) {
+		// Make a query to get the phrases based on settings
+		var query = "SELECT * FROM custom_phrase ";
+		query += "WHERE ((is_custom_category = 0 AND category_id IN (";
+		if (sCategoryIds.length > 0) {
+			for (var i = 0; i < sCategoryIds.length; i++)
+				query += sCategoryIds[i] + ", ";
+			query += "-1)";
+		} else
+			query += "category_id)";
+		query += ") ";
+		query += "OR (is_custom_category > 0 AND category_id IN (";
+		if (sCustomCategoryIds.length > 0) {
+			for (var i = 0; i < sCustomCategoryIds.length; i++)
+				query += sCustomCategoryIds[i] + ", ";
+			query += "-1)";
+		} else
+			query += "custom_category_id)";
+		query += ")) ";
+		if (sMaxCharactersPerTag > 0)
+			query += "AND LENGTH(tag) <= " + sMaxCharactersPerTag + " ";
+		if (sMaxWordsPerTag > 0)
+			query += "AND LENGTH(tag) - LENGTH(REPLACE(tag, ' ', '')) <= " + sMaxWordsPerTag + " - 1 ";
+		query += "ORDER BY RANDOM()";
+		query += "LIMIT " + TAG_LOAD_QUANTITY + " ";
+		
+		tx.executeSql(query, [], function(tx, res) {
+			// Add the resulting phrases to the list
+			var newTags = new Array();
+			for (var i = 0; i < res.rows.length; i++) {
+				var tag = res.rows.item(i);
+				tag.text = tag.tag;
+				newTags.push(tag);
+			}
+			
+			processPhraseLoad(newTags);
+			for (var i = 0; i < newTags.length; i++)
+				tags.push(newTags[i]);
+			
+			if (callback)
+				callback();
+		});
+	});
+}
+
+//
+// Loads all custom phrases from the local database for a category.
+//
+function loadAllCustomPhrasesFromLocalDatabase(categoryId, isCustomCategory, callback) {
+	db.transaction(function(tx) {
+		// Make a query to get the phrases
+		var query = "SELECT rowid, * FROM custom_phrase ";
+		if (!isCustomCategory) {
+			query += "WHERE category_id = " + categoryId + " ";
+		} else {
+			query += "WHERE custom_category_id = " + categoryId + " ";
+		}
+		query += "ORDER BY tag";
+		
+		tx.executeSql(query, [], function(tx, res) {
+			// Add the resulting phrases to the list
+			var customPhrases = new Array();
+			for (var i = 0; i < res.rows.length; i++) {
+				var customPhrase = res.rows.item(i);
+				customPhrase.text = customPhrase.tag;
+				customPhrases.push(customPhrase);
+			}
+			
+			callback(customPhrases);
+		});
+	});
+}
+
+//
+// Adds a new custom phrase to the local database.
+//
+function saveCustomPhraseInLocalDatabase(text, categoryId, isCustomCategory, callback) {
+	db.transaction(function(tx) {
+		// Make a query to insert the phrase
+		var query = "INSERT INTO custom_phrase (category_id, is_custom_category, tag) VALUES (";
+		query += categoryId + ", " + (isCustomCategory? 1: 0) + ", '" + text.replace("'", "''") + "')";
+		tx.executeSql(query);
+		if (callback)
+			callback();
+	});
+}
+
+//
+// Deletes a custom phrase from the local database.
+//
+function deleteCustomPhraseFromLocalDatabase(rowid, callback) {
+	db.transaction(function(tx) {
+		// Make a query to delete the phrase
+		var query = "DELETE FROM custom_phrase WHERE rowid = " + rowid;
+		tx.executeSql(query);
+		if (callback)
+			callback();
 	});
 }
 

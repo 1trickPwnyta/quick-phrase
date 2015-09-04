@@ -271,6 +271,23 @@ header a {
 	background: url('../images/decrease-disabled.png');
 }
 
+.customPhrases {
+	overflow: auto;
+	height: 70%;
+}
+
+.customPhrases .phrase {
+	width: 100%;
+}
+
+.customPhrases .phrase .deletePhrase {
+	float: right;
+}
+
+.customPhrases .phrase .deletePhrase img {
+	width: 75%;
+}
+
 .visible {
 	visibility: visible;
 	opacity: 1;
