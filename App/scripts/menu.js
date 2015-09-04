@@ -401,20 +401,23 @@ function showCustomPhrases() {
 		
 		div.appendChild(document.createElement("br"));
 	
-		// Create a button for new custom phrases
-		var newPhraseButton = document.createElement("input");
-		newPhraseButton.type = "button";
-		newPhraseButton.value = "New phrase";
-		newPhraseButton.onclick = function() {
-			playSound(CLICK_SOUND_FILE);
+		var newPhraseDialog = function(defaultText) {
 			// Get input from user
 			dialog.getString(function(response) {
 				if (response) {
-					saveCustomPhraseInLocalDatabase(response, categoryId, isCustomCategory, function() {
-						updatePhrases(categoryId, isCustomCategory);
+					checkIfCustomPhraseExistsInLocalDatabase(response, function(phraseExists) {
+						if (phraseExists) {
+							dialog.showMessage("You've already created this phrase.", function() {
+								newPhraseDialog(response);
+							});
+						} else {
+							saveCustomPhraseInLocalDatabase(response, categoryId, isCustomCategory, function() {
+								updatePhrases(categoryId, isCustomCategory);
+							});
+						}
 					});
 				}
-			}, "New phrase", "", null, function(response) {
+			}, "New phrase", defaultText? defaultText: "", null, function(response) {
 				playSound(CLICK_SOUND_FILE);
 				
 				if (response) {
@@ -425,6 +428,15 @@ function showCustomPhrases() {
 					}
 				}
 			});
+		};
+		
+		// Create a button for new custom phrases
+		var newPhraseButton = document.createElement("input");
+		newPhraseButton.type = "button";
+		newPhraseButton.value = "New phrase";
+		newPhraseButton.onclick = function() {
+			playSound(CLICK_SOUND_FILE);
+			newPhraseDialog();
 		};
 		div.appendChild(newPhraseButton);
 		

@@ -174,6 +174,22 @@ function loadAllCustomPhrasesFromLocalDatabase(categoryId, isCustomCategory, cal
 }
 
 //
+// Checks if a custom phrase already exists in the local database.
+//
+function checkIfCustomPhraseExistsInLocalDatabase(text, callback) {
+	db.transaction(function(tx) {
+		// Make a query to get the phrase
+		var query = "SELECT COUNT(*) AS c FROM custom_phrase ";
+		query += "WHERE tag = '" + text.replace("'", "''") + "' ";
+		
+		tx.executeSql(query, [], function(tx, res) {
+			var exists = res.rows.item(0).c > 0;
+			callback(exists);
+		});
+	});
+}
+
+//
 // Adds a new custom phrase to the local database.
 //
 function saveCustomPhraseInLocalDatabase(text, categoryId, isCustomCategory, callback) {
