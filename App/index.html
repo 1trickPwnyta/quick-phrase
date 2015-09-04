@@ -39,22 +39,12 @@
 				if (PHONEGAP) {
 					// Set the deviceready callback
 					document.addEventListener("deviceready", onDeviceReady, false);
-					
-					// Set the pause and resume callbacks
-					document.addEventListener("pause", function() {
-						submitUsageClick("/app/" + APP_VERSION + "/pause");
-					}, false);
-					document.addEventListener("resume", function() {
-						submitUsageClick("/app/" + APP_VERSION + "/resume");
-					}, false);
 				} else
 					// Just call the deviceready callback directly
 					onDeviceReady();
 			};
 			
 			function onDeviceReady() {
-				submitUsageClick("/app/" + APP_VERSION + "/open");
-				
 				// Hide the splash screen and load the main screen after one second
 				window.setTimeout(function() {
 					document.getElementById("splashscreen").className = "hidden";
@@ -134,6 +124,16 @@
 							changeDataVersion(APP_VERSION);
 						}
 					}
+					
+					submitUsageClick("/app/" + APP_VERSION + "/open");
+					
+					// Set the pause and resume callbacks
+					document.addEventListener("pause", function() {
+						submitUsageClick("/app/" + APP_VERSION + "/pause");
+					}, false);
+					document.addEventListener("resume", function() {
+						submitUsageClick("/app/" + APP_VERSION + "/resume");
+					}, false);
 					
 					applyTheme();
 					loadTags(true, showReadyScreen);

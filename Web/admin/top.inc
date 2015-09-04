@@ -24,7 +24,7 @@
 			<a style="color: white;" href="<?php echo $SIMPLESAML_LOGOUT_URL_RELATIVE; ?>?AuthId=<?php echo $SAML_SP_ID; ?>&ReturnTo=<?php echo $APPLICATION_ROOT_PATH; ?>loggedOut.php">Log out</a>
 		</div>
 		<h2>Catch-Phrase Panic Administration</h2>
-		<h4>Version 1.2.1</h4>
+		<h4>Version 1.2.2</h4>
 		<nav>
 			<ul>
 				<li><a href="index.php">Unapproved phrases</a></li>

@@ -64,7 +64,7 @@ function ajax(method, url, parameters, callback, timeout) {
 	// Handling the timeout
 	if (callback && timeout) {
 		var timer = window.setTimeout(function() {		// Set a timer for when to stop waiting
-			if (!xmlHttp.complete) {					// If the request hasn't completed
+			if (xmlHttp.readyState < 4) {				// If the request hasn't completed
 				xmlHttp.abort();						// Cancel the request
 				callback(false, 0);						// Call the provided callback function, passing it
 														// the boolean value false and a status code of 0
