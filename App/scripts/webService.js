@@ -66,19 +66,7 @@ function loadDifficultiesFromWebService(callback) {
 			}
 			
 			if (PHONEGAP) {
-				// Store the difficulties in the local database
-				db.transaction(function(tx) {
-					// First, remove all existing difficulties
-					tx.executeSql("DELETE FROM difficulty_level WHERE 1=1");
-					// Build a query to insert all difficulties
-					var query = "INSERT INTO difficulty_level (id, name, max_rating) VALUES ";
-					for (var i = 1; i < difficulties.length; i++) {
-						query += "(" + difficulties[i].id + ", '" + difficulties[i].name + "', " + difficulties[i].max_rating + ")";
-						if (i < difficulties.length - 1)
-							query += ", ";
-					}
-					tx.executeSql(query);
-				});
+				saveDifficultiesInLocalDatabase(difficulties);
 			}
 			
 			// Return success
@@ -116,30 +104,7 @@ function loadCategoriesFromWebService(callback) {
 			}
 			
 			if (PHONEGAP) {
-				// Store categories in the local database
-				db.transaction(function(tx) {
-					// First, delete all non-custom categories from the database
-					tx.executeSql("DELETE FROM category WHERE custom = 0");
-					// Create a query to insert all the categories into the database
-					var query = "INSERT INTO category (id, name, custom) VALUES ";
-					for (var i = 1; i < categories.length; i++) {
-						query += "(" + categories[i].id + ", '" + categories[i].name.replace("'", "''") + "', 0)";
-						if (i < categories.length - 1)
-							query += ", ";
-					}
-					tx.executeSql(query);
-				});
-				
-				// TODO Add custom categories to the ones from the web service
-				/*db.transaction(function(tx) {
-					var query = "SELECT name FROM category ORDER BY name";
-					tx.executeSql(query, [], function(tx, res) {
-						for (var i = 0; i < res.rows.length; i++) {
-							var category = res.rows.item(i);
-							categories.push(category);
-						}
-					});
-				});*/
+				saveCategoriesInLocalDatabase(categories);
 			}
 			
 			// Return success

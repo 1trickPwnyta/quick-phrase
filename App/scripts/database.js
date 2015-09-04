@@ -1,4 +1,18 @@
 //
+// Initializes the local database.
+//
+function initializeLocalDatabase() {
+	db = window.sqlitePlugin.openDatabase({name: DB_NAME});
+	db.transaction(function(tx) {
+		tx.executeSql("CREATE TABLE IF NOT EXISTS tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)");
+		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_phrase (id integer, category_id integer, tag text)");
+		tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)");
+		tx.executeSql("CREATE TABLE IF NOT EXISTS category (id integer, name text)");
+		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_category (id integer, name text)");
+	});
+}
+
+//
 // Loads new phrases from the local database.
 //
 function loadTagsFromLocalDatabase(callback) {
@@ -122,6 +136,24 @@ function loadDifficultiesFromLocalDatabase(callback) {
 }
 
 //
+// Stores the difficulties in the local database, replacing any that were already there.
+//
+function saveDifficultiesInLocalDatabase(difficulties) {
+	db.transaction(function(tx) {
+		// First, remove all existing difficulties
+		tx.executeSql("DELETE FROM difficulty_level WHERE 1=1");
+		// Build a query to insert all difficulties
+		var query = "INSERT INTO difficulty_level (id, name, max_rating) VALUES ";
+		for (var i = 1; i < difficulties.length; i++) {
+			query += "(" + difficulties[i].id + ", '" + difficulties[i].name + "', " + difficulties[i].max_rating + ")";
+			if (i < difficulties.length - 1)
+				query += ", ";
+		}
+		tx.executeSql(query);
+	});
+}
+
+//
 // Load categories from the local database.
 //
 function loadCategoriesFromLocalDatabase(callback) {
@@ -147,6 +179,24 @@ function loadCategoriesFromLocalDatabase(callback) {
 		if (callback)
 			callback();
 	}
+}
+
+//
+// Stores the categories in the local database, replacing any that were already there.
+//
+function saveCategoriesInLocalDatabase(categories) {
+	db.transaction(function(tx) {
+		// First, delete all categories from the database
+		tx.executeSql("DELETE FROM category WHERE custom = 0");
+		// Create a query to insert all the categories into the database
+		var query = "INSERT INTO category (id, name) VALUES ";
+		for (var i = 1; i < categories.length; i++) {
+			query += "(" + categories[i].id + ", '" + categories[i].name.replace("'", "''") + "')";
+			if (i < categories.length - 1)
+				query += ", ";
+		}
+		tx.executeSql(query);
+	});
 }
 
 //

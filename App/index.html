@@ -71,15 +71,7 @@
 					// Set the Android back button action
 					document.addEventListener("backbutton", backButtonClick, false);
 					
-					// Initialize the local database
-					db = window.sqlitePlugin.openDatabase({name: DB_NAME});
-					db.transaction(function(tx) {
-						tx.executeSql("CREATE TABLE IF NOT EXISTS tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)");
-						tx.executeSql("CREATE TABLE IF NOT EXISTS custom_phrase (id integer, category_id integer, tag text)");
-						tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)");
-						tx.executeSql("CREATE TABLE IF NOT EXISTS category (id integer, name text)");
-						tx.executeSql("CREATE TABLE IF NOT EXISTS custom_category (id integer, name text)");
-					});
+					initializeLocalDatabase();
 					
 					// Hide the edgy option in the Google Play edition
 					if (APP_GOOGLEPLAY_EDITION) {
