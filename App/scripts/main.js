@@ -265,12 +265,49 @@ function loadCategories() {
 	// Try to load categories from web service first
 	loadCategoriesFromWebService(function(success) {
 		// If the web service call failed, try the local database
-		if (!success)
+		if (!success) {
 			loadCategoriesFromLocalDatabase(function() {
 				// If no categories are loaded, that's an error
 				if (categories.length <= 1)
 					showLoadingError();
+				else {
+					loadCustomCategories();
+				}
 			});
+		} else {
+			loadCustomCategories();
+		}
+	});
+}
+
+//
+// Loads all custom categories into the main category array
+//
+function loadCustomCategories(callback) {
+	for (var i = 0; i < categories.length; i++) {
+		if (categories[i].isCustom) {
+			categories.splice(i--, 1);
+		}
+	}
+	loadCustomCategoriesFromLocalDatabase(function(customCategories) {
+		for (var i = 0; i < customCategories.length; i++) {
+			customCategories[i].isCustom = true;
+			categories.push(customCategories[i]);
+		}
+		
+		categories.sort(function(a, b) {
+			if (a === "" || a.name.toLowerCase() < b.name.toLowerCase()) {
+				return -1;
+			} else if (b === "" || a.name.toLowerCase() > b.name.toLowerCase()) {
+				return 1;
+			} else {
+				return 0;
+			}
+		});
+		
+		if (callback) {
+			callback();
+		}
 	});
 }
 

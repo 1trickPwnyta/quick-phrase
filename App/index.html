@@ -107,6 +107,7 @@
 						changeDataVersion(APP_VERSION);
 						
 						// For fresh installs, load starter tags into the database
+						// TODO Save starter difficulties and categories too
 						saveTagsInLocalDatabase(starterPhrases);
 					} else if (sDataVersion != APP_VERSION) {
 						submitUsageClick("/app/" + APP_VERSION + "/upgrade");

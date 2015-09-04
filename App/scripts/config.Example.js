@@ -23,6 +23,7 @@ var APP_RATING_URL_MARKET = 						// URL of the app's rating page using the mark
 		"market://details?id=com.kangaroostandard.grabtag";
 var GAMES_UNTIL_RATING_PROMPT = 10;					// Number of games played before the rating prompt appears
 var MAX_CUSTOM_PHRASE_CHARACTERS = 64;				// Maximum number of characters allowed in custom phrases
+var MAX_CUSTOM_CATEGORY_CHARACTERS = 64;			// Maximum number of characters allowed in custom categories
 
 // Default settings
 var DEFAULT_MIN_TIME_PER_STAGE = 25000;

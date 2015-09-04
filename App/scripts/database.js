@@ -13,7 +13,7 @@ function initializeLocalDatabase() {
 		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_phrase (category_id integer, is_custom_category integer, tag text)");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS category (id integer, name text)");
-		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_category (id integer, name text)");
+		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_category (name text)");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS settings (id integer primary key autoincrement, name text, value text)");
 	});
 }
@@ -151,10 +151,11 @@ function loadAllCustomPhrasesFromLocalDatabase(categoryId, isCustomCategory, cal
 	db.transaction(function(tx) {
 		// Make a query to get the phrases
 		var query = "SELECT rowid, * FROM custom_phrase ";
+		query += "WHERE category_id = " + categoryId + " ";
 		if (!isCustomCategory) {
-			query += "WHERE category_id = " + categoryId + " ";
+			query += "AND is_custom_category = 0 "
 		} else {
-			query += "WHERE custom_category_id = " + categoryId + " ";
+			query += "AND is_custom_category > 0 ";
 		}
 		query += "ORDER BY tag";
 		
@@ -274,6 +275,56 @@ function saveCategoriesInLocalDatabase(categories) {
 				query += ", ";
 		}
 		tx.executeSql(query);
+	});
+}
+
+//
+// Load custom categories from the local database.
+//
+function loadCustomCategoriesFromLocalDatabase(callback) {
+	var customCategories = new Array();
+	db.transaction(function(tx) {
+		// Get custom categories from the database and put them into the category list
+		var query = "SELECT rowid AS id, * FROM custom_category ORDER BY name";
+		tx.executeSql(query, [], function(tx, res) {
+			for (var i = 0; i < res.rows.length; i++) {
+				var category = res.rows.item(i);
+				customCategories.push(category);
+			}
+			
+			callback(customCategories);
+		});
+	});
+}
+
+//
+// Adds a new custom category to the local database.
+//
+function saveCustomCategoryInLocalDatabase(name, callback) {
+	db.transaction(function(tx) {
+		// Make a query to insert the category
+		var query = "INSERT INTO custom_category (name) VALUES ('";
+		query += name.replace("'", "''") + "')";
+		tx.executeSql(query, [], function(tx, results) {
+			if (callback)
+				callback(results.insertId);
+		});
+	});
+}
+
+//
+// Removes a custom category from the local database, along with any phrases in it.
+//
+function deleteCustomCategoryFromLocalDatabase(rowid, callback) {
+	db.transaction(function(tx) {
+		// Make a query to delete the phrases
+		var query = "DELETE FROM custom_phrase WHERE category_id = " + rowid + " AND is_custom_category > 0";
+		tx.executeSql(query);
+		// Make a query to delete the category
+		query = "DELETE FROM custom_category WHERE rowid = " + rowid;
+		tx.executeSql(query);
+		if (callback)
+			callback();
 	});
 }
 

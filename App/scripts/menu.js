@@ -134,7 +134,7 @@ function showCategories() {
 		labelCell.style.lineHeight = "100%";
 		var label = document.createElement("label");
 		label.htmlFor = checkbox.id;
-		label.innerHTML = categories[i].name;
+		label.innerHTML = htmlEncode(categories[i].name);
 		labelCell.appendChild(label);
 		row.appendChild(labelCell);
 		
@@ -310,23 +310,130 @@ function showRatingPrompt() {
 // Shows the custom phrases window.
 //
 function showCustomPhrases() {
-	var hardId = 14;
-	var hardIsCustom = false;
+	var categoryId;
+	var isCustomCategory;
 	
 	playSound(CLICK_SOUND_FILE);
 	var div = document.createElement("div");
+	div.style.width = "100%";
 	div.style.height = "100%";
 	
-	// TODO Create category menu
+	var updatePhrases = function(selectedCategoryId, selectedCategoryIsCustom) {
+		div.innerHTML = "";
+		
+		if (selectedCategoryId || selectedCategoryId === 0) {
+			categoryId = selectedCategoryId;
+			isCustomCategory = selectedCategoryIsCustom;
+		} else {
+			categoryId = categories[1].id;
+			isCustomCategory = categories[1].isCustom;
+		}
+		
+		// Create category menu
+		var categoryMenu = document.createElement("select");
+		categoryMenu.className = "customPhrasesCategoryMenu";
+		categoryMenu.onchange = function() {
+			categoryId = parseInt(this.value.split("_")[0]);
+			isCustomCategory = this.options[this.selectedIndex].isCustomCategory;
+			updatePhrases(categoryId, isCustomCategory);
+		};
+		for (var i = 1; i < categories.length; i++) {
+			var categoryOption = document.createElement("option");
+			categoryOption.value = categories[i].id + "_" + categories[i].isCustom;
+			categoryOption.isCustomCategory = categories[i].isCustom;
+			categoryOption.innerHTML = htmlEncode(categories[i].name);
+			if (selectedCategoryId == categories[i].id && categories[i].isCustom == selectedCategoryIsCustom) {
+				categoryOption.selected = true;
+			}
+			categoryMenu.appendChild(categoryOption);
+		}
+		div.appendChild(categoryMenu);
+		
+		// Create new category button
+		var newCategoryButton = document.createElement("a");
+		newCategoryButton.className = "newCategoryButton";
+		newCategoryButton.href = "#";
+		newCategoryButton.onclick = function() {
+			playSound(CLICK_SOUND_FILE);
+			// Get input from user
+			dialog.getString(function(response) {
+				if (response) {
+					saveCustomCategoryInLocalDatabase(response, function(newCategoryId) {
+						loadCustomCategories(function() {
+							updatePhrases(newCategoryId, true);
+						});
+					});
+				}
+			}, "New category", "", null, function(response) {
+				playSound(CLICK_SOUND_FILE);
+				
+				if (response) {
+					// Validate input
+					if (response.length > MAX_CUSTOM_CATEGORY_CHARACTERS) {
+						dialog.showMessage("No more than " + MAX_CUSTOM_CATEGORY_CHARACTERS + " characters are allowed.");
+						return false;
+					}
+				}
+			});
+		};
+		newCategoryButton.innerHTML = "<img src=\"images/create.png\" title=\"New\" alt=\"+\" />";
+		div.appendChild(newCategoryButton);
+		
+		// Delete custom category button
+		if (isCustomCategory) {
+			var deleteCategoryButton = document.createElement("a");
+			deleteCategoryButton.className = "deleteCategoryButton";
+			deleteCategoryButton.href = "#";
+			deleteCategoryButton.onclick = function() {
+				playSound(CLICK_SOUND_FILE);
+				// Get input from user
+				dialog.confirm(function(response) {
+					if (response) {
+						deleteCustomCategoryFromLocalDatabase(categoryId, function() {
+							loadCustomCategories(updatePhrases);
+						});
+					}
+				}, "Do you want to delete " + categoryMenu.options[categoryMenu.selectedIndex].innerHTML + "? All phrases in this category will also be deleted.", function() {playSound(CLICK_SOUND_FILE);});
+			};
+			deleteCategoryButton.innerHTML = "<img src=\"images/delete.png\" title=\"Delete\" alt=\"X\" />";
+			div.appendChild(deleteCategoryButton);
+		}
+		
+		div.appendChild(document.createElement("br"));
 	
-	div.appendChild(document.createElement("br"));
-	
-	var phraseDiv;
-	var updatePhrases = function() {
+		// Create a button for new custom phrases
+		var newPhraseButton = document.createElement("input");
+		newPhraseButton.type = "button";
+		newPhraseButton.value = "New phrase";
+		newPhraseButton.onclick = function() {
+			playSound(CLICK_SOUND_FILE);
+			// Get input from user
+			dialog.getString(function(response) {
+				if (response) {
+					saveCustomPhraseInLocalDatabase(response, categoryId, isCustomCategory, function() {
+						updatePhrases(categoryId, isCustomCategory);
+					});
+				}
+			}, "New phrase", "", null, function(response) {
+				playSound(CLICK_SOUND_FILE);
+				
+				if (response) {
+					// Validate input
+					if (response.length > MAX_CUSTOM_PHRASE_CHARACTERS) {
+						dialog.showMessage("No more than " + MAX_CUSTOM_PHRASE_CHARACTERS + " characters are allowed.");
+						return false;
+					}
+				}
+			});
+		};
+		div.appendChild(newPhraseButton);
+		
+		var phraseDiv = document.createElement("div");
+		phraseDiv.className = "customPhrases";
+		div.appendChild(phraseDiv);
+		
 		// Create row for each custom phrase
-		loadAllCustomPhrasesFromLocalDatabase(hardId, hardIsCustom, function (customPhrases) {
-			phraseDiv.innerHTML = "";
-			
+		loadAllCustomPhrasesFromLocalDatabase(categoryId, isCustomCategory, function (customPhrases) {
 			for (var i = 0; i < customPhrases.length; i++) {
 				var row = document.createElement("div");
 				row.className = "phrase";
@@ -337,13 +444,16 @@ function showCustomPhrases() {
 				deleteButton.rowid = customPhrases[i].rowid;
 				deleteButton.onclick = function() {
 					playSound(CLICK_SOUND_FILE);
-					deleteCustomPhraseFromLocalDatabase(this.rowid, updatePhrases);
+					deleteCustomPhraseFromLocalDatabase(this.rowid, function() {
+						updatePhrases(categoryId, isCustomCategory);
+					});
 				};
 				deleteButton.innerHTML = "<img src=\"images/delete.png\" title=\"Delete\" alt=\"X\" />";
 				row.appendChild(deleteButton);
 				
 				var phraseTextSpan = document.createElement("span");
-				phraseTextSpan.innerHTML = customPhrases[i].text;
+				phraseTextSpan.className = "phraseText";
+				phraseTextSpan.innerHTML = htmlEncode(customPhrases[i].text);
 				row.appendChild(phraseTextSpan);
 				
 				phraseDiv.appendChild(row);
@@ -351,29 +461,7 @@ function showCustomPhrases() {
 		});
 	};
 	
-	// Create a button for new custom phrases
-	var newPhraseButton = document.createElement("input");
-	newPhraseButton.type = "button";
-	newPhraseButton.value = "New phrase";
-	newPhraseButton.onclick = function() {
-		playSound(CLICK_SOUND_FILE);
-		// Get input from user
-		dialog.getString(function(response) {
-			if (response) {
-				response = htmlEncode(response);
-				saveCustomPhraseInLocalDatabase(response, hardId, hardIsCustom, updatePhrases);
-			}
-		}, "New phrase", "", null, function() {playSound(CLICK_SOUND_FILE);});
-	};
-	div.appendChild(newPhraseButton);
-	
-	div.appendChild(document.createElement("br"));
-	
-	phraseDiv = document.createElement("div");
-	phraseDiv.className = "customPhrases";
-	div.appendChild(phraseDiv);
-	updatePhrases();
-	
+	updatePhrases(categoryId, isCustomCategory);
 	showStandardDialog(div, null, false, "Custom phrases", null, "inherit", true);
 }
 
