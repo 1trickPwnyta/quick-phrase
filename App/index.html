@@ -77,10 +77,8 @@
 						tx.executeSql("CREATE TABLE IF NOT EXISTS tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)");
 						tx.executeSql("CREATE TABLE IF NOT EXISTS custom_phrase (id integer, category_id integer, tag text)");
 						tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)");
-						tx.executeSql("CREATE TABLE IF NOT EXISTS category (id integer, name text, custom integer)");
-						try {
-							tx.executeSql("ALTER TABLE category ADD COLUMN custom integer");
-						} catch (error) {}
+						tx.executeSql("CREATE TABLE IF NOT EXISTS category (id integer, name text)");
+						tx.executeSql("CREATE TABLE IF NOT EXISTS custom_category (id integer, name text)");
 					});
 					
 					// Hide the edgy option in the Google Play edition
