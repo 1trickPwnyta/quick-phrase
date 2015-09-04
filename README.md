@@ -124,3 +124,4 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 20. Add DEFAULT_GAMES_SINCE_RATING_PROMPT = 0 to config.js.
 21. Add GAMES_UNTIL_RATING_PROMPT = 10 to config.js.
 22. Add MAX_CUSTOM_PHRASE_CHARACTERS = 64 in config.js.
+23. Add MAX_CUSTOM_CATEGORY_CHARACTERS = 64 in config.js.
