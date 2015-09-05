@@ -349,22 +349,26 @@ function showCustomPhrases() {
 		}
 		div.appendChild(categoryMenu);
 		
-		// Create new category button
-		var newCategoryButton = document.createElement("a");
-		newCategoryButton.className = "newCategoryButton";
-		newCategoryButton.href = "#";
-		newCategoryButton.onclick = function() {
-			playSound(CLICK_SOUND_FILE);
+		// Function to show new category dialog
+		var newCategoryDialog = function(defaultText) {
 			// Get input from user
 			dialog.getString(function(response) {
 				if (response) {
-					saveCustomCategoryInLocalDatabase(response, function(newCategoryId) {
-						loadCustomCategories(function() {
-							updatePhrases(newCategoryId, true);
-						});
+					checkIfCategoryExistsInLocalDatabase(response, function(categoryExists) {
+						if (categoryExists) {
+							dialog.showMessage("This category already exists.", function() {
+								newCategoryDialog(response);
+							});
+						} else {
+							saveCustomCategoryInLocalDatabase(response, function(newCategoryId) {
+								loadCustomCategories(function() {
+									updatePhrases(newCategoryId, true);
+								});
+							});
+						}
 					});
 				}
-			}, "New category", "", null, function(response) {
+			}, "New category", defaultText? defaultText: "", null, function(response) {
 				playSound(CLICK_SOUND_FILE);
 				
 				if (response) {
@@ -375,6 +379,15 @@ function showCustomPhrases() {
 					}
 				}
 			});
+		};
+		
+		// Create new category button
+		var newCategoryButton = document.createElement("a");
+		newCategoryButton.className = "newCategoryButton";
+		newCategoryButton.href = "#";
+		newCategoryButton.onclick = function() {
+			playSound(CLICK_SOUND_FILE);
+			newCategoryDialog();
 		};
 		newCategoryButton.innerHTML = "<img src=\"images/create.png\" title=\"New\" alt=\"+\" />";
 		div.appendChild(newCategoryButton);
@@ -401,6 +414,7 @@ function showCustomPhrases() {
 		
 		div.appendChild(document.createElement("br"));
 	
+		// Function to show new phrase dialog
 		var newPhraseDialog = function(defaultText) {
 			// Get input from user
 			dialog.getString(function(response) {

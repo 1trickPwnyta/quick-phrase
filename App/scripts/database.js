@@ -180,7 +180,7 @@ function checkIfCustomPhraseExistsInLocalDatabase(text, callback) {
 	db.transaction(function(tx) {
 		// Make a query to get the phrase
 		var query = "SELECT COUNT(*) AS c FROM custom_phrase ";
-		query += "WHERE tag = '" + text.replace("'", "''") + "' ";
+		query += "WHERE trim(tag) = '" + text.replace("'", "''").trim() + "' ";
 		
 		tx.executeSql(query, [], function(tx, res) {
 			var exists = res.rows.item(0).c > 0;
@@ -341,6 +341,24 @@ function deleteCustomCategoryFromLocalDatabase(rowid, callback) {
 		tx.executeSql(query);
 		if (callback)
 			callback();
+	});
+}
+
+//
+// Checks if a category already exists in the local database, custom or not.
+//
+function checkIfCategoryExistsInLocalDatabase(name, callback) {
+	db.transaction(function(tx) {
+		// Make a query to get the category
+		var query = "SELECT (SELECT COUNT(*) AS c FROM custom_category ";
+		query += "WHERE trim(name) = '" + name.replace("'", "''").trim() + "') + (";
+		query += "SELECT COUNT(*) AS c FROM category ";
+		query += "WHERE trim(name) = '" + name.replace("'", "''").trim() + "') AS c";
+		
+		tx.executeSql(query, [], function(tx, res) {
+			var exists = res.rows.item(0).c > 0;
+			callback(exists);
+		});
 	});
 }
 
