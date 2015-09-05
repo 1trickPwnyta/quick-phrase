@@ -356,7 +356,7 @@ function showCustomPhrases() {
 				if (response) {
 					checkIfCategoryExistsInLocalDatabase(response, function(categoryExists) {
 						if (categoryExists) {
-							dialog.showMessage("This category already exists.", function() {
+							dialog.showMessage("This category is already in the game.", function() {
 								newCategoryDialog(response);
 							});
 						} else {
@@ -419,9 +419,9 @@ function showCustomPhrases() {
 			// Get input from user
 			dialog.getString(function(response) {
 				if (response) {
-					checkIfCustomPhraseExistsInLocalDatabase(response, function(phraseExists) {
+					checkIfPhraseExistsInLocalDatabase(response, function(phraseExists) {
 						if (phraseExists) {
-							dialog.showMessage("You've already created this phrase.", function() {
+							dialog.showMessage("This phrase is already in the game.", function() {
 								newPhraseDialog(response);
 							});
 						} else {

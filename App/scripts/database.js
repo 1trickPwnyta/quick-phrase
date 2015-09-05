@@ -174,22 +174,6 @@ function loadAllCustomPhrasesFromLocalDatabase(categoryId, isCustomCategory, cal
 }
 
 //
-// Checks if a custom phrase already exists in the local database.
-//
-function checkIfCustomPhraseExistsInLocalDatabase(text, callback) {
-	db.transaction(function(tx) {
-		// Make a query to get the phrase
-		var query = "SELECT COUNT(*) AS c FROM custom_phrase ";
-		query += "WHERE trim(tag) = '" + text.replace("'", "''").trim() + "' ";
-		
-		tx.executeSql(query, [], function(tx, res) {
-			var exists = res.rows.item(0).c > 0;
-			callback(exists);
-		});
-	});
-}
-
-//
 // Adds a new custom phrase to the local database.
 //
 function saveCustomPhraseInLocalDatabase(text, categoryId, isCustomCategory, callback) {
@@ -213,6 +197,24 @@ function deleteCustomPhraseFromLocalDatabase(rowid, callback) {
 		tx.executeSql(query);
 		if (callback)
 			callback();
+	});
+}
+
+//
+// Checks if a phrase already exists in the local database, custom or not.
+//
+function checkIfPhraseExistsInLocalDatabase(text, callback) {
+	db.transaction(function(tx) {
+		// Make a query to get the phrase
+		var query = "SELECT (SELECT COUNT(*) AS c FROM custom_phrase ";
+		query += "WHERE trim(tag) = '" + text.replace("'", "''").trim() + "') + (";
+		query += "SELECT COUNT(*) AS c FROM tag ";
+		query += "WHERE trim(tag) = '" + text.replace("'", "''").trim() + "') AS c";
+		
+		tx.executeSql(query, [], function(tx, res) {
+			var exists = res.rows.item(0).c > 0;
+			callback(exists);
+		});
 	});
 }
 
