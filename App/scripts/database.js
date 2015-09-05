@@ -9,6 +9,14 @@ function initializeLocalDatabase() {
 	}
 	
 	db.transaction(function(tx) {
+		// DROP TABLE statements should only be used during testing...
+		// If a database schema must change from a previous version, you MUST retain the current data!
+		/*tx.executeSql("DROP TABLE tag");
+		tx.executeSql("DROP TABLE custom_phrase");
+		tx.executeSql("DROP TABLE difficulty_level");
+		tx.executeSql("DROP TABLE category");
+		tx.executeSql("DROP TABLE custom_category");
+		tx.executeSql("DROP TABLE settings");*/
 		tx.executeSql("CREATE TABLE IF NOT EXISTS tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_phrase (category_id integer, is_custom_category integer, tag text)");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)");
@@ -207,9 +215,9 @@ function checkIfPhraseExistsInLocalDatabase(text, callback) {
 	db.transaction(function(tx) {
 		// Make a query to get the phrase
 		var query = "SELECT (SELECT COUNT(*) AS c FROM custom_phrase ";
-		query += "WHERE trim(tag) = '" + text.replace("'", "''").trim() + "') + (";
+		query += "WHERE UPPER(TRIM(tag)) = '" + text.replace("'", "''").trim().toUpperCase() + "') + (";
 		query += "SELECT COUNT(*) AS c FROM tag ";
-		query += "WHERE trim(tag) = '" + text.replace("'", "''").trim() + "') AS c";
+		query += "WHERE UPPER(TRIM(tag)) = '" + text.replace("'", "''").trim().toUpperCase() + "') AS c";
 		
 		tx.executeSql(query, [], function(tx, res) {
 			var exists = res.rows.item(0).c > 0;
@@ -353,9 +361,9 @@ function checkIfCategoryExistsInLocalDatabase(name, callback) {
 	db.transaction(function(tx) {
 		// Make a query to get the category
 		var query = "SELECT (SELECT COUNT(*) AS c FROM custom_category ";
-		query += "WHERE trim(name) = '" + name.replace("'", "''").trim() + "') + (";
+		query += "WHERE UPPER(TRIM(name)) = '" + name.replace("'", "''").trim().toUpperCase() + "') + (";
 		query += "SELECT COUNT(*) AS c FROM category ";
-		query += "WHERE trim(name) = '" + name.replace("'", "''").trim() + "') AS c";
+		query += "WHERE UPPER(TRIM(name)) = '" + name.replace("'", "''").trim().toUpperCase() + "') AS c";
 		
 		tx.executeSql(query, [], function(tx, res) {
 			var exists = res.rows.item(0).c > 0;
