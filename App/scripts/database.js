@@ -47,7 +47,9 @@ function loadTagsFromLocalDatabase(callback) {
 			query += "AND LENGTH(tag) - LENGTH(REPLACE(tag, ' ', '')) <= " + sMaxWordsPerTag + " - 1 ";
 		if (!sEdgy)
 			query += "AND edgy = 0 ";
-		query += "ORDER BY RANDOM() ";
+		if (PHONEGAP) {
+			query += "ORDER BY RANDOM() ";
+		}
 		query += "LIMIT " + TAG_LOAD_QUANTITY + " ";
 		
 		tx.executeSql(query, [], function(tx, res) {alert(11);
@@ -65,6 +67,11 @@ function loadTagsFromLocalDatabase(callback) {
 			// Inject custom phrases
 			countTagsInLocalDatabase(function(phrasesAvailable) {
 				injectCustomPhrases(newTags, phrasesAvailable, function() {
+					if (!PHONEGAP) {
+						// Still need to randomize the list
+						shuffle(newTags);
+					}
+					
 					for (var i = 0; i < newTags.length; i++)
 						tags.push(newTags[i]);
 					
@@ -121,7 +128,20 @@ function saveTagsInLocalDatabase(newTags) {
 		// If we have too many local phrases, delete about half of them, randomly
 		tx.executeSql("SELECT COUNT(*) AS c FROM tag", [], function(tx, res) {
 			if (res.rows.item(0).c > MAX_LOCAL_TAGS) {
-				tx.executeSql("DELETE FROM tag WHERE (RANDOM() % 2) = 0");
+				if (PHONEGAP) {
+					tx.executeSql("DELETE FROM tag WHERE (RANDOM() % 2) = 0");
+				} else {
+					tx.executeSql("SELECT rowid FROM tag", [], function(tx, res) {
+						var list = "(";
+						for (var i = 0; i < res.rows.length; i++) {
+							if (Math.random() < 0.5) {
+								list += res.rows.item(i).rowid + ",";
+							}
+						}
+						list += "-1)";
+						tx.executeSql("DELETE FROM tag WHERE rowid IN " + list);
+					});
+				}
 			}
 		});
 	});
