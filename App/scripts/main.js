@@ -207,10 +207,11 @@ function loadTags(eraseOldTags, callback) {
 //
 function processPhraseLoad(phraseLoad) {
 	var phrasesRemoved = new Array();
+	var originalPhraseLoadSize = phraseLoad.length;
 	
 	for (var i = 0; i < phraseLoad.length; i++) {
 		// If we removed half of the phrases that were loaded, forget about the used phrases and start over
-		if (phrasesRemoved.length >= TAG_LOAD_QUANTITY/2) {
+		if (phrasesRemoved.length >= originalPhraseLoadSize/2) {
 			usedTagsOverall = new Array();
 			for (var j = 0; j < phrasesRemoved.length; j++) {
 				phraseLoad.push(phrasesRemoved[j]);
