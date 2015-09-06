@@ -24,16 +24,19 @@
 function ajax(method, url, parameters, callback, timeout) {
 	// Initializing request properties
 	var xmlHttp = new XMLHttpRequest();					// Instantiate the request object
-	xmlHttp.complete = false;							// Mark the request as incomplete
 		
 	if (callback) {										// If this is an asynchronous request
 		xmlHttp.onreadystatechange = function() {
 			if (xmlHttp.readyState == 4) {				// This is what will happen when the
 														// response is received
 				if (xmlHttp.responseURL != "") {
-					xmlHttp.complete = true;			// Mark the request as complete
-					callback(xmlHttp.responseText, xmlHttp.status);	// Call the provided callback function, passing it
-																	// the text from the response and the response code
+					callback(xmlHttp.responseText, xmlHttp.status);	
+														// Call the provided callback function, passing it
+														// the text from the response and the response code
+				} else {
+					callback(JSON.stringify(xmlHttp), -1);
+														// Call the provided callback function, passing it
+														// the xmlHttp object as the error message
 				}
 			}
 		};
