@@ -33,10 +33,6 @@ function ajax(method, url, parameters, callback, timeout) {
 					callback(xmlHttp.responseText, xmlHttp.status);	
 														// Call the provided callback function, passing it
 														// the text from the response and the response code
-				} else {
-					callback(JSON.stringify(xmlHttp), -1);
-														// Call the provided callback function, passing it
-														// the xmlHttp object as the error message
 				}
 			}
 		};
