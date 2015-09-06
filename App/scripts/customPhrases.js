@@ -1,4 +1,22 @@
 //
+// Injects custom phrases into a phrase load.
+//
+function injectCustomPhrases(phraseLoad, phrasesAvailable, callback) {
+	loadCustomPhrasesFromLocalDatabase(function(customPhrases) {
+		for (var i = 0; i < customPhrases.length; i++) {
+			if (Math.random() * phrasesAvailable < phraseLoad.length) {
+				var randomIndex = parseInt(Math.random() * phraseLoad.length);
+				phraseLoad.splice(randomIndex, 0, customPhrases[i]);
+			}
+		}
+		
+		if (callback) {
+			callback();
+		}
+	});
+}
+
+//
 // Shows the custom phrases window.
 //
 function showCustomPhrases() {

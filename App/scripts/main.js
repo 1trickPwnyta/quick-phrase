@@ -184,16 +184,17 @@ function loadTags(eraseOldTags, callback) {
 	// Try to load more phrases from the web service first
 	loadTagsFromWebService(function(success) {
 		// If the web service call failed, try the local database
-		if (!success)
+		if (!success) {
 			loadTagsFromLocalDatabase(function() {
 				// If no phrases are loaded, that's an error
 				loadingTags = false;
 				if (tags.length == 0)
 					showLoadingError();
-				else if (callback)
+				else if (callback) {
 					callback();
+				}
 			});
-		else {
+		} else {
 			loadingTags = false;
 			if (callback)
 				callback();

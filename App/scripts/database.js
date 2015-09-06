@@ -47,10 +47,10 @@ function loadTagsFromLocalDatabase(callback) {
 			query += "AND LENGTH(tag) - LENGTH(REPLACE(tag, ' ', '')) <= " + sMaxWordsPerTag + " - 1 ";
 		if (!sEdgy)
 			query += "AND edgy = 0 ";
-		query += "ORDER BY RANDOM()";
+		query += "ORDER BY RANDOM() ";
 		query += "LIMIT " + TAG_LOAD_QUANTITY + " ";
 		
-		tx.executeSql(query, [], function(tx, res) {
+		tx.executeSql(query, [], function(tx, res) {alert(11);
 			// Add the resulting phrases to the list
 			var newTags = new Array();
 			for (var i = 0; i < res.rows.length; i++) {
@@ -59,12 +59,47 @@ function loadTagsFromLocalDatabase(callback) {
 				newTags.push(tag);
 			}
 			
+			// Remove duplicates
 			processPhraseLoad(newTags);
-			for (var i = 0; i < newTags.length; i++)
-				tags.push(newTags[i]);
 			
-			if (callback)
-				callback();
+			// Inject custom phrases
+			countTagsInLocalDatabase(function(phrasesAvailable) {
+				injectCustomPhrases(newTags, phrasesAvailable, function() {
+					for (var i = 0; i < newTags.length; i++)
+						tags.push(newTags[i]);
+					
+					if (callback)
+						callback();
+				});
+			});
+		});
+	});
+}
+
+//
+// Counts the number of non-custom phrases in the local database that meet the current settings criteria.
+//
+function countTagsInLocalDatabase(callback) {
+	db.transaction(function(tx) {
+		// Make a query to get the phrases based on settings
+		var query = "SELECT COUNT(*) AS c FROM tag ";
+		query += "WHERE category_id IN (";
+		if (sCategoryIds.length > 0) {
+			for (var i = 0; i < sCategoryIds.length; i++)
+				query += sCategoryIds[i] + ", ";
+			query += "-1) ";
+		} else
+			query += "category_id) ";
+		query += "AND difficulty_rating <= (SELECT max_rating FROM difficulty_level WHERE id = " + sDifficulty + ") ";
+		if (sMaxCharactersPerTag > 0)
+			query += "AND LENGTH(tag) <= " + sMaxCharactersPerTag + " ";
+		if (sMaxWordsPerTag > 0)
+			query += "AND LENGTH(tag) - LENGTH(REPLACE(tag, ' ', '')) <= " + sMaxWordsPerTag + " - 1 ";
+		if (!sEdgy)
+			query += "AND edgy = 0 ";
+		
+		tx.executeSql(query, [], function(tx, res) {
+			callback(parseInt(res.rows.item(0).c));
 		});
 	});
 }
@@ -130,8 +165,6 @@ function loadCustomPhrasesFromLocalDatabase(callback) {
 			query += "AND LENGTH(tag) <= " + sMaxCharactersPerTag + " ";
 		if (sMaxWordsPerTag > 0)
 			query += "AND LENGTH(tag) - LENGTH(REPLACE(tag, ' ', '')) <= " + sMaxWordsPerTag + " - 1 ";
-		query += "ORDER BY RANDOM()";
-		query += "LIMIT " + TAG_LOAD_QUANTITY + " ";
 		
 		tx.executeSql(query, [], function(tx, res) {
 			// Add the resulting phrases to the list
@@ -142,12 +175,7 @@ function loadCustomPhrasesFromLocalDatabase(callback) {
 				newTags.push(tag);
 			}
 			
-			processPhraseLoad(newTags);
-			for (var i = 0; i < newTags.length; i++)
-				tags.push(newTags[i]);
-			
-			if (callback)
-				callback();
+			callback(newTags);
 		});
 	});
 }
