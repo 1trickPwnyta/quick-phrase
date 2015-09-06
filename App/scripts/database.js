@@ -52,7 +52,7 @@ function loadTagsFromLocalDatabase(callback) {
 		}
 		query += "LIMIT " + TAG_LOAD_QUANTITY + " ";
 		
-		tx.executeSql(query, [], function(tx, res) {alert(11);
+		tx.executeSql(query, [], function(tx, res) {
 			// Add the resulting phrases to the list
 			var newTags = new Array();
 			for (var i = 0; i < res.rows.length; i++) {
@@ -459,6 +459,10 @@ function loadSettings(callback) {
 	});
 	getSetting("sCategoryIds", JSON.stringify(sCategoryIds), function(value) {
 		sCategoryIds = JSON.parse(value);
+		settingsLoaded++;
+	});
+	getSetting("sCustomCategoryIds", JSON.stringify(sCustomCategoryIds), function(value) {
+		sCustomCategoryIds = JSON.parse(value);
 		settingsLoaded++;
 	});
 	getSetting("sStyleSheet", sStyleSheet, function(value) {

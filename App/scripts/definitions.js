@@ -34,7 +34,7 @@ var TAG_FLAGGING_REASONS = [						// Possible reasons for flagging a phrase
 ];
 
 // User Settings
-var settingsCount = 19;								// Must be equal to the number of settings below
+var settingsCount = 20;								// Must be equal to the number of settings below
 	var sMinTimePerStage = 							// Minimum ms for each time stage
 			DEFAULT_MIN_TIME_PER_STAGE;
 	var sMaxTimePerStage = 							// Maximum ms for each time stage
@@ -48,6 +48,8 @@ var settingsCount = 19;								// Must be equal to the number of settings below
 	var sMaxCharactersPerTag = 						// Maximum characters per phrase
 			DEFAULT_MAX_CHARACTERS_PER_TAG;
 	var sCategoryIds = DEFAULT_CATEGORY_IDS;		// Selected phrase categories
+	var sCustomCategoryIds = 						// Selected custom categories
+			DEFAULT_CUSTOM_CATEGORY_IDS;
 	var sStyleSheet = DEFAULT_STYLE_SHEET;			// Path to style sheet used by theme
 	var sVibrate = DEFAULT_VIBRATE;					// Turns vibration on
 	var sEdgy = DEFAULT_EDGY;						// Allows adult-only phrases

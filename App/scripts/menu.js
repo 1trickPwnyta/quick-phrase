@@ -124,8 +124,11 @@ function showCategories() {
 		var checkbox = document.createElement("input");
 		checkbox.type = "checkbox";
 		checkbox.id = "categoryCheckbox" + i;
-		checkbox.category = categories[i].id;
-		checkbox.checked = sCategoryIds.indexOf(categories[i].id) != -1 || sCategoryIds.length == 0;
+		checkbox.category = categories[i];
+		checkbox.checked = (
+				!categories[i].isCustom && (sCategoryIds.indexOf(categories[i].id) != -1 || sCategoryIds.length == 0) || 
+				categories[i].isCustom && (sCustomCategoryIds.indexOf(categories[i].id) != -1 || sCustomCategoryIds.length == 0)
+		);
 		checkbox.onchange = function(){playSound(CLICK_SOUND_FILE);};
 		checkboxCell.appendChild(checkbox);
 		row.appendChild(checkboxCell);
@@ -477,22 +480,33 @@ function changeDifficulty(difficulty, callback) {
 //
 // Changes the categories user setting and reloads phrases.
 //
-function changeCategories(categoryIds, callback) {
+function changeCategories(newCategories, callback) {
 	// Change the setting
+	
+	// An empty array will be treated as all categories
+	sCategoryIds = new Array();
+	sCustomCategoryIds = new Array();
+	
 	// Check if all categories are selected, length - 1 because index 0 is nothing
-	if (categoryIds.length == categories.length - 1)
-		// An empty array will be treated as all categories
-		sCategoryIds = new Array();
-	else
+	if (newCategories.length < categories.length - 1) {
 		// Just use the list of categories we calculated
-		sCategoryIds = categoryIds;
+		for (var i = 0; i < newCategories.length; i++) {
+			if (newCategories[i].isCustom) {
+				sCustomCategoryIds.push(newCategories[i].id);
+			} else {
+				sCategoryIds.push(newCategories[i].id);
+			}
+		}
+	}
 	
 	// Reload new phrases with the new categories
 	showLoadingScreen();
 	loadTags(true, showReadyScreen);
 	
 	// Save the setting in the local database
-	setSetting("sCategoryIds", JSON.stringify(sCategoryIds), callback);
+	setSetting("sCategoryIds", JSON.stringify(sCategoryIds), function() {
+		setSetting("sCustomCategoryIds", JSON.stringify(sCustomCategoryIds), callback);
+	});
 }
 
 //
