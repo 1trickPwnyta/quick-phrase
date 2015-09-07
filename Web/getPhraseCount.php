@@ -1,20 +1,24 @@
 <?php
 
 include "mysql.php";
+include "global.php";
 
 header("Access-Control-Allow-Origin: null");
 
 // Get parameters
-$categoryIds = (array) json_decode($_GET["categoryIds"]);
-for ($i = 0; $i < count($categoryIds); $i++)
-	$categoryIds[$i] = (int) $categoryIds[$i];
+$categoryIds = json_decode($_GET["categoryIds"]);
+if ($categoryIds != $CATEGORIES_ALL) {
+	$categoryIds = (array) $categoryIds;
+	for ($i = 0; $i < count($categoryIds); $i++)
+		$categoryIds[$i] = (int) $categoryIds[$i];
+}
 $difficultyId = (int) $_GET["difficultyId"];
 $maxCharacters = (int) $_GET["maxCharacters"];
 $maxWords = (int) $_GET["maxWords"];
 $edgy = (int) $_GET["edgy"];
 
 // Validate parameters
-if ($categoryIds == null) {
+if ($categoryIds === null) {
 	$categoryIds = array();
 }
 if ($difficultyId < 1) {
@@ -36,7 +40,7 @@ if ($maxWords < 0) {
 // Build a query
 $query = "SELECT COUNT(*) AS c FROM tag ";
 $query .= "WHERE category_id IN (";
-if (count($categoryIds) > 0) {
+if ($categoryIds != $CATEGORIES_ALL) {
 	foreach ($categoryIds as $categoryId)
 		$query .= "$categoryId, ";
 	$query .= "-1) ";

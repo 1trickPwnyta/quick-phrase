@@ -12,7 +12,13 @@ function showMenu() {
 	document.getElementById("menuItemMinimumTime").getElementsByClassName("menuItemValue")[0].innerHTML = Math.round(sMinTimePerStage*3/1000);
 	document.getElementById("menuItemMaximumTime").getElementsByClassName("menuItemValue")[0].innerHTML = Math.round(sMaxTimePerStage*3/1000);
 	document.getElementById("menuItemDifficulty").getElementsByClassName("menuItemValue")[0].value = sDifficulty;
-	document.getElementById("menuItemCategoryIds").getElementsByClassName("menuItemValue")[0].innerHTML = (sCategoryIds.length > 1? (sCategoryIds.length + " categories"): (sCategoryIds.length == 1? getCategoryById(sCategoryIds[0]).name: "All"));
+	document.getElementById("menuItemCategoryIds").getElementsByClassName("menuItemValue")[0].innerHTML = 
+		(sCategoryIds == CATEGORIES_ALL && sCustomCategoryIds == CATEGORIES_ALL)? "All": (
+			sCategoryIds.length + sCustomCategoryIds.length > 1? ((sCategoryIds.length + sCustomCategoryIds.length) + " categories"): 
+				getCategoryById(
+						sCategoryIds.length > 0? sCategoryIds[0]: 
+							sCustomCategoryIds[0]).name
+		);
 	document.getElementById("menuItemMaxWords").getElementsByClassName("menuItemValue")[0].innerHTML = (sMaxWordsPerTag == 0? "Unlimited": sMaxWordsPerTag);
 	document.getElementById("menuItemMaxCharacters").getElementsByClassName("menuItemValue")[0].innerHTML = (sMaxCharactersPerTag == 0? "Unlimited": sMaxCharactersPerTag);
 	document.getElementById("menuItemBeepSoundFile").getElementsByClassName("menuItemValue")[0].value = sBeepSoundFile;
@@ -126,8 +132,8 @@ function showCategories() {
 		checkbox.id = "categoryCheckbox" + i;
 		checkbox.category = categories[i];
 		checkbox.checked = (
-				!categories[i].isCustom && (sCategoryIds.indexOf(categories[i].id) != -1 || sCategoryIds.length == 0) || 
-				categories[i].isCustom && (sCustomCategoryIds.indexOf(categories[i].id) != -1 || sCustomCategoryIds.length == 0)
+				!categories[i].isCustom && (sCategoryIds.indexOf(categories[i].id) != -1 || sCategoryIds == CATEGORIES_ALL) || 
+				categories[i].isCustom && (sCustomCategoryIds.indexOf(categories[i].id) != -1 || sCustomCategoryIds == CATEGORIES_ALL)
 		);
 		checkbox.onchange = function(){playSound(CLICK_SOUND_FILE);};
 		checkboxCell.appendChild(checkbox);
@@ -483,7 +489,6 @@ function changeDifficulty(difficulty, callback) {
 function changeCategories(newCategories, callback) {
 	// Change the setting
 	
-	// An empty array will be treated as all categories
 	sCategoryIds = new Array();
 	sCustomCategoryIds = new Array();
 	
@@ -497,6 +502,9 @@ function changeCategories(newCategories, callback) {
 				sCategoryIds.push(newCategories[i].id);
 			}
 		}
+	} else {
+		sCategoryIds = CATEGORIES_ALL;
+		sCustomCategoryIds = CATEGORIES_ALL;
 	}
 	
 	// Reload new phrases with the new categories

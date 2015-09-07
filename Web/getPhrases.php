@@ -1,14 +1,20 @@
 <?php
 
 include "mysql.php";
+include "global.php";
 
 header("Access-Control-Allow-Origin: null");
 
+$legacy = false;
+
 // Get parameters
 $numberOfTags = (int) $_GET["numberOfPhrases"];
-$categoryIds = (array) json_decode($_GET["categoryIds"]);
-for ($i = 0; $i < count($categoryIds); $i++)
-	$categoryIds[$i] = (int) $categoryIds[$i];
+$categoryIds = json_decode($_GET["categoryIds"]);
+if ($categoryIds != $CATEGORIES_ALL) {
+	$categoryIds = (array) $categoryIds;
+	for ($i = 0; $i < count($categoryIds); $i++)
+		$categoryIds[$i] = (int) $categoryIds[$i];
+}
 $difficultyId = (int) $_GET["difficultyId"];
 $maxCharacters = (int) $_GET["maxCharacters"];
 $maxWords = (int) $_GET["maxWords"];
@@ -21,10 +27,16 @@ if ($numberOfTags < 1) {
 		http_response_code(400);
 		echo "numberOfPhrases must be an integer greater than 0.";
 		exit;
+	} else {
+		$legacy = true;
 	}
 }
-if ($categoryIds == null) {
-	$categoryIds = array();
+if ($categoryIds === null) {
+	if ($legacy) {
+		$categoryIds = array();
+	} else {
+		$categoryIds = $CATEGORIES_ALL;
+	}
 }
 if ($difficultyId < 1) {
 	http_response_code(400);
@@ -46,12 +58,13 @@ if ($maxWords < 0) {
 $query = "SELECT t.*, u.username AS authorName FROM tag t ";
 $query .= "LEFT JOIN user u ON u.id = t.submitter ";
 $query .= "WHERE category_id IN (";
-if (count($categoryIds) > 0) {
+if ((!$legacy && $categoryIds != $CATEGORIES_ALL) || ($legacy && count($categoryIds) > 0)) {
 	foreach ($categoryIds as $categoryId)
 		$query .= "$categoryId, ";
 	$query .= "-1) ";
-} else
+} else {
 	$query .= "category_id) ";
+}
 $query .= "AND difficulty_rating <= (SELECT max_rating FROM difficulty_level WHERE id = $difficultyId) ";
 if ($maxCharacters > 0)
 	$query .= "AND LENGTH(text) <= $maxCharacters ";

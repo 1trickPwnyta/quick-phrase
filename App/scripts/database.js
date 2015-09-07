@@ -34,7 +34,7 @@ function loadTagsFromLocalDatabase(callback) {
 		// Make a query to get the phrases based on settings
 		var query = "SELECT * FROM tag ";
 		query += "WHERE category_id IN (";
-		if (sCategoryIds.length > 0) {
+		if (sCategoryIds != CATEGORIES_ALL) {
 			for (var i = 0; i < sCategoryIds.length; i++)
 				query += sCategoryIds[i] + ", ";
 			query += "-1) ";
@@ -92,7 +92,7 @@ function countTagsInLocalDatabase(callback) {
 		// Make a query to get the phrases based on settings
 		var query = "SELECT COUNT(*) AS c FROM tag ";
 		query += "WHERE category_id IN (";
-		if (sCategoryIds.length > 0) {
+		if (sCategoryIds != CATEGORIES_ALL) {
 			for (var i = 0; i < sCategoryIds.length; i++)
 				query += sCategoryIds[i] + ", ";
 			query += "-1) ";
@@ -183,7 +183,7 @@ function loadCustomPhrasesFromLocalDatabase(callback) {
 		// Make a query to get the phrases based on settings
 		var query = "SELECT * FROM custom_phrase ";
 		query += "WHERE ((is_custom_category = 0 AND category_id IN (";
-		if (sCategoryIds.length > 0) {
+		if (sCategoryIds != CATEGORIES_ALL) {
 			for (var i = 0; i < sCategoryIds.length; i++)
 				query += sCategoryIds[i] + ", ";
 			query += "-1)";
@@ -191,7 +191,7 @@ function loadCustomPhrasesFromLocalDatabase(callback) {
 			query += "category_id)";
 		query += ") ";
 		query += "OR (is_custom_category > 0 AND category_id IN (";
-		if (sCustomCategoryIds.length > 0) {
+		if (sCustomCategoryIds != CATEGORIES_ALL) {
 			for (var i = 0; i < sCustomCategoryIds.length; i++)
 				query += sCustomCategoryIds[i] + ", ";
 			query += "-1)";

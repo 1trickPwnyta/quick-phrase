@@ -2,10 +2,11 @@
 // Injects custom phrases into a phrase load.
 //
 function injectCustomPhrases(phraseLoad, phrasesAvailable, callback) {
+	var originalPhraseLoadSize = phraseLoad.length;
 	loadCustomPhrasesFromLocalDatabase(function(customPhrases) {
 		for (var i = 0; i < customPhrases.length; i++) {
-			if (Math.random() * phrasesAvailable < phraseLoad.length) {
-				var randomIndex = parseInt(Math.random() * phraseLoad.length);
+			if (Math.random() * phrasesAvailable < originalPhraseLoadSize || (originalPhraseLoadSize == 0 && phrasesAvailable == 0)) {
+				var randomIndex = parseInt(Math.random() * (phraseLoad.length + 1));
 				phraseLoad.splice(randomIndex, 0, customPhrases[i]);
 			}
 		}
