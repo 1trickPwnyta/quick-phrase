@@ -5,7 +5,7 @@ include "mysql.php";
 header("Access-Control-Allow-Origin: null");
 
 // Get parameters
-$numerOfTags = (int) $_GET["numberOfPhrases"];
+$numberOfTags = (int) $_GET["numberOfPhrases"];
 $categoryIds = (array) json_decode($_GET["categoryIds"]);
 for ($i = 0; $i < count($categoryIds); $i++)
 	$categoryIds[$i] = (int) $categoryIds[$i];
@@ -15,7 +15,7 @@ $maxWords = (int) $_GET["maxWords"];
 $edgy = (int) $_GET["edgy"];
 
 // Validate parameters
-if ($numerOfTags < 1) {
+if ($numberOfTags < 1) {
 	$numberOfTags = (int) $_GET["numberOfTags"];
 	if ($numberOfTags < 1) {
 		http_response_code(400);
@@ -59,8 +59,8 @@ if ($maxWords > 0)
 	$query .= "AND LENGTH(text) - LENGTH(REPLACE(text, ' ', '')) <= $maxWords - 1 ";
 if ($edgy == 0)
 	$query .= "AND edgy = 0 ";
-$query .= "ORDER BY RAND()";
-$query .= "LIMIT $numerOfTags ";
+$query .= "ORDER BY RAND() ";
+$query .= "LIMIT $numberOfTags ";
 
 // Get phrases from the database
 $db = mysqlConnect();
