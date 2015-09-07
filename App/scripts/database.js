@@ -62,7 +62,7 @@ function loadTagsFromLocalDatabase(callback) {
 				console.log(tag.text);
 			}
 			
-			// Remove duplicates
+			// Remove previously used or duplicate phrases
 			processPhraseLoad(newTags);
 			
 			// Inject custom phrases

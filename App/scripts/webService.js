@@ -17,24 +17,31 @@ function loadTagsFromWebService(callback) {
 			
 			// Get the new phrases from the web service response, add them to the list
 			var newTags = JSON.parse(response);
+			
+			// Remove previously used or duplicate phrases
 			processPhraseLoad(newTags);
-			for (var i = 0; i < newTags.length; i++)
-				tags.push(newTags[i]);
 			
-			// Check if there are any phrases loaded now, otherwise return failure
-			if (tags.length == 0) {
-				if (callback)
-					callback(false);
-				return;
-			}
-			
-			// Store the new phrases in the local database
-			saveTagsInLocalDatabase(newTags);
-			
-			// Return success
-			if (callback)
-				callback(true);
-			
+			// Inject custom phrases
+			countTagsInWebService(function(phrasesAvailable) {
+				injectCustomPhrases(newTags, phrasesAvailable, function() {
+					for (var i = 0; i < newTags.length; i++)
+						tags.push(newTags[i]);
+					
+					// Check if there are any phrases loaded now, otherwise return failure
+					if (tags.length == 0) {
+						if (callback)
+							callback(false);
+						return;
+					}
+					
+					// Store the new phrases in the local database
+					saveTagsInLocalDatabase(newTags);
+					
+					// Return success
+					if (callback)
+						callback(true);
+				});
+			});
 		} else if (status < 0) {
 			// The web service call failed, so return failure
 			if (callback)
@@ -43,6 +50,33 @@ function loadTagsFromWebService(callback) {
 			// The web service call timed out, so return failure
 			if (callback)
 				callback(false);
+		}
+	}, WEB_SERVICE_TIMEOUT);
+}
+
+//
+// Counts the number of phrases at the web service that meet the current settings criteria.
+//
+function countTagsInWebService(callback) {
+	// Call the web service for phrase count
+	ajax("GET", WEB_SERVICE_URL + "/getPhraseCount.php", [
+		{name: "categoryIds", value: JSON.stringify(sCategoryIds)},
+		{name: "difficultyId", value: sDifficulty},
+		{name: "maxCharacters", value: sMaxCharactersPerTag},
+		{name: "maxWords", value: sMaxWordsPerTag},
+		{name: "edgy", value: (sEdgy && !APP_GOOGLEPLAY_EDITION? 1: 0)}
+	], function(response, status) {
+		// Check if the web service returns a valid response
+		if (status == 200) {
+			// Get the phrase count from the web service response
+			var count = parseInt(response);
+			callback(count);
+		} else if (status < 0) {
+			// The web service call failed, so return a default count
+			callback(TAG_LOAD_QUANTITY*100);
+		} else {
+			// The web service call timed out, so return a default count
+			callback(TAG_LOAD_QUANTITY*100);
 		}
 	}, WEB_SERVICE_TIMEOUT);
 }
