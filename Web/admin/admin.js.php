@@ -61,7 +61,7 @@ function approve() {
 			if (unapprovedTags.length > 0) {
 				var message = "The following tags could not be approved. They may already exist.<br />";
 				for (var i = 0; i < unapprovedTags.length; i++) {
-					message += unapprovedTag[i].text + "<br />";
+					message += unapprovedTags[i].text + "<br />";
 				}
 				dialog.showMessage(message);
 			}
@@ -128,6 +128,10 @@ function getTagById(id, getDifficulty) {
 	}
 	var text = document.getElementById("textCell" + id).innerHTML;
 	var categoryId = document.getElementById("categoryCell" + id).innerHTML.split(" ")[0];
+	if (!categoryId) {
+		dialog.showMessage("Please set the category for '" + text + "'.");
+		return false;
+	}
 	var difficulty = parseInt(document.getElementById("difficultyCell" + id).innerHTML);
 	if (getDifficulty && (isNaN(difficulty) || !difficulty)) {
 		dialog.showMessage("Please set the difficulty rating for '" + text + "'.");

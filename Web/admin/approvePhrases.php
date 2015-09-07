@@ -40,7 +40,7 @@
 	// Build a query to get the original unapproved phrases
 	$query = "
 	SELECT text, category.id AS category_id, category.name AS category_name, submitter FROM unapproved_tag
-	INNER JOIN category ON category.id = unapproved_tag.category_id
+	LEFT JOIN category ON category.id = unapproved_tag.category_id
 	WHERE unapproved_tag.id IN ($ids)
 	ORDER BY unapproved_tag.id";
 	
@@ -53,41 +53,50 @@
 	$tagsBySubmitter = array();
 	$unapprovedTags = array();
 	for ($i = 0; $i < count($databaseTags); $i++) {
-		$changedText = false;
-		$changedCategory = false;
-	
-		// Build a query to get submitter's email address
-		$query = "
-		SELECT email_address FROM user
-		WHERE id = {$databaseTags[$i]["submitter"]}";
+		$legacy = $databaseTags[$i]["submitter"] != null;
 		
-		// Get email address from the database
-		$statement = $db->query($query);
-		$users = array();
-		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-			array_push($users, $row);
-		$userEmail = $users[0]["email_address"];
+		if ($legacy) {
+			$changedText = false;
+			$changedCategory = false;
+		
+			// Build a query to get submitter's email address
+			$query = "
+			SELECT email_address FROM user
+			WHERE id = {$databaseTags[$i]["submitter"]}";
+			
+			// Get email address from the database
+			$statement = $db->query($query);
+			$users = array();
+			while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+				array_push($users, $row);
+			$userEmail = $users[0]["email_address"];
+		}
 		
 		if ($approve > 0) {
-			// Compare the original unapproved phrase to the one being approved
-			if (trim(strtolower($databaseTags[$i]["text"])) != trim(strtolower($tags[$i]->text)))
-				$changedText = true;
-			if ($databaseTags[$i]["category_id"] != $tags[$i]->categoryId) {
-				$changedCategory = true;
-				
-				// Build a query to get the new category name
-				$query = "SELECT name FROM category WHERE id = {$tags[$i]->categoryId}";
-				
-				// Get category name from the database
-				$statement = $db->query($query);
-				$categories = array();
-				while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-					array_push($categories, $row);
-				
-				$newCategory = $categories[0]["name"];
+			if ($legacy) {
+				// Compare the original unapproved phrase to the one being approved
+				if (trim(strtolower($databaseTags[$i]["text"])) != trim(strtolower($tags[$i]->text)))
+					$changedText = true;
+				if ($databaseTags[$i]["category_id"] != $tags[$i]->categoryId) {
+					$changedCategory = true;
+					
+					// Build a query to get the new category name
+					$query = "SELECT name FROM category WHERE id = {$tags[$i]->categoryId}";
+					
+					// Get category name from the database
+					$statement = $db->query($query);
+					$categories = array();
+					while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+						array_push($categories, $row);
+					
+					$newCategory = $categories[0]["name"];
+				}
 			}
 			
 			// Build a query to insert the phrase
+			if (!$legacy) {
+				$databaseTags[$i]["submitter"] = "NULL";
+			}
 			$query = 
 				"INSERT INTO tag (category_id, text, difficulty_rating, edgy, submitter)
 				VALUES ({$tags[$i]->categoryId}, {$db->quote(html_entity_decode($tags[$i]->text))}, {$tags[$i]->difficulty}, {$tags[$i]->edgy}, {$databaseTags[$i]["submitter"]})";
@@ -104,20 +113,22 @@
 				continue;
 			}
 			
-			// Add the phrase to the list of approved phrases for its submitter
-			$submitterTags = $tagsBySubmitter[$userEmail];
-			if ($submitterTags == null) {
-				$submitterTags = array();
+			if ($legacy) {
+				// Add the phrase to the list of approved phrases for its submitter
+				$submitterTags = $tagsBySubmitter[$userEmail];
+				if ($submitterTags == null) {
+					$submitterTags = array();
+				}
+				array_push($submitterTags, array(
+					"original" => $databaseTags[$i],
+					"approved" => $tags[$i],
+					"changedText" => $changedText,
+					"changedCategory" => $changedCategory,
+					"newCategoryName" => $newCategory
+				));
+				$tagsBySubmitter[$userEmail] = $submitterTags;
 			}
-			array_push($submitterTags, array(
-				"original" => $databaseTags[$i],
-				"approved" => $tags[$i],
-				"changedText" => $changedText,
-				"changedCategory" => $changedCategory,
-				"newCategoryName" => $newCategory
-			));
-			$tagsBySubmitter[$userEmail] = $submitterTags;
-		} else {
+		} else if ($legacy) {
 			// Add the phrase to the list of rejected phrases for its submitter
 			$submitterTags = $tagsBySubmitter[$userEmail];
 			if ($submitterTags == null) {
@@ -142,54 +153,56 @@
 	}
 	
 	foreach ($tagsBySubmitter as $userEmail => $submitterTags) {
-		$from = "Catch-Phrase Panic <$APPLICATION_EMAIL_ADDRESS>";
-		$to = $userEmail;
-		$subject = "Your new phrase".(count($submitterTags) > 1? "s": "");
-		
-		$body = "";
-		for ($i = 0; $i < count($submitterTags); $i++) {
-			if ($approve > 0) {
-				if ($submitterTags[$i]['changedText'] || $submitterTags[$i]['changedCategory']) {
-					$body .= "Your phrase '{$submitterTags[$i]['original']['text']}' was approved with the following changes: \r\n";
-					if ($submitterTags[$i]['changedText'])
-						$body .= "Your phrase is now \"{$submitterTags[$i]['approved']->text}\". \r\n";
-					if ($submitterTags[$i]['changedCategory'])
-						$body .= "Your phrase's category is now {$submitterTags[$i]['newCategoryName']}. \r\n";
-				} else
-					$body .= "Your phrase '{$submitterTags[$i]['original']['text']}' was approved. \r\n";
-			} else {
-				$body .= "Your phrase '{$submitterTags[$i]['original']['text']}' was rejected for the following reason: \r\n";
-				$body .= $reason." \r\n";
-			}
-			$body .= "\r\n";
-		}
-		if ($approve > 0) {
-			$body .= "Your phrase".(count($submitterTags) > 1? "s are": " is")." now being used in the game everywhere. \r\n";
-		}
-		$body .= "Thank you! \r\n";
-		
-		if ($NO_EMAIL) {
-			$myfile = fopen("C:\\Temp\\$userEmail.txt", "w") or die("Unable to open file!");
-			fwrite($myfile, $body);
-			fclose($myfile);
-		}
-		
-		if (!$NO_EMAIL) {
-			$headers = array (
-					"From" => $from,
-					"To" => $to,
-					"Subject" => $subject
-			);
+		if (count($submitterTags) > 0) {
+			$from = "Catch-Phrase Panic <$APPLICATION_EMAIL_ADDRESS>";
+			$to = $userEmail;
+			$subject = "Your new phrase".(count($submitterTags) > 1? "s": "");
 			
-			$smtp = Mail::factory("smtp", array (
-					"host" => $SMTP_HOST,
-					"port" => $SMTP_PORT,
-					"auth" => true,
-					"username" => $SMTP_USERNAME,
-					"password" => $SMTP_PASSWORD
-			));
-		
-			$mail = $smtp->send($to, $headers, $body);
+			$body = "";
+			for ($i = 0; $i < count($submitterTags); $i++) {
+				if ($approve > 0) {
+					if ($submitterTags[$i]['changedText'] || $submitterTags[$i]['changedCategory']) {
+						$body .= "Your phrase '{$submitterTags[$i]['original']['text']}' was approved with the following changes: \r\n";
+						if ($submitterTags[$i]['changedText'])
+							$body .= "Your phrase is now \"{$submitterTags[$i]['approved']->text}\". \r\n";
+						if ($submitterTags[$i]['changedCategory'])
+							$body .= "Your phrase's category is now {$submitterTags[$i]['newCategoryName']}. \r\n";
+					} else
+						$body .= "Your phrase '{$submitterTags[$i]['original']['text']}' was approved. \r\n";
+				} else {
+					$body .= "Your phrase '{$submitterTags[$i]['original']['text']}' was rejected for the following reason: \r\n";
+					$body .= $reason." \r\n";
+				}
+				$body .= "\r\n";
+			}
+			if ($approve > 0) {
+				$body .= "Your phrase".(count($submitterTags) > 1? "s are": " is")." now being used in the game everywhere. \r\n";
+			}
+			$body .= "Thank you! \r\n";
+			
+			if ($NO_EMAIL) {
+				$myfile = fopen("C:\\Temp\\$userEmail.txt", "w") or die("Unable to open file!");
+				fwrite($myfile, $body);
+				fclose($myfile);
+			}
+			
+			if (!$NO_EMAIL) {
+				$headers = array (
+						"From" => $from,
+						"To" => $to,
+						"Subject" => $subject
+				);
+				
+				$smtp = Mail::factory("smtp", array (
+						"host" => $SMTP_HOST,
+						"port" => $SMTP_PORT,
+						"auth" => true,
+						"username" => $SMTP_USERNAME,
+						"password" => $SMTP_PASSWORD
+				));
+			
+				$mail = $smtp->send($to, $headers, $body);
+			}
 		}
 	}
 	

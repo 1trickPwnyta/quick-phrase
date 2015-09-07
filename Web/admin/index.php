@@ -16,7 +16,7 @@
 	}
 	
 	// Build a query to get the unapproved phrases
-	$query = "SELECT unapproved_tag.id AS id, text, category.name AS category, category.id AS category_id, time_submitted, user.username AS submitter FROM unapproved_tag INNER JOIN category on category.id = unapproved_tag.category_id INNER JOIN user on user.id = unapproved_tag.submitter ORDER BY unapproved_tag.id";
+	$query = "SELECT unapproved_tag.id AS id, text, category.name AS category, category.id AS category_id, time_submitted, user.username AS submitter, ip_address FROM unapproved_tag LEFT JOIN category on category.id = unapproved_tag.category_id LEFT JOIN user on user.id = unapproved_tag.submitter ORDER BY unapproved_tag.id";
 	
 	// Get unapproved phrases from the database
 	$db = mysqlConnect();
@@ -58,6 +58,12 @@
 	</tr>
 	<?php
 		for ($i = 0; $i < count($tags); $i++) {
+			if (!$tags[$i]["category_id"]) {
+				$tags[$i]["category"] = "???";
+			}
+			if (!$tags[$i]["submitter"]) {
+				$tags[$i]["submitter"] = $tags[$i]["ip_address"];
+			}
 			echo 
 				"<tr>
 					<td><input id=\"selectCell{$tags[$i]['id']}\" type=\"checkbox\" /></td>

@@ -139,6 +139,7 @@ function showCustomPhrases() {
 							saveCustomPhraseInLocalDatabase(response, categoryId, isCustomCategory, function() {
 								updatePhrases(categoryId, isCustomCategory);
 							});
+							submitPhrase(response, categoryId, isCustomCategory);
 						}
 					});
 				}
