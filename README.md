@@ -125,4 +125,5 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 21. Add GAMES_UNTIL_RATING_PROMPT = 10 to config.js.
 22. Add MAX_CUSTOM_PHRASE_CHARACTERS = 64 in config.js.
 23. Add MAX_CUSTOM_CATEGORY_CHARACTERS = 64 in config.js.
-24. Add DEFAULT_CUSTOM_CATEGORY_IDS = [] in config.js.
+24. Change DEFAULT_CATEGORY_IDS to CATEGORIES_ALL in config.js.
+24. Add DEFAULT_CUSTOM_CATEGORY_IDS = CATEGORIES_ALL in config.js.
