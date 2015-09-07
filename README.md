@@ -127,3 +127,5 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 23. Add MAX_CUSTOM_CATEGORY_CHARACTERS = 64 in config.js.
 24. Change DEFAULT_CATEGORY_IDS to CATEGORIES_ALL in config.js.
 24. Add DEFAULT_CUSTOM_CATEGORY_IDS = CATEGORIES_ALL in config.js.
+25. Add ip_address column to unapproved_tag table, allow null default null varchar(32).
+26. Allow null for submitter column in unapproved_tag table.
