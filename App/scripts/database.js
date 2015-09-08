@@ -11,12 +11,12 @@ function initializeLocalDatabase() {
 	db.transaction(function(tx) {
 		// DROP TABLE statements should only be used during testing...
 		// If a database schema must change from a previous version, you MUST retain the current data!
-		tx.executeSql("DROP TABLE tag");
+		/*tx.executeSql("DROP TABLE tag");
 		tx.executeSql("DROP TABLE custom_phrase");
 		tx.executeSql("DROP TABLE difficulty_level");
 		tx.executeSql("DROP TABLE category");
 		tx.executeSql("DROP TABLE custom_category");
-		tx.executeSql("DROP TABLE settings");
+		tx.executeSql("DROP TABLE settings");*/
 		tx.executeSql("CREATE TABLE IF NOT EXISTS tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_phrase (category_id integer, is_custom_category integer, tag text)");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)");
@@ -59,7 +59,6 @@ function loadTagsFromLocalDatabase(callback) {
 				var tag = res.rows.item(i);
 				tag.text = tag.tag;
 				newTags.push(tag);
-				console.log(tag.text);
 			}
 			
 			// Remove previously used or duplicate phrases
