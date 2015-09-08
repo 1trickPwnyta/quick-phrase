@@ -120,7 +120,9 @@ function saveTagsInLocalDatabase(newTags) {
 		// Make a list of all IDs to be inserted
 		var idList = "(";
 		for (var i = 0; i < newTags.length; i++) {
-			idList += newTags[i].id + ",";
+			if (newTags[i].id) { // Filter out custom phrases
+				idList += newTags[i].id + ",";
+			}
 		}
 		idList += "-1)";
 		// Get a list of IDs that are already in the database
@@ -133,12 +135,13 @@ function saveTagsInLocalDatabase(newTags) {
 			// Make a query to store phrases not already in the database
 			var query = "INSERT INTO tag (id, category_id, tag, difficulty_rating, edgy) VALUES ";
 			for (var i = 0; i < newTags.length; i++) {
-				if (existingIds.indexOf(parseInt(newTags[i].id)) < 0) {
-					query += "(" + newTags[i].id + ", " + newTags[i].category_id + ", '" + newTags[i].text.replace("'", "''") + "', " + newTags[i].difficulty_rating + ", " + newTags[i].edgy + ")";
-					if (i < newTags.length - 1)
-						query += ", ";
+				if (newTags[i].id) { // Filter out custom phrases
+					if (existingIds.indexOf(parseInt(newTags[i].id)) < 0) {
+						query += "(" + newTags[i].id + ", " + newTags[i].category_id + ", '" + newTags[i].text.replace("'", "''") + "', " + newTags[i].difficulty_rating + ", " + newTags[i].edgy + "),";
+					}
 				}
 			}
+			query = query.substring(0, query.length - 1);	// Remove trailing comma
 			tx.executeSql(query);
 			
 			// If we have too many local phrases, delete about half of them, randomly
@@ -224,11 +227,13 @@ function loadAllCustomPhrasesFromLocalDatabase(categoryId, isCustomCategory, cal
 	db.transaction(function(tx) {
 		// Make a query to get the phrases
 		var query = "SELECT rowid, * FROM custom_phrase ";
-		query += "WHERE category_id = " + categoryId + " ";
-		if (!isCustomCategory) {
-			query += "AND is_custom_category = 0 "
-		} else {
-			query += "AND is_custom_category > 0 ";
+		if (categoryId) {
+			query += "WHERE category_id = " + categoryId + " ";
+			if (!isCustomCategory) {
+				query += "AND is_custom_category = 0 "
+			} else {
+				query += "AND is_custom_category > 0 ";
+			}
 		}
 		query += "ORDER BY tag";
 		

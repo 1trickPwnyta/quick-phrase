@@ -18,6 +18,45 @@ function injectCustomPhrases(phraseLoad, phrasesAvailable, callback) {
 }
 
 //
+// Deletes custom phrases from the local database that are duplicated by the phrase load from the web service.
+//
+function cleanCustomPhrases(phraseLoad) {
+	loadAllCustomPhrasesFromLocalDatabase(null, null, function(customPhrases) {
+		for (var i = 0; i < phraseLoad.length; i++) {
+			for (var j = 0; j < customPhrases.length; j++) {
+				if (phraseLoad[i].category_id == customPhrases[j].category_id && !customPhrases[j].is_custom_category) {
+					if (phraseLoad[i].text.trim().toLowerCase() == customPhrases[j].text.trim().toLowerCase()) {
+						deleteCustomPhraseFromLocalDatabase(customPhrases[j].rowid);
+					}
+				}
+			}
+		}
+	});
+}
+
+//
+// Deletes custom categories from the local database that are duplicated by the categories from the web service.
+// Migrates all custom phrases in the custom category to the new category.
+//
+function cleanCustomCategories(nonCustomCategories, customCategories) {
+	for (var i = 1; i < nonCustomCategories.length; i++) {
+		for (var j = 0; j < customCategories.length; j++) {
+			if (nonCustomCategories[i].name.trim().toLowerCase() == customCategories[j].name.trim().toLowerCase()) {
+				(function(newCategoryId, oldCategoryId) {
+					loadAllCustomPhrasesFromLocalDatabase(oldCategoryId, true, function(customPhrases) {
+						for (var k = 0; k < customPhrases.length; k++) {
+							deleteCustomPhraseFromLocalDatabase(customPhrases[k].rowid);
+							saveCustomPhraseInLocalDatabase(customPhrases[k].text, newCategoryId, false);
+						}
+						deleteCustomCategoryFromLocalDatabase(oldCategoryId, loadCustomCategories);
+					});
+				})(nonCustomCategories[i].id, customCategories[j].id);
+			}
+		}
+	}
+}
+
+//
 // Shows the custom phrases window.
 //
 function showCustomPhrases() {

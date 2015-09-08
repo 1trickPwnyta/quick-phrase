@@ -21,11 +21,15 @@ function loadTagsFromWebService(callback) {
 			// Remove previously used or duplicate phrases
 			processPhraseLoad(newTags);
 			
+			// Clean custom phrase database
+			cleanCustomPhrases(newTags);
+				
 			// Inject custom phrases
 			countTagsInWebService(function(phrasesAvailable) {
 				injectCustomPhrases(newTags, phrasesAvailable, function() {
-					for (var i = 0; i < newTags.length; i++)
+					for (var i = 0; i < newTags.length; i++) {
 						tags.push(newTags[i]);
+					}
 					
 					// Check if there are any phrases loaded now, otherwise return failure
 					if (tags.length == 0) {
@@ -35,7 +39,9 @@ function loadTagsFromWebService(callback) {
 					}
 					
 					// Store the new phrases in the local database
-					saveTagsInLocalDatabase(newTags);
+					if (newTags.length > 0) {
+						saveTagsInLocalDatabase(newTags);
+					}
 					
 					// Return success
 					if (callback)

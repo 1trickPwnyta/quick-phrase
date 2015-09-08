@@ -292,6 +292,8 @@ function loadCustomCategories(callback) {
 		}
 	}
 	loadCustomCategoriesFromLocalDatabase(function(customCategories) {
+		cleanCustomCategories(categories, customCategories);
+		
 		for (var i = 0; i < customCategories.length; i++) {
 			customCategories[i].isCustom = true;
 			categories.push(customCategories[i]);
