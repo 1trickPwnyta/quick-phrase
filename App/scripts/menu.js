@@ -118,6 +118,28 @@ function closeMenu() {
 function showCategories() {
 	var div = document.createElement("div");
 	
+	var buttonDiv = document.createElement("div");
+	buttonDiv.className = "categoriesButtons";
+	
+	var selectAll, selectNone;
+	
+	var updateButtons = function() {
+		var noneSelected = true;
+		var allSelected = true;
+		var checkboxes = div.getElementsByTagName("input");
+		for (var i = 0; i < checkboxes.length; i++) {
+			if (checkboxes[i].type == "checkbox") {
+				if (checkboxes[i].checked) {
+					noneSelected = false;
+				} else {
+					allSelected = false;
+				}
+			}
+		}
+		selectAll.disabled = allSelected;
+		selectNone.disabled = noneSelected;
+	};
+	
 	// Create a "Select All" button to select all categories
 	var selectAll = document.createElement("input");
 	selectAll.type = "button";
@@ -130,10 +152,27 @@ function showCategories() {
 			if (checkboxes[i].type == "checkbox")
 				checkboxes[i].checked = true;
 		}
+		updateButtons();
 	};
-	div.appendChild(selectAll);
+	buttonDiv.appendChild(selectAll);
 	
-	div.appendChild(document.createElement("br"));
+	// Create a "Select None" button to select no categories
+	var selectNone = document.createElement("input");
+	selectNone.type = "button";
+	selectNone.value = "Select None";
+	selectNone.parentDiv = div;
+	selectNone.onclick = function() {
+		playSound(CLICK_SOUND_FILE);
+		var checkboxes = this.parentDiv.getElementsByTagName("input");
+		for (var i = 0; i < checkboxes.length; i++) {
+			if (checkboxes[i].type == "checkbox")
+				checkboxes[i].checked = false;
+		}
+		updateButtons();
+	};
+	buttonDiv.appendChild(selectNone);
+	
+	div.appendChild(buttonDiv);
 	
 	var table = document.createElement("table");
 	
@@ -150,7 +189,7 @@ function showCategories() {
 				!categories[i].isCustom && (sCategoryIds.indexOf(categories[i].id) != -1 || sCategoryIds == CATEGORIES_ALL) || 
 				categories[i].isCustom && (sCustomCategoryIds.indexOf(categories[i].id) != -1 || sCustomCategoryIds == CATEGORIES_ALL)
 		);
-		checkbox.onchange = function(){playSound(CLICK_SOUND_FILE);};
+		checkbox.onchange = function(){playSound(CLICK_SOUND_FILE); updateButtons();};
 		checkboxCell.appendChild(checkbox);
 		row.appendChild(checkboxCell);
 		
@@ -166,6 +205,7 @@ function showCategories() {
 	}
 	
 	div.appendChild(table);
+	updateButtons();
 	
 	// Get input from the user
 	var newCategories;

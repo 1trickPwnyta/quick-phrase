@@ -265,6 +265,11 @@ header a {
 	background: url('../images/decrease-disabled.png');
 }
 
+.categoriesButtons {
+	font-size: 75%;
+	text-align: center;
+}
+
 .customPhrases {
 	overflow: auto;
 	height: 70%;

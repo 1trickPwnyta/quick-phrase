@@ -72,6 +72,10 @@
     outline: 0px;
 }
 
+.dialog-dialog-box input[type="button"]:disabled, .dialog-dialog-box input[type="submit"]:disabled {
+    background-color: #B2B2B2;
+}
+
 .dialog-close-button {
     position: absolute;
     right: 2%;
