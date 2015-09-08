@@ -73,6 +73,32 @@ function getCategoryById(id) {
 }
 
 //
+// Returns the number of non-custom categories that exist.
+//
+function getNonCustomCategoryCount() {
+	var count = 0;
+	for (var i = 1; i < categories.length; i++) {
+		if (!categories[i].isCustom) {
+			count++;
+		}
+	}
+	return count;
+}
+
+//
+// Returns the number of custom categories that exist.
+//
+function getCustomCategoryCount() {
+	var count = 0;
+	for (var i = 1; i < categories.length; i++) {
+		if (categories[i].isCustom) {
+			count++;
+		}
+	}
+	return count;
+}
+
+//
 // Swaps out a CSS file with a new one.
 //
 function changeCSS(cssFile, cssLinkIndex) {

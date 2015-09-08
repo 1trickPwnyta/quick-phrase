@@ -12,13 +12,29 @@ function showMenu() {
 	document.getElementById("menuItemMinimumTime").getElementsByClassName("menuItemValue")[0].innerHTML = Math.round(sMinTimePerStage*3/1000);
 	document.getElementById("menuItemMaximumTime").getElementsByClassName("menuItemValue")[0].innerHTML = Math.round(sMaxTimePerStage*3/1000);
 	document.getElementById("menuItemDifficulty").getElementsByClassName("menuItemValue")[0].value = sDifficulty;
-	document.getElementById("menuItemCategoryIds").getElementsByClassName("menuItemValue")[0].innerHTML = 
-		(sCategoryIds == CATEGORIES_ALL && sCustomCategoryIds == CATEGORIES_ALL)? "All": (
-			sCategoryIds.length + sCustomCategoryIds.length > 1? ((sCategoryIds.length + sCustomCategoryIds.length) + " categories"): 
-				getCategoryById(
+	
+	var selectedCategoriesLabel;
+	if (sCategoryIds == CATEGORIES_ALL && sCustomCategoryIds == CATEGORIES_ALL) {
+		selectedCategoriesLabel = "All";
+	} else {
+		var count;
+		if (sCategoryIds == CATEGORIES_ALL) {
+			count = getNonCustomCategoryCount() + sCustomCategoryIds.length;
+		} else if (sCustomCategoryIds == CATEGORIES_ALL) {
+			count = getCustomCategoryCount() + sCategoryIds.length;
+		} else {
+			count = sCategoryIds.length + sCustomCategoryIds.length;
+		}
+		if (count > 1) {
+			selectedCategoriesLabel = count + " categories";
+		} else {
+				selectedCategoriesLabel = getCategoryById(
 						sCategoryIds.length > 0? sCategoryIds[0]: 
-							sCustomCategoryIds[0]).name
-		);
+							sCustomCategoryIds[0]).name;
+		}
+	}
+	document.getElementById("menuItemCategoryIds").getElementsByClassName("menuItemValue")[0].innerHTML = selectedCategoriesLabel;
+	
 	document.getElementById("menuItemMaxWords").getElementsByClassName("menuItemValue")[0].innerHTML = (sMaxWordsPerTag == 0? "Unlimited": sMaxWordsPerTag);
 	document.getElementById("menuItemMaxCharacters").getElementsByClassName("menuItemValue")[0].innerHTML = (sMaxCharactersPerTag == 0? "Unlimited": sMaxCharactersPerTag);
 	document.getElementById("menuItemBeepSoundFile").getElementsByClassName("menuItemValue")[0].value = sBeepSoundFile;
