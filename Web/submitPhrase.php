@@ -16,9 +16,26 @@
 		exit;
 	}
 	
+	// Build a query to check if the phrase exists
 	$db = mysqlConnect();
+	$regex = "^".preg_replace("/[^a-zA-Z0-9]*/", "[^a-zA-Z0-9]*", $text)."$";
+	$query = "SELECT (SELECT COUNT(*) FROM tag WHERE text REGEXP {$db->quote($regex)}) +
+	(SELECT COUNT(*) FROM unapproved_tag WHERE text REGEXP {$db->quote($regex)}) AS tagCount";
 	
-	// Build a query
+	// Get count from the database
+	$statement = $db->query($query);
+	$tagCounts = array();
+	while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+		array_push($tagCounts, $row);
+	
+	// Validate the count
+	if ($tagCounts[0]["tagCount"] > 0) {
+		http_response_code(409);
+		echo "The phrase already exists.";
+		exit;
+	}
+	
+	// Build a query to insert the phrase as unapproved
 	if (!$isCustomCategory) {
 		$query =
 			"INSERT INTO unapproved_tag (category_id, text, ip_address) VALUES (
