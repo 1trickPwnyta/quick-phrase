@@ -131,3 +131,4 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 26. Allow null for submitter column in unapproved_tag table.
 27. Allow null for category_id column in unapproved_tag table.
 28. Remove show_submitted_by column from usage_settings table.
+29. Copy starterPhrases.Example.js and name it starterPhrases.js. Configure the starter items in the file.
