@@ -55,7 +55,6 @@ var timeStageTimeRemaining = 0;						// The number of milliseconds remaining in 
 var db;												// A SQLite database object
 var settingsLoaded = 0;								// Number of settings loaded from the local database
 var settingsLoadWaitInterval = null;				// An interval timer that waits for all settings to load
-var timeoutShown = false;							// Whether a timeout error message was shown already
 var medias = {};									// Holds loaded sound objects
 var medias2 = {};									// Holds duplicate sound objects
 var mediasAlternator = false;						// Determines which sound store to play from

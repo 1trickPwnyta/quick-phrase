@@ -319,11 +319,7 @@ function loadCustomCategories(callback) {
 // Displays an error about not being able to load, if we haven't already.
 //
 function showLoadingError() {
-	if (!timeoutShown) {
-		timeoutShown = true;
-		dialog.showMessage(APP_NAME + " couldn't load! Close this app, make sure you are connected to the Internet, and then try again.");
-	}
-	setTag("ERROR");
+	setTag("No phrases available.");
 }
 
 //
