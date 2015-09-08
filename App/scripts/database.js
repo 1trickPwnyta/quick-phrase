@@ -212,6 +212,7 @@ function loadCustomPhrasesFromLocalDatabase(callback) {
 			for (var i = 0; i < res.rows.length; i++) {
 				var tag = res.rows.item(i);
 				tag.text = tag.tag;
+				tag.isCustom = true;
 				newTags.push(tag);
 			}
 			

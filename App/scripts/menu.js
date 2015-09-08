@@ -243,7 +243,9 @@ function showUsedTags() {
 	var message = "";
 	for (var i = 0; i < usedTags.length; i++) {
 		var category = getCategoryById(usedTags[i].category_id);
-		message += "<a class=\"flag-tag\" href=\"#\" onclick=\"showTagFlaggingDialog(" + JSON.stringify(usedTags[i]).replace(/\"/g, "&quot;") + "); return false;\"><img src=\"images/flag.png\" alt=\"Flag\" title=\"Report this phrase\" /></a>";
+		if (!usedTags[i].isCustom) {
+			message += "<a class=\"flag-tag\" href=\"#\" onclick=\"showTagFlaggingDialog(" + JSON.stringify(usedTags[i]).replace(/\"/g, "&quot;") + "); return false;\"><img src=\"images/flag.png\" alt=\"Flag\" title=\"Report this phrase\" /></a>";
+		}
 		message += htmlEncode(usedTags[i].text) + "<br /><span class=\"used-tag\">from <span class=\"tag-category\">" + category.name + "</span></span>" + (i < usedTags.length - 1? "<hr />": "");
 	}
 
