@@ -7,7 +7,7 @@ var HIDDEN_CLASS_NAME = "dialog-hidden";						// The CSS class name for fading d
 var CLOSE_BUTTON_PATH = "images/delete.png";                  	// The path to the close button image
 var CLOSE_BUTTON_CLASS_NAME = "dialog-close-button";            // The CSS class name for the close button element
 var DEFAULT_FORM_SUBMIT_BUTTON = "Submit";                      // The default text for the form submit button, if any
-var FADE_DURATION = 200;										// CSS transition milliseconds for fading a menu out
+var FADE_DURATION = 0;										// CSS transition milliseconds for fading a menu out
 
 var dialogFocusDummy = document.createElement("a");
 dialogFocusDummy.href = "#";
