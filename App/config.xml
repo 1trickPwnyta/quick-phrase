@@ -33,5 +33,9 @@
 	<gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
 	<gap:plugin name="org.apache.cordova.vibration" version="0.3.11" />
 	<gap:plugin name="org.apache.cordova.device" />
+	
+	<gap:config-file platform="android" parent="/manifest" mode="delete">
+	    <uses-permission name="android.permission.RECORD_AUDIO" />
+	</gap:config-file>
 
 </widget>
