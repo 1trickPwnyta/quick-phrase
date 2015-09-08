@@ -239,5 +239,9 @@ function showCustomPhrases() {
 	};
 	
 	updatePhrases(categoryId, isCustomCategory);
-	showStandardDialog(div, null, false, "Custom phrases", null, "inherit", true);
+	showStandardDialog(div, function() {
+		// Load new phrases with the new custom phrases
+		showLoadingScreen();
+		loadTags(true, showReadyScreen);
+	}, false, "Custom phrases", null, "inherit", true);
 }
