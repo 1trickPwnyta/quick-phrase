@@ -102,6 +102,24 @@
 				loadDifficulties();
 				loadStatsFromWebService();
 				loadSettings(function() {
+					
+					var finishOpening = function() {
+						submitUsageClick("/app/" + APP_VERSION + "/open");
+						
+						// Set the pause and resume callbacks
+						document.addEventListener("pause", function() {
+							submitUsageClick("/app/" + APP_VERSION + "/pause");
+						}, false);
+						document.addEventListener("resume", function() {
+							submitUsageClick("/app/" + APP_VERSION + "/resume");
+						}, false);
+						
+						applyTheme();
+						loadTags(true, showReadyScreen);
+						resetScores();
+						loadScores();
+					};
+					
 					// Send fresh install click if this is a fresh install
 					// or upgrade click if this is an upgrade
 					if (!sDataVersion) {
@@ -109,27 +127,16 @@
 						changeDataVersion(APP_VERSION);
 						
 						// For fresh installs, load starter tags into the database
-						// TODO Save starter difficulties and categories too
-						saveTagsInLocalDatabase(starterPhrases);
+						saveDifficultiesInLocalDatabase(starterDifficulties, function() {
+							saveCategoriesInLocalDatabase(starterCategories, function() {
+								saveTagsInLocalDatabase(starterPhrases, finishOpening);
+							});
+						});
 					} else if (sDataVersion != APP_VERSION) {
 						submitUsageClick("/app/" + APP_VERSION + "/upgrade");
 						changeDataVersion(APP_VERSION);
+						finishOpening();
 					}
-					
-					submitUsageClick("/app/" + APP_VERSION + "/open");
-					
-					// Set the pause and resume callbacks
-					document.addEventListener("pause", function() {
-						submitUsageClick("/app/" + APP_VERSION + "/pause");
-					}, false);
-					document.addEventListener("resume", function() {
-						submitUsageClick("/app/" + APP_VERSION + "/resume");
-					}, false);
-					
-					applyTheme();
-					loadTags(true, showReadyScreen);
-					resetScores();
-					loadScores();
 				});
 			}
 		</script>

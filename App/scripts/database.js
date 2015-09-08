@@ -11,12 +11,12 @@ function initializeLocalDatabase() {
 	db.transaction(function(tx) {
 		// DROP TABLE statements should only be used during testing...
 		// If a database schema must change from a previous version, you MUST retain the current data!
-		/*tx.executeSql("DROP TABLE tag");
+		tx.executeSql("DROP TABLE tag");
 		tx.executeSql("DROP TABLE custom_phrase");
 		tx.executeSql("DROP TABLE difficulty_level");
 		tx.executeSql("DROP TABLE category");
 		tx.executeSql("DROP TABLE custom_category");
-		tx.executeSql("DROP TABLE settings");*/
+		tx.executeSql("DROP TABLE settings");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_phrase (category_id integer, is_custom_category integer, tag text)");
 		tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)");
@@ -115,7 +115,7 @@ function countTagsInLocalDatabase(callback) {
 //
 // Saves phrases in the local database for later.
 //
-function saveTagsInLocalDatabase(newTags) {
+function saveTagsInLocalDatabase(newTags, callback) {
 	db.transaction(function(tx) {
 		// Make a list of all IDs to be inserted
 		var idList = "(";
@@ -133,16 +133,23 @@ function saveTagsInLocalDatabase(newTags) {
 			}
 			
 			// Make a query to store phrases not already in the database
-			var query = "INSERT INTO tag (id, category_id, tag, difficulty_rating, edgy) VALUES ";
-			for (var i = 0; i < newTags.length; i++) {
-				if (newTags[i].id) { // Filter out custom phrases
-					if (existingIds.indexOf(parseInt(newTags[i].id)) < 0) {
-						query += "(" + newTags[i].id + ", " + newTags[i].category_id + ", '" + newTags[i].text.replace("'", "''") + "', " + newTags[i].difficulty_rating + ", " + newTags[i].edgy + "),";
+			var chunkSize = 480;
+			for (var i = 0; i < newTags.length + chunkSize; i += chunkSize) {	// Split this into chunks of 480 max to avoid errors
+				var goodQuery = false;
+				var query = "INSERT INTO tag (id, category_id, tag, difficulty_rating, edgy) VALUES ";
+				for (var j = i; j < i + chunkSize && j < newTags.length; j++) {
+					if (newTags[j].id) { // Filter out custom phrases
+						if (existingIds.indexOf(parseInt(newTags[j].id)) < 0) {
+							goodQuery = true;
+							query += "(" + newTags[j].id + ", " + newTags[j].category_id + ", '" + newTags[j].text.replace("'", "''") + "', " + newTags[j].difficulty_rating + ", " + newTags[j].edgy + "),";
+						}
 					}
 				}
+				if (goodQuery) {
+					query = query.substring(0, query.length - 1);	// Remove trailing comma
+					tx.executeSql(query);
+				}
 			}
-			query = query.substring(0, query.length - 1);	// Remove trailing comma
-			tx.executeSql(query);
 			
 			// If we have too many local phrases, delete about half of them, randomly
 			tx.executeSql("SELECT COUNT(*) AS c FROM tag", [], function(tx, res) {
@@ -163,6 +170,9 @@ function saveTagsInLocalDatabase(newTags) {
 					}
 				}
 			});
+			
+			if (callback)
+				callback();
 		});
 	});
 }
@@ -320,7 +330,7 @@ function loadDifficultiesFromLocalDatabase(callback) {
 //
 // Stores the difficulties in the local database, replacing any that were already there.
 //
-function saveDifficultiesInLocalDatabase(difficulties) {
+function saveDifficultiesInLocalDatabase(difficulties, callback) {
 	db.transaction(function(tx) {
 		// First, remove all existing difficulties
 		tx.executeSql("DELETE FROM difficulty_level WHERE 1=1");
@@ -331,7 +341,11 @@ function saveDifficultiesInLocalDatabase(difficulties) {
 			if (i < difficulties.length - 1)
 				query += ", ";
 		}
-		tx.executeSql(query);
+		tx.executeSql(query, [], function(tx, res) {
+			if (callback) {
+				callback();
+			}
+		});
 	});
 }
 
@@ -360,7 +374,7 @@ function loadCategoriesFromLocalDatabase(callback) {
 //
 // Stores the categories in the local database, replacing any that were already there.
 //
-function saveCategoriesInLocalDatabase(categories) {
+function saveCategoriesInLocalDatabase(categories, callback) {
 	db.transaction(function(tx) {
 		// First, delete all categories from the database
 		tx.executeSql("DELETE FROM category WHERE 1=1");
@@ -371,7 +385,11 @@ function saveCategoriesInLocalDatabase(categories) {
 			if (i < categories.length - 1)
 				query += ", ";
 		}
-		tx.executeSql(query);
+		tx.executeSql(query, [], function(tx, res) {
+			if (callback) {
+				callback();
+			}
+		});
 	});
 }
 

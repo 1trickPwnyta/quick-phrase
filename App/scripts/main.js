@@ -188,9 +188,9 @@ function loadTags(eraseOldTags, callback) {
 			loadTagsFromLocalDatabase(function() {
 				// If no phrases are loaded, that's an error
 				loadingTags = false;
-				if (tags.length == 0)
+				if (tags.length == 0) {
 					showLoadingError();
-				else if (callback) {
+				} else if (callback) {
 					callback();
 				}
 			});
