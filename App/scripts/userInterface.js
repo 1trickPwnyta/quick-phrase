@@ -187,13 +187,7 @@ function nextButtonClick() {
 		var tag = nextTag();
 		usedTags.push(tag);
 		usedTagsOverall.push(tag);
-		var category;
-		for (var i = 1; i < categories.length; i++) {
-			if (categories[i].id == tag.category_id) {
-				category = categories[i];
-				break;
-			}
-		}
+		var category = getCategoryById(tag.category_id);
 		setTag(htmlEncode(tag.text), tag.authorName, category.name);
 	};
 	

@@ -69,7 +69,11 @@ function getCategoryById(id) {
 		if (categories[i].id == id)
 			return categories[i];
 	}
-	return false;
+	return {
+		id: id,
+		name: "???",
+		isCustom: false
+	};
 }
 
 //
