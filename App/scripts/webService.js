@@ -257,7 +257,6 @@ function submitSettings() {
 			{name: "maxCharactersPerTag", value: sMaxCharactersPerTag},
 			{name: "edgy", value: sEdgy? 1: 0},
 			{name: "showCategory", value: sShowCategory? 1: 0},
-			{name: "showSubmittedBy", value: sShowAuthor? 1: 0},
 			{name: "pointsToWin", value: sWinningPoint},
 			{name: "numberOfTeams", value: sNumberOfTeams},
 			{name: "minRoundSeconds", value: Math.round(sMinTimePerStage*3/1000)},

@@ -499,10 +499,6 @@ function loadSettings(callback) {
 		sShowCategory = JSON.parse(value);
 		settingsLoaded++;
 	});
-	getSetting("sShowAuthor", JSON.stringify(sShowAuthor), function(value) {
-		sShowAuthor = JSON.parse(value);
-		settingsLoaded++;
-	});
 	getSetting("sEdgy", JSON.stringify(sEdgy), function(value) {
 		sEdgy = JSON.parse(value);
 		settingsLoaded++;

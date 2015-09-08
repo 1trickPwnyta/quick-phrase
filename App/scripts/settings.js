@@ -1,4 +1,4 @@
-var settingsCount = 20;								// Must be equal to the number of settings below
+var settingsCount = 19;								// Must be equal to the number of settings below
 
 var sMinTimePerStage = 								// Minimum ms for each time stage
 		DEFAULT_MIN_TIME_PER_STAGE;
@@ -20,7 +20,6 @@ var sVibrate = DEFAULT_VIBRATE;						// Turns vibration on
 var sEdgy = DEFAULT_EDGY;							// Allows adult-only phrases
 var sTeamNames = DEFAULT_TEAM_NAMES;				// Non-default team names
 var sShowCategory = DEFAULT_SHOW_CATEGORY;			// Whether to show phrase categories in-game
-var sShowAuthor = DEFAULT_SHOW_AUTHOR;				// Whether to show phrase submitters in-game
 var sDeveloperMode = DEFAULT_DEVELOPER_MODE;		// Whether to enable developer mode (no usage reporting)
 var sDataVersion = DEFAULT_DATA_VERSION;			// The app version of the stored data (if any)
 var sPromptForRating = 								// Whether to prompt the user to rate the app

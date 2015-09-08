@@ -41,7 +41,6 @@ function showMenu() {
 	document.getElementById("menuItemTheme").getElementsByClassName("menuItemValue")[0].value = sStyleSheet;
 	document.getElementById("menuItemVibrateCheckBox").checked = sVibrate;
 	document.getElementById("menuItemShowCategoryCheckBox").checked = sShowCategory;
-	document.getElementById("menuItemShowAuthorCheckBox").checked = sShowAuthor;
 	if (!APP_GOOGLEPLAY_EDITION) {
 		document.getElementById("menuItemEdgyCheckBox").checked = sEdgy;
 	}
@@ -599,17 +598,6 @@ function changeShowCategory(showCategory, callback) {
 	
 	// Save the setting in the local database
 	setSetting("sShowCategory", JSON.stringify(sShowCategory), callback);
-}
-
-//
-// Changes the show author user setting.
-//
-function changeShowAuthor(showAuthor, callback) {
-	// Change the setting
-	sShowAuthor = showAuthor;
-	
-	// Save the setting in the local database
-	setSetting("sShowAuthor", JSON.stringify(sShowAuthor), callback);
 }
 
 //

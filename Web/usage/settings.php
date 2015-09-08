@@ -11,7 +11,6 @@
 	$maxCharactersPerTag = intval($_POST["maxCharactersPerTag"]);
 	$edgy = intval($_POST["edgy"]);
 	$showCategory = intval($_POST["showCategory"]);
-	$showSubmittedBy = intval($_POST["showSubmittedBy"]);
 	$pointsToWin = intval($_POST["pointsToWin"]);
 	$numberOfTeams = intval($_POST["numberOfTeams"]);
 	$minRoundSeconds = intval($_POST["minRoundSeconds"]);
@@ -43,7 +42,6 @@
 			max_characters_per_tag, 
 			edgy, 
 			show_category, 
-			show_submitted_by,
 			points_to_win,
 			number_of_teams,
 			min_round_seconds,
@@ -58,7 +56,6 @@
 			$maxCharactersPerTag,
 			$edgy,
 			$showCategory,
-			$showSubmittedBy,
 			$pointsToWin,
 			$numberOfTeams,
 			$minRoundSeconds,

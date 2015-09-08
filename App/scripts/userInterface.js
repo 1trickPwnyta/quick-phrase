@@ -15,14 +15,11 @@ function unlockUi() {
 //
 // Sets the phrase on the screen.
 //
-function setTag(text, authorUsername, categoryName) {
+function setTag(text, categoryName) {
 	document.getElementById("tag").innerHTML = text;
 	var metadataText = "";
 	if (categoryName && sShowCategory) {
 		metadataText += "from <span class=\"tag-category\">" + categoryName + "</span><br />";
-	}
-	if (authorUsername && sShowAuthor) {
-		metadataText += "submitted by <span class=\"tag-author\">" + authorUsername + "</span><br />";
 	}
 	document.getElementById("tag-metadata").innerHTML = metadataText;
 }
@@ -188,7 +185,7 @@ function nextButtonClick() {
 		usedTags.push(tag);
 		usedTagsOverall.push(tag);
 		var category = getCategoryById(tag.category_id);
-		setTag(htmlEncode(tag.text), tag.authorName, category.name);
+		setTag(htmlEncode(tag.text), category.name);
 	};
 	
 	// If a point has not been given since the last round ended, warn the user
@@ -417,16 +414,6 @@ function menuItemShowCategoryChange() {
 	
 	var showCategory = document.getElementById("menuItemShowCategoryCheckBox").checked;
 	changeShowCategory(showCategory, showMenu);
-}
-
-//
-// Show Author menu item click event.
-//
-function menuItemShowAuthorChange() {
-	playSound(CLICK_SOUND_FILE);
-	
-	var showAuthor = document.getElementById("menuItemShowAuthorCheckBox").checked;
-	changeShowAuthor(showAuthor, showMenu);
 }
 
 //
