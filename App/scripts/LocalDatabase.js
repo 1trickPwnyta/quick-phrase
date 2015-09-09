@@ -19,7 +19,7 @@ function LocalDatabase() {
 	 * Executes multiple operations on the database at once.
 	 * @param operations the operations to execute.
 	 */
-	var executeOperations = function(operations, callback) {
+	var executeOperationsAsync = function(operations, callback) {
 		var operationsRemaining = operations.length;
 		for (var i = 0; i < operations.length; i++) {
 			var operation = operations[i];
@@ -67,7 +67,7 @@ function LocalDatabase() {
 			    new Operation("CREATE TABLE IF NOT EXISTS settings (id integer primary key autoincrement, name text, value text)", [])
 			];
 			
-			executeOperations(operations, callback);
+			executeOperationsAsync(operations, callback);
 		});
 	};
 	
@@ -79,7 +79,7 @@ function LocalDatabase() {
 	 * @param countOnly whether to count the phrases instead.
 	 * @param callback a function to call with the phrases read.
 	 */
-	this.readStandardPhrases = function(settings, randomize, limit, countOnly, callback) {
+	this.readStandardPhrasesAsync = function(settings, randomize, limit, countOnly, callback) {
 		db.transaction(function(tx) {
 			var parameters = [];
 			var query = "SELECT * FROM tag ";
@@ -162,7 +162,7 @@ function LocalDatabase() {
 	 * @param phrases the phrases to add.
 	 * @param callback a function to call after the phrases are added.
 	 */
-	this.addStandardPhrases = function(phrases, callback) {
+	this.addStandardPhrasesAsync = function(phrases, callback) {
 		db.transaction(function(tx) {
 			// Split the insert into chunks to avoid SQLite errors
 			var operations = [];
@@ -181,7 +181,7 @@ function LocalDatabase() {
 				operations.push(new Operation(query, parameters));
 			}
 			
-			executeOperations(operations, callback);
+			executeOperationsAsync(operations, callback);
 		});
 	};
 	
@@ -190,7 +190,7 @@ function LocalDatabase() {
 	 * @param phrases the phrases to remove.
 	 * @param callback a function to call after the phrases are removed.
 	 */
-	this.deleteStandardPhrases = function(phrases, callback) {
+	this.deleteStandardPhrasesAsync = function(phrases, callback) {
 		db.transaction(function(tx) {
 			var parameters = [];
 			var query = "DELETE FROM tag WHERE id IN (";
@@ -200,6 +200,7 @@ function LocalDatabase() {
 				parameters += phrase.id;
 			}
 			query = query.substring(0, query.length - 1) + ")";	// Remove trailing comma
+			
 			tx.executeSql(query, parameters, function(tx, res) {
 				if (callback) {
 					callback();
@@ -218,7 +219,7 @@ function LocalDatabase() {
 	 * @param countOnly whether to count the phrases instead.
 	 * @param callback a function to call with the phrases read.
 	 */
-	this.readCustomPhrases = function(settings, randomize, limit, countOnly, callback) {
+	this.readCustomPhrasesAsync = function(settings, randomize, limit, countOnly, callback) {
 		db.transaction(function(tx) {
 			var parameters = [];
 			var query = "SELECT * FROM custom_phrase ";
@@ -305,7 +306,7 @@ function LocalDatabase() {
 	 * @param phrase the phrase to add. The phrase's id is set after insertion.
 	 * @param callback a function to call after the phrase is added.
 	 */
-	this.addCustomPhrase = function(phrase, callback) {
+	this.addCustomPhraseAsync = function(phrase, callback) {
 		db.transaction(function(tx) {
 			tx.executeSql("INSERT INTO custom_phrase (category_id, is_custom_category, tag) VALUES (?, ?, ?)", [
 			        phrase.categoryId, 
@@ -327,7 +328,7 @@ function LocalDatabase() {
 	 * @param phrases the phrases to add.
 	 * @param callback a function to call after the phrases are added.
 	 */
-	this.addCustomPhrases = function(phrases, callback) {
+	this.addCustomPhrasesAsync = function(phrases, callback) {
 		db.transaction(function(tx) {
 			var parameters = [];
 			var query = "INSERT INTO custom_phrase (category_id, is_custom_category, tag) VALUES ";
@@ -346,7 +347,7 @@ function LocalDatabase() {
 				}
 			}, function(tx, err) {
 				_Log.error(err.message);
-			});executeOperations(operations, callback);
+			});
 		});
 	};
 	
@@ -355,7 +356,7 @@ function LocalDatabase() {
 	 * @param phrases the phrases to remove.
 	 * @param callback a function to call after the phrases are removed.
 	 */
-	this.deleteCustomPhrases = function(phrases, callback) {
+	this.deleteCustomPhrasesAsync = function(phrases, callback) {
 		db.transaction(function(tx) {
 			var parameters = [];
 			var query = "DELETE FROM custom_phrase WHERE rowid IN (";
@@ -383,7 +384,7 @@ function LocalDatabase() {
 	 * @param callback a function to call with the results (true if the phrase 
 	 * exists).
 	 */
-	this.phraseExists = function(text, callback) {
+	this.phraseExistsAsync = function(text, callback) {
 		db.transaction(function(tx) {
 			var parameters = [];
 			var query = "SELECT (SELECT COUNT(*) AS c FROM custom_phrase ";
@@ -406,7 +407,7 @@ function LocalDatabase() {
 	 * Reads the difficulty levels from the database.
 	 * @param callback a function to call with the difficulty levels read.
 	 */
-	this.readDifficulties = function(callback) {
+	this.readDifficultiesAsync = function(callback) {
 		db.transaction(function(tx) {
 			var query = "SELECT id, name, max_rating FROM difficulty_level ORDER BY id";
 			tx.executeSql(query, [], function(tx, res) {
@@ -429,7 +430,7 @@ function LocalDatabase() {
 	 * replacing all previous difficulties.
 	 * @param callback a function to call after the difficulties are updated.
 	 */
-	this.replaceDifficulties = function(difficulties, callback) {
+	this.replaceDifficultiesAsync = function(difficulties, callback) {
 		db.transaction(function(tx) {
 			tx.executeSql("TRUNCATE TABLE difficulty_level", [], function(tx, res) {
 				var parameters = [];
@@ -460,7 +461,7 @@ function LocalDatabase() {
 	 * Reads the standard categories from the database.
 	 * @param callback a function to call with the categories read.
 	 */
-	this.readStandardCategories = function(callback) {
+	this.readStandardCategoriesAsync = function(callback) {
 		db.transaction(function(tx) {
 			var query = "SELECT id, name FROM category ORDER BY id";
 			tx.executeSql(query, [], function(tx, res) {
@@ -483,7 +484,7 @@ function LocalDatabase() {
 	 * replacing all previous categories.
 	 * @param callback a function to call after the categories are updated.
 	 */
-	this.replaceStandardCategories = function(categories, callback) {
+	this.replaceStandardCategoriesAsync = function(categories, callback) {
 		db.transaction(function(tx) {
 			tx.executeSql("TRUNCATE TABLE category", [], function(tx, res) {
 				var parameters = [];
@@ -513,7 +514,7 @@ function LocalDatabase() {
 	 * Reads the custom categories from the database.
 	 * @param callback a function to call with the categories read.
 	 */
-	this.readCustomCategories = function(callback) {
+	this.readCustomCategoriesAsync = function(callback) {
 		db.transaction(function(tx) {
 			var query = "SELECT rowid, * FROM custom_category ORDER BY rowid";
 			tx.executeSql(query, [], function(tx, res) {
@@ -535,7 +536,7 @@ function LocalDatabase() {
 	 * @param category the category to add. The category's id is set after insertion.
 	 * @param callback a function to call after the category is added.
 	 */
-	this.addCustomCategory = function(category, callback) {
+	this.addCustomCategoryAsync = function(category, callback) {
 		db.transaction(function(tx) {
 			tx.executeSql("INSERT INTO custom_category (name) VALUES (?)", [category.name], function(tx, res) {
 				category.id = res.insertId;
@@ -553,7 +554,7 @@ function LocalDatabase() {
 	 * @param categories the categories to add.
 	 * @param callback a function to call after the categories are added.
 	 */
-	this.addCustomCategories = function(categories, callback) {
+	this.addCustomCategoriesAsync = function(categories, callback) {
 		db.transaction(function(tx) {
 			var parameters = [];
 			var query = "INSERT INTO custom_category (name) VALUES ";
@@ -570,7 +571,7 @@ function LocalDatabase() {
 				}
 			}, function(tx, err) {
 				_Log.error(err.message);
-			});executeOperations(operations, callback);
+			});
 		});
 	};
 	
@@ -580,7 +581,7 @@ function LocalDatabase() {
 	 * @param categories the categories to remove.
 	 * @param callback a function to call after the categories are removed.
 	 */
-	this.deleteCustomCategories = function(categories, callback) {
+	this.deleteCustomCategoriesAsync = function(categories, callback) {
 		db.transaction(function(tx) {
 			var parameters = [];
 			var queryIds = "(";
@@ -616,7 +617,7 @@ function LocalDatabase() {
 	 * @param callback a function to call with the results (true if the 
 	 * category exists).
 	 */
-	this.categoryExists = function(name, callback) {
+	this.categoryExistsAsync = function(name, callback) {
 		db.transaction(function(tx) {
 			var parameters = [];
 			var query = "SELECT (SELECT COUNT(*) AS c FROM custom_category ";
@@ -639,7 +640,7 @@ function LocalDatabase() {
 	 * Reads settings from the database.
 	 * @param callback a function to call with the settings read.
 	 */
-	this.readSettings = function(callback) {
+	this.readSettingsAsync = function(callback) {
 		db.transaction(function(tx) {
 			tx.executeSql("SELECT name, value FROM settings", [], function(tx, res) {
 				var settings = [];
@@ -660,7 +661,7 @@ function LocalDatabase() {
 	 * database, replacing all previous settings.
 	 * @param callback a function to call after the settings are updated.
 	 */
-	this.replaceSettings = function(settings, callback) {
+	this.replaceSettingsAsync = function(settings, callback) {
 		db.transaction(function(tx) {
 			tx.executeSql("TRUNCATE TABLE settings", [], function(tx, res) {
 				var parameters = [];

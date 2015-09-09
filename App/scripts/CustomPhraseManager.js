@@ -1,5 +1,26 @@
 function CustomPhraseManager() {
 	
+	var customPhrases;
+	var customCategories;
+	
+	/**
+	 * Loads the custom phrases and categories from the local database.
+	 * @param localDatabase the local database.
+	 * @param callback a function to call when loading is complete.
+	 */
+	this.loadAsync = function(localDatabase, callback) {
+		
+	};
+	
+	/**
+	 * Saves the custom phrases and categories to the local database.
+	 * @param localDatabase the local database.
+	 * @param callback a function to call when saving is complete.
+	 */
+	this.saveAsync = function(localDatabase, callback) {
+		
+	};
+	
 	/**
 	 * Injects custom phrases into a set of phrases at the specified rate.
 	 * @param phrases the set of phrases to inject custom phrases into.
@@ -8,7 +29,7 @@ function CustomPhraseManager() {
 	 * @param callback a function that will be called when the operation 
 	 * completes.
 	 */
-	this.injectCustomPhrases = function(phrases, rate, callback) {
+	this.injectCustomPhrasesAsync = function(phrases, rate, callback) {
 		var originalPhrasesSize = phrases.length;
 		loadCustomPhrasesFromLocalDatabase(function(customPhrases) {
 			for (var i = 0; i < customPhrases.length; i++) {
@@ -24,25 +45,24 @@ function CustomPhraseManager() {
 		});
 	};
 	
-}
-
-//
-// Injects custom phrases into a phrase load.
-//
-function injectCustomPhrases(phraseLoad, phrasesAvailable, callback) {
-	var originalPhraseLoadSize = phraseLoad.length;
-	loadCustomPhrasesFromLocalDatabase(function(customPhrases) {
-		for (var i = 0; i < customPhrases.length; i++) {
-			if (Math.random() * phrasesAvailable < originalPhraseLoadSize || (originalPhraseLoadSize == 0 && phrasesAvailable == 0)) {
-				var randomIndex = parseInt(Math.random() * (phraseLoad.length + 1));
-				phraseLoad.splice(randomIndex, 0, customPhrases[i]);
-			}
-		}
+	/**
+	 * Cleans up custom phrases by removing any that match a standard phrase.
+	 * @param standardPhrases the standard phrases to compare against.
+	 */
+	this.cleanCustomPhrases = function(standardPhrases) {
 		
-		if (callback) {
-			callback();
-		}
-	});
+	};
+	
+	/**
+	 * Cleans up custom categories by removing any that match a standard 
+	 * category. Any custom phrases in removed custom categories are migrated 
+	 * to the matching standard category.
+	 * @param standardCategories the standard categories to compare against.
+	 */
+	this.cleanCustomCategories = function(standardCategories) {
+		
+	};
+	
 }
 
 //

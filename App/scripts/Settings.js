@@ -68,8 +68,8 @@ function Settings() {
 	 * @param localDatabase the local database to load settings from.
 	 * @param callback a function to call when the settings are loaded.
 	 */
-	this.load = function(localDatabase, callback) {
-		localDatabase.readSettings(function(settingsFromDatabase) {
+	this.loadAsync = function(localDatabase, callback) {
+		localDatabase.readSettingsAsync(function(settingsFromDatabase) {
 			settings = settingsFromDatabase;
 			if (callback) {
 				callback();
@@ -82,8 +82,8 @@ function Settings() {
 	 * @param localDatabase the local database to save settings to.
 	 * @param callback a function to call when the settings are saved.
 	 */
-	this.save = function(localDatabase, callback) {
-		localDatabase.replaceSettings(settings, callback);
+	this.saveAsync = function(localDatabase, callback) {
+		localDatabase.replaceSettingsAsync(settings, callback);
 	};
 	
 }
