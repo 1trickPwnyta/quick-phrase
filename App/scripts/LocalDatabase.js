@@ -301,28 +301,52 @@ function LocalDatabase() {
 	};
 	
 	/**
+	 * Adds a custom phrase to the database.
+	 * @param phrase the phrase to add. The phrase's id is set after insertion.
+	 * @param callback a function to call after the phrase is added.
+	 */
+	this.addCustomPhrase = function(phrase, callback) {
+		db.transaction(function(tx) {
+			tx.executeSql("INSERT INTO custom_phrase (category_id, is_custom_category, tag) VALUES (?, ?, ?)", [
+			        phrase.categoryId, 
+					phrase.isCustomCategory? 1: 0, 
+					phrase.text
+			], function(tx, res) {
+				phrase.id = res.insertId;
+				if (callback) {
+					callback();
+				}
+			}, function(tx, err) {
+				_Log.error(err.message);
+			});
+		});
+	};
+	
+	/**
 	 * Adds custom phrases to the database.
 	 * @param phrases the phrases to add.
 	 * @param callback a function to call after the phrases are added.
 	 */
 	this.addCustomPhrases = function(phrases, callback) {
 		db.transaction(function(tx) {
-			// Split the insert into chunks to avoid SQLite errors
-			var operations = [];
-			for (var i = 0; i < phrases.length + INSERT_CHUNK_SIZE; i += INSERT_CHUNK_SIZE) {
-				var parameters = [];
-				var query = "INSERT INTO custom_phrase (category_id, is_custom_category, tag) VALUES ";
-				for (var j = i; j < i + INSERT_CHUNK_SIZE && j < phrases.length; j++) {
-					query += "(?, ?, ?),";
-					parameters.push(phrases[j].categoryId);
-					parameters.push(phrases[j].isCustomCategory? 1: 0);
-					parameters.push(phrases[j].text);
-				}
-				query = query.substring(0, query.length - 1);	// Remove trailing comma
-				operations.push(new Operation(query, parameters));
+			var parameters = [];
+			var query = "INSERT INTO custom_phrase (category_id, is_custom_category, tag) VALUES ";
+			for (var i = 0; i < phrases.length; i++) {
+				var phrase = phrases[i];
+				query += "(?, ?, ?),";
+				parameters.push(phrase.categoryId);
+				parameters.push(phrase.isCustomCategory? 1: 0);
+				parameters.push(phrase.text);
 			}
+			query = query.substring(0, query.length - 1);	// Remove trailing comma
 			
-			executeOperations(operations, callback);
+			tx.executeSql(query, parameters, function(tx, res) {
+				if (callback) {
+					callback();
+				}
+			}, function(tx, err) {
+				_Log.error(err.message);
+			});executeOperations(operations, callback);
 		});
 	};
 	
@@ -341,6 +365,7 @@ function LocalDatabase() {
 				parameters += phrase.id;
 			}
 			query = query.substring(0, query.length - 1) + ")";	// Remove trailing comma
+			
 			tx.executeSql(query, parameters, function(tx, res) {
 				if (callback) {
 					callback();
@@ -442,7 +467,7 @@ function LocalDatabase() {
 				var categories = [];
 				for (var i = 0; i < res.rows.length; i++) {
 					var item = res.rows.item(i);
-					var category = new Category(item.id, item.name);
+					var category = new Category(item.id, item.name, false);
 					categories.push(category);
 				}
 				callback(categories);
@@ -478,6 +503,132 @@ function LocalDatabase() {
 				}, function(tx, err) {
 					_Log.error(err.message);
 				});
+			}, function(tx, err) {
+				_Log.error(err.message);
+			});
+		});
+	};
+	
+	/**
+	 * Reads the custom categories from the database.
+	 * @param callback a function to call with the categories read.
+	 */
+	this.readCustomCategories = function(callback) {
+		db.transaction(function(tx) {
+			var query = "SELECT rowid, * FROM custom_category ORDER BY rowid";
+			tx.executeSql(query, [], function(tx, res) {
+				var categories = [];
+				for (var i = 0; i < res.rows.length; i++) {
+					var item = res.rows.item(i);
+					var category = new Category(item.rowid, item.name, true);
+					categories.push(category);
+				}
+				callback(categories);
+			}, function(tx, err) {
+				_Log.error(err.message);
+			});
+		});
+	};
+	
+	/**
+	 * Adds a custom category to the database.
+	 * @param category the category to add. The category's id is set after insertion.
+	 * @param callback a function to call after the category is added.
+	 */
+	this.addCustomCategory = function(category, callback) {
+		db.transaction(function(tx) {
+			tx.executeSql("INSERT INTO custom_category (name) VALUES (?)", [category.name], function(tx, res) {
+				category.id = res.insertId;
+				if (callback) {
+					callback();
+				}
+			}, function(tx, err) {
+				_Log.error(err.message);
+			});
+		});
+	};
+	
+	/**
+	 * Adds custom categories to the database.
+	 * @param categories the categories to add.
+	 * @param callback a function to call after the categories are added.
+	 */
+	this.addCustomCategories = function(categories, callback) {
+		db.transaction(function(tx) {
+			var parameters = [];
+			var query = "INSERT INTO custom_category (name) VALUES ";
+			for (var i = 0; i < categories.length; i++) {
+				var category = categories[i];
+				query += "(?),";
+				parameters.push(category.name);
+			}
+			query = query.substring(0, query.length - 1);	// Remove trailing comma
+			
+			tx.executeSql(query, parameters, function(tx, res) {
+				if (callback) {
+					callback();
+				}
+			}, function(tx, err) {
+				_Log.error(err.message);
+			});executeOperations(operations, callback);
+		});
+	};
+	
+	/**
+	 * Removes custom categories from the database. Also removes any custom 
+	 * phrases from those categories.
+	 * @param categories the categories to remove.
+	 * @param callback a function to call after the categories are removed.
+	 */
+	this.deleteCustomCategories = function(categories, callback) {
+		db.transaction(function(tx) {
+			var parameters = [];
+			var queryIds = "(";
+			for (var i = 0; i < categories.length; i++) {
+				var category = categories[i];
+				queryIds += "?,";
+				parameters += category.id;
+			}
+			queryIds = queryIds.substring(0, queryIds.length - 1) + ")";	// Remove trailing comma
+			
+			var query = "DELETE FROM custom_phrase WHERE category_id IN " + queryIds + " AND is_custom_category > 0";
+			
+			tx.executeSql(query, parameters, function(tx, res) {
+				var query = "DELETE FROM custom_category WHERE rowid IN " + queryIds;
+				
+				tx.executeSql(query, parameters, function(tx, res) {
+					if (callback) {
+						callback();
+					}
+				}, function(tx, err) {
+					_Log.error(err.message);
+				});
+			}, function(tx, err) {
+				_Log.error(err.message);
+			});
+		});
+	};
+	
+	/**
+	 * Checks if a standard or custom category exists with the same (or 
+	 * similar) as provided.
+	 * @param name the name to check for.
+	 * @param callback a function to call with the results (true if the 
+	 * category exists).
+	 */
+	this.categoryExists = function(name, callback) {
+		db.transaction(function(tx) {
+			var parameters = [];
+			var query = "SELECT (SELECT COUNT(*) AS c FROM custom_category ";
+			query += "WHERE UPPER(TRIM(name)) = ?) + (";
+			parameters.push(name.trim().toUpperCase());
+			query += "SELECT COUNT(*) AS c FROM category ";
+			query += "WHERE UPPER(TRIM(name)) = ?) AS c";
+			parameters.push(name.trim().toUpperCase());
+			
+			tx.executeSql(query, parameters, function(tx, res) {
+				var exists = res.rows.item(0).c > 0;
+				callback(exists);
 			}, function(tx, err) {
 				_Log.error(err.message);
 			});
@@ -544,194 +695,4 @@ function LocalDatabase() {
 			db = openDatabase(DB_NAME, "", Environment.app.name, DB_SIZE);
 		}
 	}
-}
-
-//
-// Load custom categories from the local database.
-//
-function loadCustomCategoriesFromLocalDatabase(callback) {
-	var customCategories = new Array();
-	db.transaction(function(tx) {
-		// Get custom categories from the database and put them into the category list
-		var query = "SELECT rowid AS id, * FROM custom_category ORDER BY name";
-		tx.executeSql(query, [], function(tx, res) {
-			for (var i = 0; i < res.rows.length; i++) {
-				var category = res.rows.item(i);
-				customCategories.push(category);
-			}
-			
-			callback(customCategories);
-		});
-	});
-}
-
-//
-// Adds a new custom category to the local database.
-//
-function saveCustomCategoryInLocalDatabase(name, callback) {
-	db.transaction(function(tx) {
-		// Make a query to insert the category
-		var query = "INSERT INTO custom_category (name) VALUES ('";
-		query += name.replace("'", "''") + "')";
-		tx.executeSql(query, [], function(tx, results) {
-			if (callback)
-				callback(results.insertId);
-		});
-	});
-}
-
-//
-// Removes a custom category from the local database, along with any phrases in it.
-//
-function deleteCustomCategoryFromLocalDatabase(rowid, callback) {
-	db.transaction(function(tx) {
-		// Make a query to delete the phrases
-		var query = "DELETE FROM custom_phrase WHERE category_id = " + rowid + " AND is_custom_category > 0";
-		tx.executeSql(query);
-		// Make a query to delete the category
-		query = "DELETE FROM custom_category WHERE rowid = " + rowid;
-		tx.executeSql(query);
-		if (callback)
-			callback();
-	});
-}
-
-//
-// Checks if a category already exists in the local database, custom or not.
-//
-function checkIfCategoryExistsInLocalDatabase(name, callback) {
-	db.transaction(function(tx) {
-		// Make a query to get the category
-		var query = "SELECT (SELECT COUNT(*) AS c FROM custom_category ";
-		query += "WHERE UPPER(TRIM(name)) = '" + name.replace("'", "''").trim().toUpperCase() + "') + (";
-		query += "SELECT COUNT(*) AS c FROM category ";
-		query += "WHERE UPPER(TRIM(name)) = '" + name.replace("'", "''").trim().toUpperCase() + "') AS c";
-		
-		tx.executeSql(query, [], function(tx, res) {
-			var exists = res.rows.item(0).c > 0;
-			callback(exists);
-		});
-	});
-}
-
-//
-// Loads user settings from the local database.
-//
-function loadSettings(callback) {
-	// Load any stored user settings, and indicate how many settings have been accounted for so we know when done
-	getSetting("sMinTimePerStage", sMinTimePerStage, function(value) {
-		sMinTimePerStage = parseInt(value);
-		settingsLoaded++;
-	});
-	getSetting("sMaxTimePerStage", sMaxTimePerStage, function(value) {
-		sMaxTimePerStage = parseInt(value);
-		settingsLoaded++;
-	});
-	getSetting("sNumberOfTeams", sNumberOfTeams, function(value) {
-		sNumberOfTeams = parseInt(value);
-		settingsLoaded++;
-	});
-	getSetting("sWinningPoint", sWinningPoint, function(value) {
-		sWinningPoint = parseInt(value);
-		settingsLoaded++;
-	});
-	getSetting("sBeepSoundFile", sBeepSoundFile, function(value) {
-		sBeepSoundFile = value;
-		settingsLoaded++;
-	});
-	getSetting("sDifficulty", sDifficulty, function(value) {
-		sDifficulty = parseInt(value);
-		settingsLoaded++;
-	});
-	getSetting("sMaxWordsPerTag", sMaxWordsPerTag, function(value) {
-		sMaxWordsPerTag = parseInt(value);
-		settingsLoaded++;
-	});
-	getSetting("sMaxCharactersPerTag", sMaxCharactersPerTag, function(value) {
-		sMaxCharactersPerTag = parseInt(value);
-		settingsLoaded++;
-	});
-	getSetting("sCategoryIds", JSON.stringify(sCategoryIds), function(value) {
-		sCategoryIds = JSON.parse(value);
-		settingsLoaded++;
-	});
-	getSetting("sCustomCategoryIds", JSON.stringify(sCustomCategoryIds), function(value) {
-		sCustomCategoryIds = JSON.parse(value);
-		settingsLoaded++;
-	});
-	getSetting("sStyleSheet", sStyleSheet, function(value) {
-		sStyleSheet = value;
-		settingsLoaded++;
-	});
-	getSetting("sVibrate", JSON.stringify(sVibrate), function(value) {
-		sVibrate = JSON.parse(value);
-		settingsLoaded++;
-	});
-	getSetting("sShowCategory", JSON.stringify(sShowCategory), function(value) {
-		sShowCategory = JSON.parse(value);
-		settingsLoaded++;
-	});
-	getSetting("sEdgy", JSON.stringify(sEdgy), function(value) {
-		sEdgy = JSON.parse(value);
-		settingsLoaded++;
-	});
-	getSetting("sDeveloperMode", JSON.stringify(sDeveloperMode), function(value) {
-		sDeveloperMode = JSON.parse(value);
-		settingsLoaded++;
-	});
-	getSetting("sDataVersion", sDataVersion, function(value) {
-		sDataVersion = value;
-		settingsLoaded++;
-	});
-	getSetting("sPromptForRating", JSON.stringify(sPromptForRating), function(value) {
-		sPromptForRating = JSON.parse(value);
-		settingsLoaded++;
-	});
-	getSetting("sGamesSinceRatingPrompt", sGamesSinceRatingPrompt, function(value) {
-		sGamesSinceRatingPrompt = parseInt(value);
-		settingsLoaded++;
-	});
-	getSetting("sTeamNames", JSON.stringify(sTeamNames), function(value) {
-		sTeamNames = JSON.parse(value);
-		settingsLoaded++;
-	});
-	
-	// Wait until all settings have been accounted for before calling the callback
-	if (callback)
-		settingsLoadWaitInterval = window.setInterval(function() {
-			if (settingsLoaded == settingsCount) {
-				window.clearInterval(settingsLoadWaitInterval);
-				callback();
-			}
-		}, 100);
-}
-
-//
-// Retrieves the value of a user setting from the local database and passes it to the callback.
-//
-function getSetting(name, defaultValue, callback) {
-	db.transaction(function(tx) {
-		tx.executeSql("SELECT value FROM settings WHERE name = '" + name + "'", [], function(tx, res) {
-			if (callback) {
-				if (res.rows.length > 0) {
-					callback(res.rows.item(0).value);
-				} else {
-					// No value returned, so return the default
-					callback(defaultValue);
-				}
-			}
-		});
-	});
-}
-
-//
-// Stores a user setting in the local database.
-//
-function setSetting(name, value, callback) {
-	db.transaction(function(tx) {
-		tx.executeSql("DELETE FROM settings WHERE name = '" + name + "'");
-		tx.executeSql("INSERT INTO settings (name, value) VALUES ('" + name + "', '" + value + "')");
-		if (callback)
-			callback();
-	});
 }
