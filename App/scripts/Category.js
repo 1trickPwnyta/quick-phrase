@@ -1,0 +1,3 @@
+_Category = {
+	ALL: "all"
+};

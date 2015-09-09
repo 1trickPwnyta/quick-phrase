@@ -200,6 +200,36 @@ function loadTags(eraseOldTags, callback) {
 				callback();
 		}
 	});
+	
+	// TODO this:
+	/*
+	 * // Add the resulting phrases to the list
+				var newTags = new Array();
+				for (var i = 0; i < res.rows.length; i++) {
+					var tag = res.rows.item(i);
+					tag.text = tag.tag;
+					newTags.push(tag);
+				}
+				
+				// Remove previously used or duplicate phrases
+				processPhraseLoad(newTags);
+				
+				// Inject custom phrases
+				countTagsInLocalDatabase(function(phrasesAvailable) {
+					injectCustomPhrases(newTags, phrasesAvailable, function() {
+						if (!PHONEGAP) {
+							// Still need to randomize the list
+							shuffle(newTags);
+						}
+						
+						for (var i = 0; i < newTags.length; i++)
+							tags.push(newTags[i]);
+						
+						if (callback)
+							callback();
+					});
+				});
+	 */
 }
 
 //

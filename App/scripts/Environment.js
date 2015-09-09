@@ -1,4 +1,4 @@
-Environment = {
+_Environment = {
 	app: {
 		name: "Catch-Phrase Panic",
 		version: "1.2.2",
