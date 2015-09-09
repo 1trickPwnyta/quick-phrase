@@ -1,11 +1,11 @@
-function Phrase(id, text, isCustom, categoryId, isCustomCategory, difficultyLevel, adult) {
+function Phrase(id, text, isCustom, categoryId, isCustomCategory, difficultyId, adult) {
 	
 	this.id = id;
 	this.text = text;
 	this.isCustom = isCustom;
 	this.categoryId = categoryId;
 	this.isCustomCategory = isCustomCategory;
-	this.difficultyLevel = difficultyLevel;
+	this.difficultyId = difficultyId;
 	this.adult = adult;
 	
 }

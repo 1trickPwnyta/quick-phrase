@@ -174,7 +174,7 @@ function LocalDatabase() {
 					parameters.push(phrases[j].id);
 					parameters.push(phrases[j].categoryId);
 					parameters.push(phrases[j].text);
-					parameters.push(phrases[j].difficultyLevel);
+					parameters.push(phrases[j].difficultyId);
 					parameters.push(phrases[j].adult? 1: 0);
 				}
 				query = query.substring(0, query.length - 1);	// Remove trailing comma
@@ -378,6 +378,113 @@ function LocalDatabase() {
 	};
 	
 	/**
+	 * Reads the difficulty levels from the database.
+	 * @param callback a function to call with the difficulty levels read.
+	 */
+	this.readDifficulties = function(callback) {
+		db.transaction(function(tx) {
+			var query = "SELECT id, name, max_rating FROM difficulty_level ORDER BY id";
+			tx.executeSql(query, [], function(tx, res) {
+				var difficulties = [];
+				for (var i = 0; i < res.rows.length; i++) {
+					var item = res.rows.item(i);
+					var difficulty = new DifficultyLevel(item.id, item.name, item.max_rating);
+					difficulties.push(difficulty);
+				}
+				callback(difficulties);
+			}, function(tx, err) {
+				_Log.error(err.message);
+			});
+		});
+	};
+	
+	/**
+	 * Changes the difficulty levels in the database to those provided.
+	 * @param difficulties the difficulties to store in the database, 
+	 * replacing all previous difficulties.
+	 * @param callback a function to call after the difficulties are updated.
+	 */
+	this.replaceDifficulties = function(difficulties, callback) {
+		db.transaction(function(tx) {
+			tx.executeSql("TRUNCATE TABLE difficulty_level", [], function(tx, res) {
+				var parameters = [];
+				var query = "INSERT INTO difficulty_level (id, name, max_rating) VALUES ";
+				for (var i = 0; i < difficulties.length; i++) {
+					var difficulty = difficulties[i];
+					query += "(?, ?, ?),";
+					parameters.push(difficulty.id);
+					parameters.push(difficulty.name);
+					parameters.push(difficulty.maxRating);
+				}
+				query = query.substring(0, query.length - 1) + ")";	// Remove trailing comma
+				
+				tx.executeSql(query, parameters, function(tx, res) {
+					if (callback) {
+						callback();
+					}
+				}, function(tx, err) {
+					_Log.error(err.message);
+				});
+			}, function(tx, err) {
+				_Log.error(err.message);
+			});
+		});
+	};
+	
+	/**
+	 * Reads the standard categories from the database.
+	 * @param callback a function to call with the categories read.
+	 */
+	this.readStandardCategories = function(callback) {
+		db.transaction(function(tx) {
+			var query = "SELECT id, name FROM category ORDER BY id";
+			tx.executeSql(query, [], function(tx, res) {
+				var categories = [];
+				for (var i = 0; i < res.rows.length; i++) {
+					var item = res.rows.item(i);
+					var category = new Category(item.id, item.name);
+					categories.push(category);
+				}
+				callback(categories);
+			}, function(tx, err) {
+				_Log.error(err.message);
+			});
+		});
+	};
+	
+	/**
+	 * Changes the standard categories in the database to those provided.
+	 * @param categories the categories to store in the database, 
+	 * replacing all previous categories.
+	 * @param callback a function to call after the categories are updated.
+	 */
+	this.replaceStandardCategories = function(categories, callback) {
+		db.transaction(function(tx) {
+			tx.executeSql("TRUNCATE TABLE category", [], function(tx, res) {
+				var parameters = [];
+				var query = "INSERT INTO category (id, name) VALUES ";
+				for (var i = 0; i < categories.length; i++) {
+					var category = categories[i];
+					query += "(?, ?),";
+					parameters.push(category.id);
+					parameters.push(category.name);
+				}
+				query = query.substring(0, query.length - 1) + ")";	// Remove trailing comma
+				
+				tx.executeSql(query, parameters, function(tx, res) {
+					if (callback) {
+						callback();
+					}
+				}, function(tx, err) {
+					_Log.error(err.message);
+				});
+			}, function(tx, err) {
+				_Log.error(err.message);
+			});
+		});
+	};
+	
+	/**
 	 * Reads settings from the database.
 	 * @param callback a function to call with the settings read.
 	 */
@@ -413,6 +520,7 @@ function LocalDatabase() {
 					parameters.push(settings[name]);
 				}
 				query = query.substring(0, query.length - 1);	// Remove trailing comma
+				
 				tx.executeSql(query, parameters, function(tx, res) {
 					if (callback) {
 						callback();
@@ -436,92 +544,6 @@ function LocalDatabase() {
 			db = openDatabase(DB_NAME, "", Environment.app.name, DB_SIZE);
 		}
 	}
-}
-
-//
-// Loads difficulty settings from the local database.
-//
-function loadDifficultiesFromLocalDatabase(callback) {
-	// Load difficulties from the local database
-	difficulties = new Array("");	// First element should be nothing
-	db.transaction(function(tx) {
-		var query = "SELECT id, name FROM difficulty_level ORDER BY id";
-		tx.executeSql(query, [], function(tx, res) {
-			for (var i = 0; i < res.rows.length; i++) {
-				var difficulty = res.rows.item(i);
-				difficulties.push(difficulty);
-			}
-			
-			if (callback)
-				callback();
-		});
-	});
-}
-
-//
-// Stores the difficulties in the local database, replacing any that were already there.
-//
-function saveDifficultiesInLocalDatabase(difficulties, callback) {
-	db.transaction(function(tx) {
-		// First, remove all existing difficulties
-		tx.executeSql("DELETE FROM difficulty_level WHERE 1=1");
-		// Build a query to insert all difficulties
-		var query = "INSERT INTO difficulty_level (id, name, max_rating) VALUES ";
-		for (var i = 1; i < difficulties.length; i++) {
-			query += "(" + difficulties[i].id + ", '" + difficulties[i].name + "', " + difficulties[i].max_rating + ")";
-			if (i < difficulties.length - 1)
-				query += ", ";
-		}
-		tx.executeSql(query, [], function(tx, res) {
-			if (callback) {
-				callback();
-			}
-		});
-	});
-}
-
-//
-// Load categories from the local database.
-//
-function loadCategoriesFromLocalDatabase(callback) {
-	// First element should be nothing
-	categories = new Array("");
-	
-	db.transaction(function(tx) {
-		// Get categories from the database and put them into the category list
-		var query = "SELECT id, name FROM category ORDER BY name";
-		tx.executeSql(query, [], function(tx, res) {
-			for (var i = 0; i < res.rows.length; i++) {
-				var category = res.rows.item(i);
-				categories.push(category);
-			}
-			
-			if (callback)
-				callback();
-		});
-	});
-}
-
-//
-// Stores the categories in the local database, replacing any that were already there.
-//
-function saveCategoriesInLocalDatabase(categories, callback) {
-	db.transaction(function(tx) {
-		// First, delete all categories from the database
-		tx.executeSql("DELETE FROM category WHERE 1=1");
-		// Create a query to insert all the categories into the database
-		var query = "INSERT INTO category (id, name) VALUES ";
-		for (var i = 1; i < categories.length; i++) {
-			query += "(" + categories[i].id + ", '" + categories[i].name.replace("'", "''") + "')";
-			if (i < categories.length - 1)
-				query += ", ";
-		}
-		tx.executeSql(query, [], function(tx, res) {
-			if (callback) {
-				callback();
-			}
-		});
-	});
 }
 
 //
