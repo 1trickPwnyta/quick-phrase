@@ -1,29 +1,66 @@
-//
-// Initializes the local database.
-//
-function initializeLocalDatabase() {
-	if (PHONEGAP) {
-		db = window.sqlitePlugin.openDatabase({name: DB_NAME});
-	} else {
-		db = openDatabase(APP_NAME, "", APP_NAME, 10 * 1024 * 1024);
-	}
+function LocalDatabase() {
+	var DB_NAME = "grab_tag";
+	var DB_SIZE = 10 * 1024 * 1024;
 	
-	db.transaction(function(tx) {
-		// DROP TABLE statements should only be used during testing...
-		// If a database schema must change from a previous version, you MUST retain the current data!
-		/*tx.executeSql("DROP TABLE tag");
-		tx.executeSql("DROP TABLE custom_phrase");
-		tx.executeSql("DROP TABLE difficulty_level");
-		tx.executeSql("DROP TABLE category");
-		tx.executeSql("DROP TABLE custom_category");
-		tx.executeSql("DROP TABLE settings");*/
-		tx.executeSql("CREATE TABLE IF NOT EXISTS tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)");
-		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_phrase (category_id integer, is_custom_category integer, tag text)");
-		tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)");
-		tx.executeSql("CREATE TABLE IF NOT EXISTS category (id integer, name text)");
-		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_category (name text)");
-		tx.executeSql("CREATE TABLE IF NOT EXISTS settings (id integer primary key autoincrement, name text, value text)");
-	});
+	var db;
+	
+	/**
+	 * Applies the current schema to the local database, updating the previous 
+	 * schema if applicable.
+	 * @param callback a function to call after the schema is applied.
+	 */
+	var applySchemaAsync = function(callback) {
+		db.transaction(function(tx) {
+			
+			// DROP TABLE statements should only be used during testing...
+			// If a database schema must change from a previous version, you MUST retain the current data!
+			/*tx.executeSql("DROP TABLE tag");
+			tx.executeSql("DROP TABLE custom_phrase");
+			tx.executeSql("DROP TABLE difficulty_level");
+			tx.executeSql("DROP TABLE category");
+			tx.executeSql("DROP TABLE custom_category");
+			tx.executeSql("DROP TABLE settings");*/
+			
+			var queries = [
+			    "CREATE TABLE IF NOT EXISTS tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)",
+			    "CREATE TABLE IF NOT EXISTS custom_phrase (category_id integer, is_custom_category integer, tag text)",
+			    "CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)",
+			    "CREATE TABLE IF NOT EXISTS category (id integer, name text)",
+			    "CREATE TABLE IF NOT EXISTS custom_category (name text)",
+			    "CREATE TABLE IF NOT EXISTS settings (id integer primary key autoincrement, name text, value text)"
+			];
+			var queriesRemaining = queries.length;
+			
+			for (var i = 0; i < queries.length; i++) {
+				var query = queries[i];
+				tx.executeSql(query, [], function(tx, res) {
+					if (--queriesRemaining <= 0) {
+						if (callback) {
+							callback();
+						}
+					}
+				}, function(tx, err) {
+					console.err(err.message);
+				});
+			}
+			
+		});
+	};
+	
+	var getPhrases = function(settings, callback) {
+		
+	};
+	
+	/**
+	 * Constructor. Initializes the local database.
+	 */
+	{
+		if (Environment.isPhonegap) {
+			db = window.sqlitePlugin.openDatabase({name: DB_NAME});
+		} else {
+			db = openDatabase(DB_NAME, "", Environment.app.name, DB_SIZE);
+		}
+	}
 }
 
 //

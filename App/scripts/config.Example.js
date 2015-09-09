@@ -25,7 +25,6 @@ var GAMES_UNTIL_RATING_PROMPT = 10;					// Number of games played before the rat
 var MAX_CUSTOM_PHRASE_CHARACTERS = 64;				// Maximum number of characters allowed in custom phrases
 var MAX_CUSTOM_CATEGORY_CHARACTERS = 64;			// Maximum number of characters allowed in custom categories
 
-// Default settings
 var DEFAULT_MIN_TIME_PER_STAGE = 25000;
 var DEFAULT_MAX_TIME_PER_STAGE = 40000;
 var DEFAULT_NUMBER_OF_TEAMS = 2;

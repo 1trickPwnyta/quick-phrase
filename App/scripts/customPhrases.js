@@ -1,3 +1,31 @@
+function CustomPhraseManager() {
+	
+	/**
+	 * Injects custom phrases into a set of phrases at the specified rate.
+	 * @param phrases the set of phrases to inject custom phrases into.
+	 * @param rate a value between 0 and 1 indicating the chance for any given 
+	 * custom phrase to be injected somewhere into the set of phrases.
+	 * @param callback a function that will be called when the operation 
+	 * completes.
+	 */
+	this.injectCustomPhrases = function(phrases, rate, callback) {
+		var originalPhrasesSize = phrases.length;
+		loadCustomPhrasesFromLocalDatabase(function(customPhrases) {
+			for (var i = 0; i < customPhrases.length; i++) {
+				if (Math.random() * phrasesAvailable < originalPhraseLoadSize || (originalPhraseLoadSize == 0 && phrasesAvailable == 0)) {
+					var randomIndex = parseInt(Math.random() * (phraseLoad.length + 1));
+					phraseLoad.splice(randomIndex, 0, customPhrases[i]);
+				}
+			}
+			
+			if (callback) {
+				callback();
+			}
+		});
+	};
+	
+}
+
 //
 // Injects custom phrases into a phrase load.
 //
