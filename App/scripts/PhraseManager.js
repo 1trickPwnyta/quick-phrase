@@ -1,24 +1,84 @@
-function CustomPhraseManager() {
+function PhraseManager() {
 	
+	var phrases;
 	var customPhrases;
-	var customCategories;
 	
 	/**
-	 * Loads the custom phrases and categories from the local database.
+	 * Loads the standard and custom phrases from the web service and/or local 
+	 * database.
 	 * @param localDatabase the local database.
 	 * @param callback a function to call when loading is complete.
 	 */
 	this.loadAsync = function(localDatabase, callback) {
+		var loadsRemaining = 2;
 		
+		localDatabase.readPhrasesAsync(true, false, null, false, null, false, function(phrasesFromDatabase) {
+			phrases = phrasesFromDatabase;
+			if (--loadsRemaining <= 0 && callback) {
+				callback();
+			}
+		});
+		
+		localDatabase.readPhrasesAsync(false, true, null, false, null, false, function(customPhrasesFromDatabase) {
+			customPhrases = customPhrasesFromDatabase;
+			if (--loadsRemaining <= 0 && callback) {
+				callback();
+			}
+		});
 	};
 	
 	/**
-	 * Saves the custom phrases and categories to the local database.
+	 * Saves the standard and custom phrases to the local database.
 	 * @param localDatabase the local database.
 	 * @param callback a function to call when saving is complete.
 	 */
 	this.saveAsync = function(localDatabase, callback) {
+		var allPhrases = [];
+		for (var i = 0; i < phrases.length; i++) {
+			allPhrases.push(phrases[i]);
+		}
+		for (var i = 0; i < customPhrases.length; i++) {
+			allPhrases.push(customPhrases[i]);
+		}
 		
+		localDatabase.readPhrasesAsync(true, true, function(phrasesFromDatabase) {
+			var toCreate = [], toUpdate = [], toDelete = [];
+			_ArrayUtil.compare(allPhrases, phrasesFromDatabase, function(a, b) {
+				return a.id == b.id;
+			}, toCreate, toUpdate, toDelete);
+			
+			var operationsRemaining = 3;
+			var checkIfFinished = function() {
+				if (--operationsRemaining <= 0 && callback) {
+					if (--savesRemaining <= 0) {
+						callback();
+					}
+				}
+			};
+			localDatabase.createPhrasesAsync(toCreate, checkIfFinished);
+			localDatabase.updatePhrasesAsync(toUpdate, checkIfFinished);
+			localDatabase.deletePhrasesAsync(toDelete, checkIfFinished);
+		});
+	};
+	
+	/**
+	 * Checks if a standard or custom phrase exists with the same category and 
+	 * text as that provided.
+	 * @param phrase the phrase to compare against.
+	 * @return true if the phrase exists, false otherwise.
+	 */
+	this.phraseExists = function(phrase) {
+		for (var i = 0; i < phrases.length; i++) {
+			if (_Phrase.textMatches(phrase.text, phrases[i].text)) {
+				return true;
+			}
+		}
+		for (var i = 0; i < customPhrases.length; i++) {
+			if (_Phrase.textMatches(phrase.text, customPhrases[i].text)) {
+				return true;
+			}
+		}
+		return false;
 	};
 	
 	/**
@@ -26,10 +86,8 @@ function CustomPhraseManager() {
 	 * @param phrases the set of phrases to inject custom phrases into.
 	 * @param rate a value between 0 and 1 indicating the chance for any given 
 	 * custom phrase to be injected somewhere into the set of phrases.
-	 * @param callback a function that will be called when the operation 
-	 * completes.
 	 */
-	this.injectCustomPhrasesAsync = function(phrases, rate, callback) {
+	this.injectCustomPhrases = function(phrases, rate) { // TODO This needs to be redone
 		var originalPhrasesSize = phrases.length;
 		loadCustomPhrasesFromLocalDatabase(function(customPhrases) {
 			for (var i = 0; i < customPhrases.length; i++) {
@@ -47,20 +105,18 @@ function CustomPhraseManager() {
 	
 	/**
 	 * Cleans up custom phrases by removing any that match a standard phrase.
-	 * @param standardPhrases the standard phrases to compare against.
 	 */
-	this.cleanCustomPhrases = function(standardPhrases) {
-		
-	};
-	
-	/**
-	 * Cleans up custom categories by removing any that match a standard 
-	 * category. Any custom phrases in removed custom categories are migrated 
-	 * to the matching standard category.
-	 * @param standardCategories the standard categories to compare against.
-	 */
-	this.cleanCustomCategories = function(standardCategories) {
-		
+	this.cleanCustomPhrases = function() {
+		for (var i = 0; i < phrases.length; i++) {
+			for (var j = 0; j < customPhrases.length; j++) {
+				var phrase = phrases[i];
+				var customPhrase = customPhrases[j];
+				if (phrase.categoryId == customPhrase.categoryId && 
+						_Phrase.textMatches(customPhrase.text, phrase.text)) {
+					customPhrases.splice(j--, 1);
+				}
+			}
+		}
 	};
 	
 }

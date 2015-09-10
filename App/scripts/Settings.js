@@ -47,6 +47,13 @@ function Settings() {
 	};
 	
 	/**
+	 * @return an associative array that represents all settings.
+	 */
+	this.getAll = function() {
+		return settings;
+	};
+	
+	/**
 	 * Sets the value of a setting.
 	 * @param key the key used to identify the setting.
 	 * @param value the value to set the setting to.
