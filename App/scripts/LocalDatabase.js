@@ -222,7 +222,7 @@ function LocalDatabase() {
 				parameters.push(phrase.id);
 				parameters.push(phrase.text);
 			}
-			query += "ELSE phrase END ";
+			query += "ELSE phrase END, ";
 			
 			query += "category_id = CASE id ";
 			for (var i = 0; i < phrases.length; i++) {
@@ -231,7 +231,7 @@ function LocalDatabase() {
 				parameters.push(phrase.id);
 				parameters.push(phrase.categoryId);
 			}
-			query += "ELSE category_id END ";
+			query += "ELSE category_id END, ";
 			
 			query += "difficulty_rating = CASE id ";
 			for (var i = 0; i < phrases.length; i++) {
@@ -240,7 +240,7 @@ function LocalDatabase() {
 				parameters.push(phrase.id);
 				parameters.push(phrase.difficultyRating);
 			}
-			query += "ELSE difficulty_rating END ";
+			query += "ELSE difficulty_rating END, ";
 			
 			query += "adult = CASE id ";
 			for (var i = 0; i < phrases.length; i++) {
@@ -361,7 +361,7 @@ function LocalDatabase() {
 				parameters.push(difficulty.id);
 				parameters.push(difficulty.name);
 			}
-			query += "ELSE name END ";
+			query += "ELSE name END, ";
 			
 			query += "max_rating = CASE id ";
 			for (var i = 0; i < difficulties.length; i++) {
