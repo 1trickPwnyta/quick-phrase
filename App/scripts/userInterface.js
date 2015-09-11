@@ -50,20 +50,6 @@ function applyTheme() {
 }
 
 //
-// Shows confetti in the background.
-//
-function showConfetti() {
-	document.getElementById("confetti").style.display = "block";
-}
-
-//
-// Hides the confetti in the background.
-//
-function hideConfetti() {
-	document.getElementById("confetti").style.display = "none";
-}
-
-//
 // Shows the loading screen, with the Next button disabled.
 //
 function showLoadingScreen() {

@@ -1,6 +1,8 @@
-_Category = {
-	ALL: "all"
-};
+{
+	_Category = {
+		ALL: "all"
+	};
+}
 
 function Category(id, isCustom, name) {
 	this.id = id;

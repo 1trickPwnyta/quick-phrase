@@ -1,26 +1,28 @@
-_Settings = {
-	KEY_MIN_SECONDS_PER_STAGE: "sMinTimePerStage",				// Minimum ms for each time stage
-	KEY_MAX_SECONDS_PER_STAGE: "sMaxTimePerStage",				// Maximum ms for each time stage
-	KEY_NUMBER_OF_TEAMS: "sNumberOfTeams",						// Number of teams playing the game
-	KEY_WINNING_POINT: "sWinningPoint",							// Points to win, or to be eliminated in 3+ team play
-	KEY_BEEP_SOUND_FILE: "sBeepSoundFile",						// Sound file to play when the timer ticks
-	KEY_DIFFICULTY: "sDifficulty",								// Phrase difficulty setting
-	KEY_MAX_WORDS_PER_PHRASE: "sMaxWordsPerTag",				// Maximum words per phrase
-	KEY_MAX_CHARACTERS_PER_PHRASE: "sMaxCharactersPerTag",		// Maximum characters per phrase
-	KEY_CATEGORY_IDS: "sCategoryIds",							// Selected phrase categories
-	KEY_CUSTOM_CATEGORY_IDS: "sCustomCategoryIds",				// Selected custom categories
-	KEY_THEME_STYLE_FILE: "sStyleSheet",						// Path to style sheet used by theme
-	KEY_VIBRATE: "sVibrate",									// Turns vibration on
-	KEY_ADULT: "sEdgy",											// Allows adult-only phrases
-	KEY_TEAM_NAMES: "sTeamNames",								// Team names
-	KEY_SHOW_CATEGORY: "sShowCategory",							// Whether to show phrase categories in-game
-	KEY_DEVELOPER_MODE: "sDeveloperMode",						// Whether to enable developer mode (no usage reporting)
-	KEY_DATA_VERSION: "sDataVersion",							// The app version of the stored data
-	KEY_PROMPT_FOR_RATING: "sPromptForRating",					// Whether to prompt the user to rate the app
-	KEY_GAMES_SINCE_RATING_PROMPT: "sGamesSinceRatingPrompt",	// Number of games completed since the last app rating prompt
-	
-	current: new Settings()
-};
+{
+	_Settings = {
+		KEY_MIN_SECONDS_PER_STAGE: "sMinTimePerStage",				// Minimum seconds for each time stage
+		KEY_MAX_SECONDS_PER_STAGE: "sMaxTimePerStage",				// Maximum seconds for each time stage
+		KEY_NUMBER_OF_TEAMS: "sNumberOfTeams",						// Number of teams playing the game
+		KEY_WINNING_POINT: "sWinningPoint",							// Points to win, or to be eliminated in 3+ team play
+		KEY_BEEP_SOUND_FILE: "sBeepSoundFile",						// Sound file to play when the timer ticks
+		KEY_DIFFICULTY: "sDifficulty",								// Phrase difficulty setting
+		KEY_MAX_WORDS_PER_PHRASE: "sMaxWordsPerTag",				// Maximum words per phrase
+		KEY_MAX_CHARACTERS_PER_PHRASE: "sMaxCharactersPerTag",		// Maximum characters per phrase
+		KEY_CATEGORY_IDS: "sCategoryIds",							// Selected phrase categories
+		KEY_CUSTOM_CATEGORY_IDS: "sCustomCategoryIds",				// Selected custom categories
+		KEY_THEME_STYLE_FILE: "sStyleSheet",						// Path to style sheet used by theme
+		KEY_VIBRATE: "sVibrate",									// Turns vibration on
+		KEY_ADULT: "sEdgy",											// Allows adult-only phrases
+		KEY_TEAM_NAMES: "sTeamNames",								// Team names
+		KEY_SHOW_CATEGORY: "sShowCategory",							// Whether to show phrase categories in-game
+		KEY_DEVELOPER_MODE: "sDeveloperMode",						// Whether to enable developer mode (no usage reporting)
+		KEY_DATA_VERSION: "sDataVersion",							// The app version of the stored data
+		KEY_PROMPT_FOR_RATING: "sPromptForRating",					// Whether to prompt the user to rate the app
+		KEY_GAMES_SINCE_RATING_PROMPT: "sGamesSinceRatingPrompt",	// Number of games completed since the last app rating prompt
+		
+		current: new Settings()
+	};
+}
 
 function Settings() {
 	
