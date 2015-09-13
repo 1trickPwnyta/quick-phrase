@@ -5,9 +5,11 @@ function Timer() {
 	var TIME_STAGE_FINAL = 3;
 	
 	var beepInterval;
-	var timeStage;
+	var timeStage = TIME_STAGE_NOT_STARTED;
 	var timeStageStartTime;
+	var timeStageTimeElapsed;
 	var timeStageLengths;
+	var timeUpCallback;
 	
 	/**
 	 * Beeps the timer.
@@ -23,6 +25,25 @@ function Timer() {
 	};
 	
 	/**
+	 * Sets the beep interval based on the current time stage.
+	 */
+	var setBeepInterval = function() {
+		switch (timeStage) {
+			case TIME_STAGE_1:
+				beepInterval = window.setInterval(beep, BEEP_INTERVAL*3);
+			case TIME_STAGE_2:
+				beepInterval = window.setInterval(beep, BEEP_INTERVAL*2);
+				break;
+			case TIME_STAGE_FINAL:
+				beepInterval = window.setInterval(beep, BEEP_INTERVAL);
+				break;
+			default:
+				_Log.error("Attempted to set the beep interval while in invalid time stage: " + timeStage);
+			break;
+		}
+	};
+	
+	/**
 	 * Advances the timer to the next time stage. If the timer is already on 
 	 * the final time stage, time is up.
 	 */
@@ -31,13 +52,24 @@ function Timer() {
 		
 		timeStage++;
 		if (timeStage > TIME_STAGE_FINAL) {
-			// TODO Time is up!
+			timeUp();
 		} else {
-			if (timeStage == TIME_STAGE_2) {
-				beepInterval = window.setInterval(beep, BEEP_INTERVAL*2);
-			} else if (timeStage == TIME_STAGE_FINAL) {
-				beepInterval = window.setInterval(beep, BEEP_INTERVAL);
-			}
+			timeStageStartTime = performance.now();
+			setBeepInterval();
+		}
+	};
+	
+	/**
+	 * Performs tasks to indicate that time is up.
+	 */
+	var timeUp = function() {
+		_UiUtil.playSound(TIME_UP_SOUND_FILE);
+		_UiUtil.vibrate(VIBRATION_DURATION * 5);
+		
+		timeStage = TIME_STAGE_NOT_STARTED;
+		
+		if (timeUpCallback) {
+			timeUpCallback();
 		}
 	};
 	
@@ -56,6 +88,8 @@ function Timer() {
 	 * @param callback a function to call when time runs out.
 	 */
 	this.start = function(callback) {
+		timeUpCallback = callback;
+		
 		// Pre-determine time stage lengths
 		timeStageLengths = [];
 		timeStageLengths[TIME_STAGE_1] = getRandomTimeStageLength();
@@ -63,7 +97,24 @@ function Timer() {
 		timeStageLengths[TIME_STAGE_FINAL] = getRandomTimeStageLength();
 		
 		timeStage = TIME_STAGE_1;
-		beepInterval = window.setInterval(beep, BEEP_INTERVAL*3);
+		timeStageStartTime = performance.now();
+		setBeepInterval();
+	};
+	
+	/**
+	 * Pauses the timer.
+	 */
+	this.pause = function() {
+		window.clearInterval(beepInterval);
+		timeStageTimeElapsed = performance.now() - timeStageStartTime;
+	};
+	
+	/**
+	 * Resumes the timer after being paused.
+	 */
+	this.resume = function() {
+		timeStageStartTime = performance.now() - timeStageTimeElapsed;
+		setBeepInterval();
 	};
 	
 }

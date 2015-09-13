@@ -10,23 +10,30 @@ function Game(callback) {
 	var phraseManager;
 	var customPhraseManager;
 	var categoryManager;
+	var customCategoryManager;
+	var difficultyManager;
 	var teamManager;
 	
 	// Tools
 	var phraseTool;
+	var categoryTool;
 	
 	// User interface objects
 	var phraseArea;
+	var nextButton;
 	var toolBar;
 	var scoreBoard;
 	var confetti;
+	var menu;
 	
 	// Game status
 	var timer;
 	var gameStarted = false;
+	var gamePaused = false;
 	var loadingPhrases = false;
 	var phraseQueue = [];
 	var phrasesToReview = [];
+	var promptToGivePoint = false;
 	
 	/**
 	 * Gets the next phrase from the queue. If the queue is running low, 
@@ -65,6 +72,20 @@ function Game(callback) {
 	};
 	
 	/**
+	 * Ends the current round when the time is up.
+	 */
+	var onTimeUp = function() {
+		_Log.info("Round complete.");
+		// TODO Use web service to submit "/round/complete"
+		phraseArea.showMessage("Time's up!");
+		toolBar.showMenuButton();
+		toolBar.showPhraseReviewButton();
+		promptToGivePoint = true;
+		_UiUtil.setAllowSleep(true);
+		nextButton.disable(1000);
+	};
+	
+	/**
 	 * Sets or resets the game to its initial state.
 	 */
 	this.newGame = function() {
@@ -83,6 +104,47 @@ function Game(callback) {
 	this.start = function() {
 		_Log.info("Game started.");
 		gameStarted = true;
+	};
+	
+	/**
+	 * Starts a round. Starts the game first if not done already.
+	 */
+	this.startRound = function() {
+		if (!gameStarted) {
+			this.start();
+		}
+		
+		_Log.info("Round started.");
+		// TODO Use web service to submit "/round/start" and settings
+		toolBar.showPauseButton();
+		toolBar.hidePhraseReviewButton();
+		phrasesToReview = [];
+		_UiUtil.setAllowSleep(false);
+		timer.start(onTimeUp);
+	};
+	
+	/**
+	 * Pauses a round in progress if not paused already.
+	 */
+	this.pause = function() {
+		if (!gamePaused) {
+			gamePaused = true;
+			// TODO Use web service to submit "/game/pause"
+			timer.pause();
+			_UiUtil.setAllowSleep(true);
+		}
+	};
+	
+	/**
+	 * Resumes a round in progress after being paused.
+	 */
+	this.resume = function() {
+		if (gamePaused) {
+			gamePaused = false;
+			// TODO Use web service to submit "/game/resume"
+			timer.resume();
+			_UiUtil.setAllowSleep(false);
+		}
 	};
 	
 	/**
@@ -105,18 +167,58 @@ function Game(callback) {
 		phraseManager = new PhraseManager(localDatabase);
 		customPhraseManager = new CustomPhraseManager(localDatabase);
 		categoryManager = new CategoryManager(localDatabase);
+		customCategoryManager = new CustomCategoryManager(localDatabase);
+		difficultyManager = new DifficultyManager(localDatabase);
 		teamManager = new TeamManager();
 		
-		categoryManager.loadAsync(callback);
-		
 		phraseTool = new PhraseTool(phraseManager, customPhraseManager);
+		categoryTool = new CategoryTool(categoryManager, customCategoryManager);
 		
 		phraseArea = new PhraseArea();
+		nextButton = new NextButton();
 		toolBar = new ToolBar();
 		scoreBoard = new ScoreBoard();
 		confetti = new Confetti();
+		menu = new Menu();
 		
 		timer = new Timer();
+		
+		// Load data using managers
+		var loadsRemaining = 5;
+		var categoryLoadsRemaining = 2;
+		var checkIfFinishedLoading = function() {
+			if (--loadsRemaining <= 0) {
+				toolBar.enableMenuButton();
+				if (callback) {
+					callback();
+				}
+			}
+		};
+		var checkIfFinishedLoadingCategories = function() {
+			if (--categoryLoadsRemaining <= 0) {
+				var categories = categoryTool.getCategories();
+				if (categories.length > 0) {
+					menu.setCategories(categories);
+					checkIfFinishedLoading();
+				} else {
+					phraseArea.showError("Loading failed.");
+				}
+			}
+		};
+		var checkIfFinishedLoadingDifficulties = function() {
+			var difficulties = difficultyManager.getDifficulties();
+			if (difficulties.length > 0) {
+				menu.setDifficulties(difficulties);
+				checkIfFinishedLoading();
+			} else {
+				phraseArea.showError("Loading failed.");
+			}
+		};
+		phraseManager.loadAsync(checkIfFinishedLoading);
+		customPhraseManager.loadAsync(checkIfFinishedLoading);
+		categoryManager.loadAsync(checkIfFinishedLoadingCategories);
+		customCategoryManager.loadAsync(checkIfFinishedLoadingCategories);
+		difficultyManager.loadAsync(checkIfFinishedLoadingDifficulties);
 	}
 	
 }

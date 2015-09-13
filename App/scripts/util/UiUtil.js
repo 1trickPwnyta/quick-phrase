@@ -53,6 +53,20 @@
 		},
 		
 		/**
+		 * Turns allowance for the device to sleep on or off.
+		 * @param allowSleep whether to allow the device to sleep.
+		 */
+		setAllowSleep: function(allowSleep) {
+			if (_Environment.isPhonegap) {
+				if (allowSleep) {
+					window.plugins.insomnia.allowSleepAgain();
+				} else {
+					window.plugins.insomnia.keepAwake();
+				}
+			}
+		},
+		
+		/**
 		 * Changes the game's theme.
 		 * @param themeStyleFile the CSS style file for the new theme.
 		 */

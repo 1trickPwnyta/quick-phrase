@@ -45,15 +45,7 @@
 			var usedTagsOverall = new Array();					// Holds the phrases that have been used the whole time the app was open
 			var loadingTags = false;							// Whether new phrases are currently loading
 			var stats;											// Object that holds new phrase creation stats
-			var scores;											// Array that holds team scores
-			var timeStage = TIME_STAGE_NOT_STARTED;				// The round's current time stage
-			var timeStageAtLastBeep = TIME_STAGE_NOT_STARTED;	// Time stage that was in effect at the last timer tick
 			var pointGiven = true;								// Whether a point has been given for the last round yet
-			var beepTimer = null;								// A window.setTimeout timer for the next timer tick
-			var timeStageTimer = null;							// A window.setTimeout timer for advancing the time stage
-			var timeStageStartTime = null;						// The time at which the last time staged began
-			var timeStageLength = 0;							// The total length of the current time stage
-			var timeStageTimeRemaining = 0;						// The number of milliseconds remaining in the current time stage when paused
 		
 			window.onload = function() {
 				if (PHONEGAP) {
@@ -177,8 +169,14 @@
 		<div id="main">
 			<!-- App menu bar -->
 			<header>
+				<!-- TODO menu button should start with disabled icon -->
+				<!-- TODO change the onclick, function should do nothing if button is disabled -->
 				<a id="menuButton" class="header-button" href="#" onclick="menuButtonClick(); return false;">
 					<img id="menuButtonIcon" class="header-button-icon" src="images/menu.png" alt="Menu" />
+				</a>
+				<!-- TODO: Change the onclick -->
+				<a id="pauseButton" class="header-button" href="#" onclick="menuButtonClick(); return false;">
+					<img id="pauseButtonIcon" class="header-button-icon" src="images/pause.png" alt="Pause" />
 				</a>
 				<a id="helpButton" class="header-button" href="#" onclick="helpButtonClick(); return false;">
 					<img id="helpButtonIcon" class="header-button-icon" src="images/help.png" alt="Help" />

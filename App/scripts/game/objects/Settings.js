@@ -5,7 +5,7 @@
 		KEY_NUMBER_OF_TEAMS: "sNumberOfTeams",						// Number of teams playing the game
 		KEY_WINNING_POINT: "sWinningPoint",							// Points to win, or to be eliminated in 3+ team play
 		KEY_BEEP_SOUND_FILE: "sBeepSoundFile",						// Sound file to play when the timer ticks
-		KEY_DIFFICULTY: "sDifficulty",								// Phrase difficulty setting
+		KEY_DIFFICULTY_ID: "sDifficulty",							// Phrase difficulty setting
 		KEY_MAX_WORDS_PER_PHRASE: "sMaxWordsPerTag",				// Maximum words per phrase
 		KEY_MAX_CHARACTERS_PER_PHRASE: "sMaxCharactersPerTag",		// Maximum characters per phrase
 		KEY_CATEGORY_IDS: "sCategoryIds",							// Selected phrase categories
