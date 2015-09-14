@@ -1,18 +1,4 @@
 //
-// Locks the UI so that the user cannot interact with it.
-//
-function lockUi() {
-	document.getElementById("uiLock").style.display = "block";
-}
-
-//
-// Unlocks the UI so that the user can interact with it once more.
-//
-function unlockUi() {
-	document.getElementById("uiLock").style.display = "none";
-}
-
-//
 // Sets the phrase on the screen.
 //
 function setTag(text, categoryName) {

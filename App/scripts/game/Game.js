@@ -25,6 +25,7 @@ function Game(callback) {
 	var scoreBoard;
 	var confetti;
 	var menu;
+	var uiLock;
 	
 	// Game status
 	var timer;
@@ -148,6 +149,14 @@ function Game(callback) {
 	};
 	
 	/**
+	 * Ends the current game when a winner has been declared.
+	 * @param team the winning team.
+	 */
+	this.onWinner = function(team) {
+		
+	};
+	
+	/**
 	 * Forgets all previously loaded phrases and reloads phrases based on the 
 	 * current settings.
 	 */
@@ -169,7 +178,7 @@ function Game(callback) {
 		categoryManager = new CategoryManager(localDatabase);
 		customCategoryManager = new CustomCategoryManager(localDatabase);
 		difficultyManager = new DifficultyManager(localDatabase);
-		teamManager = new TeamManager();
+		teamManager = new TeamManager(this.onWinner);
 		
 		phraseTool = new PhraseTool(phraseManager, customPhraseManager);
 		categoryTool = new CategoryTool(categoryManager, customCategoryManager);
@@ -180,6 +189,7 @@ function Game(callback) {
 		scoreBoard = new ScoreBoard();
 		confetti = new Confetti();
 		menu = new Menu();
+		uiLock = new UiLock();
 		
 		timer = new Timer();
 		
