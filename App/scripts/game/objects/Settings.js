@@ -9,7 +9,6 @@
 		KEY_MAX_WORDS_PER_PHRASE: "sMaxWordsPerTag",				// Maximum words per phrase
 		KEY_MAX_CHARACTERS_PER_PHRASE: "sMaxCharactersPerTag",		// Maximum characters per phrase
 		KEY_CATEGORY_IDS: "sCategoryIds",							// Selected phrase categories
-		KEY_CUSTOM_CATEGORY_IDS: "sCustomCategoryIds",				// Selected custom categories
 		KEY_THEME_STYLE_FILE: "sStyleSheet",						// Path to style sheet used by theme
 		KEY_VIBRATE: "sVibrate",									// Turns vibration on
 		KEY_ADULT: "sEdgy",											// Allows adult-only phrases

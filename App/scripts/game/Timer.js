@@ -102,6 +102,17 @@ function Timer() {
 	};
 	
 	/**
+	 * Stops the timer.
+	 */
+	this.stop = function() {
+		window.clearInterval(beepInterval);
+		_UiUtil.playSound(TIME_UP_SOUND_FILE);
+		_UiUtil.vibrate(VIBRATION_DURATION * 5);
+		
+		timeStage = TIME_STAGE_NOT_STARTED;
+	};
+	
+	/**
 	 * Pauses the timer.
 	 */
 	this.pause = function() {

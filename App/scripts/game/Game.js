@@ -73,6 +73,44 @@ function Game(callback) {
 	};
 	
 	/**
+	 * Ends the current game when a winner has been declared.
+	 * @param team the winning team.
+	 */
+	var declareWinner = function(team) {
+		uiLock.lock(2500, function() {
+			// TODO Fix this stuff...
+			if (sGamesSinceRatingPrompt >= GAMES_UNTIL_RATING_PROMPT && sPromptForRating) {
+				changeGamesSinceRatingPrompt(0);
+				showRatingPrompt();
+			}
+		});
+		
+		// TODO submit "/game/complete"
+		gameStarted = false;
+		// TODO changeGamesSinceRatingPrompt(sGamesSinceRatingPrompt + 1);
+		phraseArea.showMessage(team.name + " wins!");
+		_UiUtil.playSound(WIN_SOUND_FILE);
+		confetti.show();
+	};
+	
+	/**
+	 * Eliminates a team from the game (in 3+ team play).
+	 */
+	var eliminateTeam = function(team) {
+		team.score = _TeamManager.SCORE_ELIMINATED;
+		scoreBoard.showScores(teamManager.getTeams());
+		
+		var activeTeams = teamManager.getActiveTeams();
+		if (activeTeams.length == 1) {
+			var winner = activeTeams[0];
+			declareWinner(winner);
+		} else {
+			phraseArea.showMessage(team.name + " eliminated!");
+			_UiUtil.playSound(LOSE_SOUND_FILE);
+		}
+	};
+	
+	/**
 	 * Ends the current round when the time is up.
 	 */
 	var onTimeUp = function() {
@@ -105,6 +143,14 @@ function Game(callback) {
 	this.start = function() {
 		_Log.info("Game started.");
 		gameStarted = true;
+		teamManager.initializeTeams();
+	};
+	
+	/**
+	 * @return true if the game is started, false otherwise.
+	 */
+	this.isStarted = function() {
+		return gameStarted;
 	};
 	
 	/**
@@ -122,6 +168,16 @@ function Game(callback) {
 		phrasesToReview = [];
 		_UiUtil.setAllowSleep(false);
 		timer.start(onTimeUp);
+	};
+	
+	/**
+	 * Stops the round in progress, if any.
+	 */
+	this.stopRound = function() {
+		// TODO submit "/round/stop"
+		timer.stop();
+		promptToGivePoint = false;
+		phraseArea.showMessage("Game stopped.");
 	};
 	
 	/**
@@ -146,14 +202,6 @@ function Game(callback) {
 			timer.resume();
 			_UiUtil.setAllowSleep(false);
 		}
-	};
-	
-	/**
-	 * Ends the current game when a winner has been declared.
-	 * @param team the winning team.
-	 */
-	this.onWinner = function(team) {
-		
 	};
 	
 	/**
@@ -189,6 +237,7 @@ function Game(callback) {
 		scoreBoard = new ScoreBoard();
 		confetti = new Confetti();
 		menu = new Menu();
+		menu.setCategoryTool(categoryTool);
 		uiLock = new UiLock();
 		
 		timer = new Timer();
@@ -208,7 +257,6 @@ function Game(callback) {
 			if (--categoryLoadsRemaining <= 0) {
 				var categories = categoryTool.getCategories();
 				if (categories.length > 0) {
-					menu.setCategories(categories);
 					checkIfFinishedLoading();
 				} else {
 					phraseArea.showError("Loading failed.");

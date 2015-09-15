@@ -568,7 +568,7 @@ function LocalDatabase() {
 				var settings = [];
 				for (var i = 0; i < res.rows.length; i++) {
 					var item = res.rows.item(i);
-					settings[item.name] = item.value;
+					settings[item.name] = JSON.parse(item.value);
 				}
 				callback(settings);
 			}, function(tx, err) {
@@ -591,7 +591,7 @@ function LocalDatabase() {
 				for (var name in settings) {
 					query += "(?, ?),";
 					parameters.push(name);
-					parameters.push(settings[name]);
+					parameters.push(JSON.stringify(settings[name]));
 				}
 				query = query.substring(0, query.length - 1);	// Remove trailing comma
 				
