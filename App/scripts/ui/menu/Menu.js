@@ -4,19 +4,14 @@
 function Menu(game) {
 	
 	var self = this;
+	var closeMenuItem;
+	var customPhrasesMenuItem;
+	var winningPointMenuItem;
+	var numberOfTeamsMenuItem;
+	var minSecondsPerStageMenuItem;
+	var maxSecondsPerStageMenuItem;
 	
 	var element = document.getElementById("mainMenu");
-	var closeElement = document.getElementById("menuItemClose");
-	var customPhrasesElement = document.getElementById("menuItemCustomPhrases");
-	var winningPointDescriptionElement = document.getElementById("winningPointDescription");
-	var winningPointValueElement = document.getElementById("menuItemWinningPoint").getElementsByClassName("menuItemValue")[0];
-	var winningPointIncreaseElement = document.getElementById("menuItemWinningPointIncrease");
-	var winningPointDecreaseElement = document.getElementById("menuItemWinningPointDecrease");
-	var numberOfTeamsValueElement = document.getElementById("menuItemNumberOfTeams").getElementsByClassName("menuItemValue")[0];
-	var numberOfTeamsIncreaseElement = document.getElementById("menuItemNumberOfTeamsIncrease");
-	var numberOfTeamsDecreaseElement = document.getElementById("menuItemNumberOfTeamsDecrease");
-	var minSecondsPerStageValueElement = document.getElementById("menuItemMinimumTime").getElementsByClassName("menuItemValue")[0];
-	var minSecondsPerStageDecreaseElement = document.getElementById("menuItemMinimumTimeDecrease");
 	var maxSecondsPerStageValueElement = document.getElementById("menuItemMaximumTime").getElementsByClassName("menuItemValue")[0];
 	var maxSecondsPerStageDecreaseElement = document.getElementById("menuItemMaximumTimeDecrease");
 	var difficultySelectElement = document.getElementById("menuItemDifficulty").getElementsByClassName("menuItemValue")[0];
@@ -26,7 +21,8 @@ function Menu(game) {
 	var maxWordsValueElement = maxWordsElement.getElementsByClassName("menuItemValue")[0];
 	var maxWordsIncreaseElement = document.getElementById("menuItemMaxWordsIncrease");
 	var maxWordsDecreaseElement = document.getElementById("menuItemMaxWordsDecrease");
-	var maxCharactersValueElement = document.getElementById("menuItemMaxCharacters").getElementsByClassName("menuItemValue")[0];
+	var maxCharactersElement = document.getElementById("menuItemMaxCharacters");
+	var maxCharactersValueElement = maxCharactersElement.getElementsByClassName("menuItemValue")[0];
 	var maxCharactersDecreaseElement = document.getElementById("menuItemMaxCharactersDecrease");
 	var beepSoundFileSelectElement = document.getElementById("menuItemBeepSoundFile").getElementsByClassName("menuItemValue")[0];
 	var themeStyleFileSelectElement = document.getElementById("menuItemTheme").getElementsByClassName("menuItemValue")[0];
@@ -34,24 +30,6 @@ function Menu(game) {
 	var showCategoryCheckBoxElement = document.getElementById("menuItemShowCategoryCheckBox");
 	var adultCheckBoxElement = document.getElementById("menuItemEdgyCheckBox");
 	var scoreSettingsElement = document.getElementById("scoreSettings");
-	
-	/**
-	 * Closes the menu when the close menu item is clicked.
-	 */
-	var onCloseElementClicked = function() {
-		_UiUtil.playSound(CLICK_SOUND_FILE);
-		self.hide();
-	};
-	
-	/**
-	 * Shows the custom phrases dialog when the custom phrases menu item is 
-	 * clicked.
-	 */
-	var onCustomPhrasesElementClicked = function() {
-		_UiUtil.playSound(CLICK_SOUND_FILE);
-		// TODO submit "/menu/customPhrases"
-		// TODO showCustomPhrases();
-	};
 	
 	/**
 	 * Shows the categories dialog when the categories menu item is clicked.
@@ -167,23 +145,17 @@ function Menu(game) {
 		var adult = settings.get(_Settings.KEY_ADULT, DEFAULT_ADULT);
 		
 		if (numberOfTeams > 2) {
-			winningPointDescriptionElement.innerHTML = "Points for elimination";
+			winningPointElement.setName("Points for elimination");
 		} else {
-			winningPointDescriptionElement.innerHTML = "Points to win";
+			winningPointElement.setName("Points to win");
 		}
-		winningPointValueElement.innerHTML = winningPoint;
-		winningPointIncreaseElement.disabled = winningPoint >= MAX_WINNING_POINT;
-		winningPointDecreaseElement.disabled = winningPoint <= MIN_WINNING_POINT;
 		
-		numberOfTeamsValueElement.innerHTML = numberOfTeams;
-		numberOfTeamsIncreaseElement.disabled = numberOfTeams >= MAX_NUMBER_OF_TEAMS;
-		numberOfTeamsDecreaseElement.disabled = numberOfTeams <= MIN_NUMBER_OF_TEAMS;
+		winningPointMenuItem.setValue(winningPoint);
+		numberOfTeamsMenuItem.setValue(numberOfTeams);
+		minSecondsPerStageMenuItem.setValue(minSecondsPerStage);
+		maxSecondsPerStageMenuItem.setValue(maxSecondsPerStage);
 		
-		minSecondsPerStageValueElement.innerHTML = minSecondsPerStage;
-		minSecondsPerStageDecreaseElement.disabled = minSecondsPerStage <= MIN_TIME_STAGE_SECONDS;
-		maxSecondsPerStageValueElement.innerHTML = maxSecondsPerStage;
-		maxSecondsPerStageDecreaseElement.disabled = maxSecondsPerStage <= MIN_TIME_STAGE_SECONDS;
-		
+		// TODO Left off here converting to individual classes
 		difficultySelectElement.value = difficulyId;
 		
 		if (selectedCategories == _Category.ALL) {
@@ -225,7 +197,7 @@ function Menu(game) {
 					// TODO Fix this
 					menuItemRestartGameClick();
 				};
-				resetScoresElement.innerHTML = "Reset scores";
+				resetScoresElement.innerHTML = "<span class=\"menuItemName\">Reset scores</span>";
 				scoreSettingsElement.appendChild(resetScoresElement);
 			}
 			
@@ -240,7 +212,8 @@ function Menu(game) {
 					// TODO Fix this
 					menuItemScoreClick(this.teamId);
 				};
-				scoreElement.innerHTML = _HtmlUtil.htmlEncode(team.name + ": " + team.score);
+				scoreElement.innerHTML = "<span class=\"menuItemName\">" + _HtmlUtil.htmlEncode(team.name) + "</span>: " + 
+						"<span class=\"menuItemValue\">" + team.score + "</span>";
 				scoreSettingsElement.appendChild(scoreElement);
 			}
 		}
@@ -279,13 +252,19 @@ function Menu(game) {
 	 * Constructor.
 	 */
 	{
-		closeElement.onclick = onCloseElementClicked;
-		customPhrasesElement.onclick = onCustomPhrasesElementClicked;
+		closeMenuItem = new CloseMenuItem(this);
+		customPhrasesMenuItem = new CustomPhrasesMenuItem(this);
+		winningPointMenuItem = new WinningPointMenuItem(this);
+		numberOfTeamsMenuItem = new NumberOfTeamsMenuItem(this);
+		minSecondsPerStageMenuItem = new MinSecondsPerStageMenuItem(this);
+		maxSecondsPerStageMenuItem = new MaxSecondsPerStageMenuItem(this);
+		
 		categoriesElement.onclick = onCategoriesElementClicked;
 		difficultySelectElement.onchange = onDifficultySelectElementChanged;
 		maxWordsElement.onclick = onMaxWordsElementClicked;
 		maxWordsIncreaseElement.onclick = onMaxWordsIncreaseElementClicked;
 		maxWordsDecreaseElement.onclick = onMaxWordsDecreaseElementClicked;
+		maxCharactersElement.onclick = onMaxCharactersElementClicked;
 	}
 	
 }

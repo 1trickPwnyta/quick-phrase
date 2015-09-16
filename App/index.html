@@ -203,12 +203,13 @@
 			<div id="mainMenu" class="hidden">
 				<!-- Close button for the menu -->
 				<div id="menuItemClose" class="menuItem">
-					<img id="mainMenuCloseIcon" class="middle" src="images/delete.png" /> Return to the game
+					<img id="mainMenuCloseIcon" class="middle" src="images/delete.png" />
+					<span class="menuItemName">Return to the game</span>
 				</div>
 				
 				<div class="menuHeader">Features</div>
 				<div id="menuItemCustomPhrases" class="menuItem">
-					Custom phrases
+					<span class="menuItemName">Custom phrases</span>
 				</div>
 				
 				<!-- Holds the score menu items when a game is in progress -->
@@ -216,57 +217,58 @@
 				
 				<div class="menuHeader">Phrase Options</div>
 				<div id="menuItemCategoryIds" class="menuItem">
-					Categories: <span class="menuItemValue"></span>
+					<span class="menuItemName">Categories</span>: <span class="menuItemValue"></span>
 				</div>
 				<div id="menuItemDifficulty" class="menuItem">
-					Difficulty: <select class="menuItemValue"></select>
+					<span class="menuItemName">Difficulty</span>: <select class="menuItemValue"></select>
 				</div>
 				<div id="menuItemMaxWords" class="menuItem">
-					<button id="menuItemMaxWordsIncrease" class="menuItemIncrease"></button>
-					<button id="menuItemMaxWordsDecrease" class="menuItemDecrease"></button>
-					Max words per phrase: <span class="menuItemValue"></span>
+					<button class="menuItemIncrease"></button>
+					<button class="menuItemDecrease"></button>
+					<span class="menuItemName">Max words per phrase</span>: <span class="menuItemValue"></span>
 				</div>
-				<div id="menuItemMaxCharacters" class="menuItem" onclick="menuItemMaxCharactersClick();">
-					<button id="menuItemMaxCharactersIncrease" class="menuItemIncrease" onclick="arguments[0].stopPropagation(); menuItemMaxCharactersIncrease();"></button>
-					<button id="menuItemMaxCharactersDecrease" class="menuItemDecrease" onclick="arguments[0].stopPropagation(); menuItemMaxCharactersDecrease();"></button>
-					Max characters per phrase: <span class="menuItemValue"></span>
+				<!-- TODO: Left off here removing onclicks -->
+				<div id="menuItemMaxCharacters" class="menuItem">
+					<button class="menuItemIncrease" onclick="arguments[0].stopPropagation(); menuItemMaxCharactersIncrease();"></button>
+					<button class="menuItemDecrease" onclick="arguments[0].stopPropagation(); menuItemMaxCharactersDecrease();"></button>
+					<span class="menuItemName">Max characters per phrase</span>: <span class="menuItemValue"></span>
 				</div>
 				<!-- Label instead of div; wraps the checkbox it is "for" so that the whole row is clickable -->
 				<label id="menuItemEdgy" class="menuItem" for="menuItemEdgyCheckBox" style="display: block;">
 					<input id="menuItemEdgyCheckBox" type="checkbox" class="menuItemValue" onchange="menuItemEdgyChange();" />
-					Include adult-only phrases
+					<span class="menuItemName">Include adult-only phrases</span>
 				</label>
 				<!-- Label instead of div; wraps the checkbox it is "for" so that the whole row is clickable -->
 				<label id="menuItemShowCategory" class="menuItem" for="menuItemShowCategoryCheckBox" style="display: block;">
 					<input id="menuItemShowCategoryCheckBox" type="checkbox" class="menuItemValue" onchange="menuItemShowCategoryChange();" />
-					Show phrase categories
+					<span class="menuItemName">Show phrase categories</span>
 				</label>
 				
 				<div class="menuHeader">Game Rules</div>
 				<div id="menuItemWinningPoint" class="menuItem" onclick="menuItemWinningPointClick();">
-					<button id="menuItemWinningPointIncrease" class="menuItemIncrease" onclick="arguments[0].stopPropagation(); menuItemWinningPointIncrease();"></button>
-					<button id="menuItemWinningPointDecrease" class="menuItemDecrease" onclick="arguments[0].stopPropagation(); menuItemWinningPointDecrease();"></button>
-					<span id="winningPointDescription">Points to win</span>: <span class="menuItemValue"></span>
+					<button class="menuItemIncrease" onclick="arguments[0].stopPropagation(); menuItemWinningPointIncrease();"></button>
+					<button class="menuItemDecrease" onclick="arguments[0].stopPropagation(); menuItemWinningPointDecrease();"></button>
+					<span class="menuItemName">Points to win</span>: <span class="menuItemValue"></span>
 				</div>
 				<div id="menuItemNumberOfTeams" class="menuItem" onclick="menuItemNumberOfTeamsClick();">
-					<button id="menuItemNumberOfTeamsIncrease" class="menuItemIncrease" onclick="arguments[0].stopPropagation(); menuItemNumberOfTeamsIncrease();"></button>
-					<button id="menuItemNumberOfTeamsDecrease" class="menuItemDecrease" onclick="arguments[0].stopPropagation(); menuItemNumberOfTeamsDecrease();"></button>
-					Number of teams: <span class="menuItemValue"></span>
+					<button class="menuItemIncrease" onclick="arguments[0].stopPropagation(); menuItemNumberOfTeamsIncrease();"></button>
+					<button class="menuItemDecrease" onclick="arguments[0].stopPropagation(); menuItemNumberOfTeamsDecrease();"></button>
+					<span class="menuItemName">Number of teams</span>: <span class="menuItemValue"></span>
 				</div>
 				<div id="menuItemMinimumTime" class="menuItem" onclick="menuItemMinimumTimeClick();">
-					<button id="menuItemMinimumTimeIncrease" class="menuItemIncrease" onclick="arguments[0].stopPropagation(); menuItemMinimumTimeIncrease();"></button>
-					<button id="menuItemMinimumTimeDecrease" class="menuItemDecrease" onclick="arguments[0].stopPropagation(); menuItemMinimumTimeDecrease();"></button>
-					Least possible game seconds: <span class="menuItemValue"></span>
+					<button class="menuItemIncrease" onclick="arguments[0].stopPropagation(); menuItemMinimumTimeIncrease();"></button>
+					<button class="menuItemDecrease" onclick="arguments[0].stopPropagation(); menuItemMinimumTimeDecrease();"></button>
+					<span class="menuItemName">Least possible game seconds</span>: <span class="menuItemValue"></span>
 				</div>
 				<div id="menuItemMaximumTime" class="menuItem" onclick="menuItemMaximumTimeClick();">
-					<button id="menuItemMaximumTimeIncrease" class="menuItemIncrease" onclick="arguments[0].stopPropagation(); menuItemMaximumTimeIncrease();"></button>
-					<button id="menuItemMaximumTimeDecrease" class="menuItemDecrease" onclick="arguments[0].stopPropagation(); menuItemMaximumTimeDecrease();"></button>
-					Most possible game seconds: <span class="menuItemValue"></span>
+					<button class="menuItemIncrease" onclick="arguments[0].stopPropagation(); menuItemMaximumTimeIncrease();"></button>
+					<button class="menuItemDecrease" onclick="arguments[0].stopPropagation(); menuItemMaximumTimeDecrease();"></button>
+					<span class="menuItemName">Most possible game seconds</span>: <span class="menuItemValue"></span>
 				</div>
 				
 				<div class="menuHeader">Effects</div>
 				<div id="menuItemBeepSoundFile" class="menuItem">
-					Timer tick: <select class="menuItemValue" onchange="menuItemBeepSoundFileChange();">
+					<span class="menuItemName">Timer tick</span>: <select class="menuItemValue" onchange="menuItemBeepSoundFileChange();">
 						<option value="none">None</option>
 						<option value="sounds/beep.wav">Beep</option>
 						<option value="sounds/clap.wav">Clap</option>
@@ -285,7 +287,7 @@
 					</select>
 				</div>
 				<div id="menuItemTheme" class="menuItem">
-					Theme: <select class="menuItemValue" onchange="menuItemThemeChange();">
+					<span class="menuItemName">Theme</span>: <select class="menuItemValue" onchange="menuItemThemeChange();">
 						<option value="style/theme_light.css">Light</option>
 						<option value="style/theme_dark.css">Dark</option>
 					</select>
@@ -293,12 +295,12 @@
 				<!-- Label instead of div; wraps the checkbox it is "for" so that the whole row is clickable -->
 				<label id="menuItemVibrate" class="menuItem" for="menuItemVibrateCheckBox" style="display: block;">
 					<input id="menuItemVibrateCheckBox" type="checkbox" class="menuItemValue" onchange="menuItemVibrateChange();" />
-					Vibrate
+					<span class="menuItemName">Vibrate</span>
 				</label>
 				
 				<div class="menuHeader">Other</div>
-				<div class="menuItem" onclick="menuItemHelpClick();">Help</div>
-				<div id="menuItemAbout" class="menuItem" onclick="menuItemAboutClick();">About</div>
+				<div class="menuItem" onclick="menuItemHelpClick();"><span class="menuItemName">Help</span></div>
+				<div id="menuItemAbout" class="menuItem" onclick="menuItemAboutClick();"><span class="menuItemName">About</span></div>
 			</div>
 		</div>
 	</body>
