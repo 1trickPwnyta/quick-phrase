@@ -3,6 +3,8 @@
  */
 function Menu(game) {
 	
+	var self = this;
+	
 	var element = document.getElementById("mainMenu");
 	var closeElement = document.getElementById("menuItemClose");
 	var customPhrasesElement = document.getElementById("menuItemCustomPhrases");
@@ -38,7 +40,7 @@ function Menu(game) {
 	 */
 	var onCloseElementClicked = function() {
 		_UiUtil.playSound(CLICK_SOUND_FILE);
-		this.hide();
+		self.hide();
 	};
 	
 	/**
@@ -70,7 +72,7 @@ function Menu(game) {
 		var settings = game.getSettings();
 		settings.set(_Settings.KEY_DIFFICULTY_ID, difficultyId);
 		settings.saveAsync(game.getLocalDatabase());
-		this.load();
+		self.load();
 	};
 	
 	/**
@@ -93,7 +95,7 @@ function Menu(game) {
 				} else {
 					settings.set(_Settings.KEY_MAX_WORDS_PER_PHRASE, maxWords);
 					settings.saveAsync(game.getLocalDatabase());
-					this.load();
+					self.load();
 					return true;
 				}
 			}
@@ -111,7 +113,7 @@ function Menu(game) {
 		var maxWordsPerPhrase = settings.get(_Settings.KEY_MAX_WORDS_PER_PHRASE, DEFAULT_MAX_WORDS_PER_PHRASE);
 		settings.set(_Settings.KEY_MAX_WORDS_PER_PHRASE, maxWordsPerPhrase + 1);
 		settings.saveAsync(game.getLocalDatabase());
-		this.load();
+		self.load();
 	};
 	
 	/**
@@ -125,7 +127,7 @@ function Menu(game) {
 		var maxWordsPerPhrase = settings.get(_Settings.KEY_MAX_WORDS_PER_PHRASE, DEFAULT_MAX_WORDS_PER_PHRASE);
 		settings.set(_Settings.KEY_MAX_WORDS_PER_PHRASE, maxWordsPerPhrase - 1);
 		settings.saveAsync(game.getLocalDatabase());
-		this.load();
+		self.load();
 	};
 	
 	/**
