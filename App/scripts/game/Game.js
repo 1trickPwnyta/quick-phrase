@@ -205,6 +205,41 @@ function Game(callback) {
 	};
 	
 	/**
+	 * @return the game's local database.
+	 */
+	this.getLocalDatabase = function() {
+		return localDatabase;
+	};
+	
+	/**
+	 * @return the game's settings.
+	 */
+	this.getSettings = function() {
+		return _Settings.current;
+	};
+	
+	/**
+	 * @return the game's category tool.
+	 */
+	this.getCategoryTool = function() {
+		return categoryTool;
+	};
+	
+	/**
+	 * @return the game's difficulty manager.
+	 */
+	this.getDifficultyManager = function() {
+		return difficultyManager;
+	};
+	
+	/**
+	 * @return the game's team manager.
+	 */
+	this.getTeamManager = function() {
+		return teamManager;
+	};
+	
+	/**
 	 * Forgets all previously loaded phrases and reloads phrases based on the 
 	 * current settings.
 	 */
@@ -236,8 +271,7 @@ function Game(callback) {
 		toolBar = new ToolBar();
 		scoreBoard = new ScoreBoard();
 		confetti = new Confetti();
-		menu = new Menu();
-		menu.setCategoryTool(categoryTool);
+		menu = new Menu(this);
 		uiLock = new UiLock();
 		
 		timer = new Timer();

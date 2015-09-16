@@ -202,12 +202,12 @@
 			<!-- The main menu, hidden by default -->
 			<div id="mainMenu" class="hidden">
 				<!-- Close button for the menu -->
-				<div class="menuItem" onclick="menuItemReturnToGameClick();">
+				<div id="menuItemClose" class="menuItem">
 					<img id="mainMenuCloseIcon" class="middle" src="images/delete.png" /> Return to the game
 				</div>
 				
 				<div class="menuHeader">Features</div>
-				<div class="menuItem" onclick="menuItemTagCreationClick();">
+				<div id="menuItemCustomPhrases" class="menuItem">
 					Custom phrases
 				</div>
 				
@@ -215,13 +215,13 @@
 				<div id="scoreSettings"></div>
 				
 				<div class="menuHeader">Phrase Options</div>
-				<div id="menuItemCategoryIds" class="menuItem" onclick="menuItemCategoryIdsClick();">
+				<div id="menuItemCategoryIds" class="menuItem">
 					Categories: <span class="menuItemValue"></span>
 				</div>
 				<div id="menuItemDifficulty" class="menuItem">
-					Difficulty: <select class="menuItemValue" onchange="menuItemDifficultyChange();"></select>
+					Difficulty: <select class="menuItemValue"></select>
 				</div>
-				<div id="menuItemMaxWords" class="menuItem" onclick="menuItemMaxWordsClick();">
+				<div id="menuItemMaxWords" class="menuItem">
 					<button id="menuItemMaxWordsIncrease" class="menuItemIncrease" onclick="arguments[0].stopPropagation(); menuItemMaxWordsIncrease();"></button>
 					<button id="menuItemMaxWordsDecrease" class="menuItemDecrease" onclick="arguments[0].stopPropagation(); menuItemMaxWordsDecrease();"></button>
 					Max words per phrase: <span class="menuItemValue"></span>

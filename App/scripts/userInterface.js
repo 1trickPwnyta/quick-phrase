@@ -247,53 +247,6 @@ function backButtonClick() {
 }
 
 //
-// Categories menu item click event.
-//
-function menuItemCategoryIdsClick() {
-	playSound(CLICK_SOUND_FILE);
-	submitUsageClick("/menu/categories");
-	showCategories();
-}
-
-//
-// Difficulty menu item click event.
-//
-function menuItemDifficultyChange() {
-	playSound(CLICK_SOUND_FILE);
-	
-	// Get the new value for difficulty
-	var newDifficulty = document.getElementById("menuItemDifficulty").getElementsByClassName("menuItemValue")[0].value;
-	
-	changeDifficulty(newDifficulty, showMenu);
-}
-
-//
-// Max words menu item click event.
-//
-function menuItemMaxWordsClick() {
-	playSound(CLICK_SOUND_FILE);
-	
-	// Get input from the user
-	dialog.getNumber(function(response) {
-		if (response || response === 0) {
-			response = parseInt(response);
-			changeMaxWords(response, showMenu);
-		}
-	}, "How many words? (Use 0 for unlimited)", sMaxWordsPerTag, null, function(response) {
-		playSound(CLICK_SOUND_FILE);
-		
-		// Validate input
-		if (response || response === 0) {
-			response = parseInt(response);
-			if (response != 0 && response < 1) {
-				dialog.showMessage("Phrases must contain at least one word.");
-				return false;
-			}
-		}
-	});
-}
-
-//
 // Max words menu item increase event.
 //
 function menuItemMaxWordsIncrease() {

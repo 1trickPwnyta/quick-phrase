@@ -1,12 +1,11 @@
-function Menu() {
-	
-	var built = false;
-	
-	// TODO Get these from the game object when building the menu
-	var categoryTool;
-	var difficulties;
+/**
+ * @param game the game.
+ */
+function Menu(game) {
 	
 	var element = document.getElementById("mainMenu");
+	var closeElement = document.getElementById("menuItemClose");
+	var customPhrasesElement = document.getElementById("menuItemCustomPhrases");
 	var winningPointDescriptionElement = document.getElementById("winningPointDescription");
 	var winningPointValueElement = document.getElementById("menuItemWinningPoint").getElementsByClassName("menuItemValue")[0];
 	var winningPointIncreaseElement = document.getElementById("menuItemWinningPointIncrease");
@@ -19,8 +18,10 @@ function Menu() {
 	var maxSecondsPerStageValueElement = document.getElementById("menuItemMaximumTime").getElementsByClassName("menuItemValue")[0];
 	var maxSecondsPerStageDecreaseElement = document.getElementById("menuItemMaximumTimeDecrease");
 	var difficultySelectElement = document.getElementById("menuItemDifficulty").getElementsByClassName("menuItemValue")[0];
-	var categoriesValueElement = document.getElementById("menuItemCategoryIds").getElementsByClassName("menuItemValue")[0];
-	var maxWordsValueElement = document.getElementById("menuItemMaxWords").getElementsByClassName("menuItemValue")[0];
+	var categoriesElement = document.getElementById("menuItemCategoryIds");
+	var categoriesValueElement = categoriesElement.getElementsByClassName("menuItemValue")[0];
+	var maxWordsElement = document.getElementById("menuItemMaxWords");
+	var maxWordsValueElement = maxWordsElement.getElementsByClassName("menuItemValue")[0];
 	var maxWordsDecreaseElement = document.getElementById("menuItemMaxWordsDecrease");
 	var maxCharactersValueElement = document.getElementById("menuItemMaxCharacters").getElementsByClassName("menuItemValue")[0];
 	var maxCharactersDecreaseElement = document.getElementById("menuItemMaxCharactersDecrease");
@@ -32,9 +33,77 @@ function Menu() {
 	var scoreSettingsElement = document.getElementById("scoreSettings");
 	
 	/**
+	 * Closes the menu when the close menu item is clicked.
+	 */
+	var onCloseElementClicked = function() {
+		_UiUtil.playSound(CLICK_SOUND_FILE);
+		this.hide();
+	};
+	
+	/**
+	 * Shows the custom phrases dialog when the custom phrases menu item is 
+	 * clicked.
+	 */
+	var onCustomPhrasesElementClicked = function() {
+		_UiUtil.playSound(CLICK_SOUND_FILE);
+		// TODO submit "/menu/customPhrases"
+		// TODO showCustomPhrases();
+	};
+	
+	/**
+	 * Shows the categories dialog when the categories menu item is clicked.
+	 */
+	var onCategoriesElementClicked = function() {
+		_UiUtil.playSound(CLICK_SOUND_FILE);
+		// TODO submit "/menu/categories"
+		// TODO showCategories();
+	};
+	
+	/**
+	 * Updates the difficulty setting when the difficulties menu item is 
+	 * changed.
+	 */
+	var onDifficultySelectElementChanged = function() {
+		_UiUtil.playSound(CLICK_SOUND_FILE);
+		var difficultyId = difficultySelectElement.value;
+		var settings = game.getSettings();
+		settings.set(_Settings.KEY_DIFFICULTY_ID, difficultyId);
+		settings.saveAsync(game.getLocalDatabase());
+		this.load();
+	};
+	
+	/**
+	 * Shows the max words dialog and updates the max words setting when the 
+	 * max words menu item is clicked.
+	 */
+	var onMaxWordsElementClicked = function() {
+		_UiUtil.playSound(CLICK_SOUND_FILE);
+		
+		var settings = game.getSettings();
+		var maxWordsPerPhrase = settings.get(_Settings.KEY_MAX_WORDS_PER_PHRASE, DEFAULT_MAX_WORDS_PER_PHRASE);
+		
+		dialog.getNumber(null, "How many words? (Use 0 for unlimited)", maxWordsPerPhrase, null, function(response) {
+			_UiUtil.playSound(CLICK_SOUND_FILE);
+			if (response || response === 0) {
+				maxWordsPerPhrase = parseInt(response);
+				if (maxWordsPerPhrase != 0 && maxWordsPerPhrase < 1) {
+					dialog.showMessage("Phrases must contain at least one word.");
+					return false;
+				} else {
+					settings.set(_Settings.KEY_MAX_WORDS_PER_PHRASE, maxWords);
+					settings.saveAsync(game.getLocalDatabase());
+					this.load();
+					return true;
+				}
+			}
+		});
+	};
+	
+	/**
 	 * Builds the difficulty select based on available difficulties.
 	 */
 	var loadDifficulties = function() {
+		var difficulties = game.getDifficultyManager().getDifficulties();
 		difficultySelectElement.innerHTML = "";
 		for (var i = 0; i < difficulties.length; i++) {
 			var option = document.createElement("option");
@@ -48,21 +117,10 @@ function Menu() {
 	};
 	
 	/**
-	 * Shows the menu. The menu must have been built first.
+	 * Loads or reloads the menu.
 	 */
-	this.show = function() {
-		if (!built) {
-			_Log.error("Attempted to show the menu without building it first.");
-		}
-		element.className = "visible";
-	};
-	
-	/**
-	 * Builds the menu based on game status and settings.
-	 * @param game the game.
-	 * @param settings the settings.
-	 */
-	this.build = function(game, settings) {
+	this.load = function() {
+		var settings = game.getSettings();
 		var winningPoint = settings.get(_Settings.KEY_WINNING_POINT, DEFAULT_WINNING_POINT);
 		var numberOfTeams = settings.get(_Settings.KEY_NUMBER_OF_TEAMS, DEFAULT_NUMBER_OF_TEAMS);
 		var minSecondsPerStage = settings.get(_Settings.KEY_MIN_SECONDS_PER_STAGE, DEFAULT_MIN_SECONDS_PER_STAGE);
@@ -103,7 +161,7 @@ function Menu() {
 			if (selectedCategories.length > 1) {
 				categoriesValueElement.innerHTML = selectedCategories.length + " categories";
 			} else {
-				categoriesValueElement.innerHTML = categoryTool.getCategoryById(selectedCategories[0]).name;
+				categoriesValueElement.innerHTML = _HtmlUtil.htmlEncode(selectedCategories[0].name);
 			}
 		}
 		
@@ -124,46 +182,52 @@ function Menu() {
 			adultCheckBoxElement.checked = adult;
 		}
 		
-		// TODO Fix this section
+		scoreSettingsElement.innerHTML = "";
 		if (game.isStarted()) {
-			scoreSettingsDiv.innerHTML = "<div class=\"menuHeader\">Score</div>";
+			scoreSettingsElement.innerHTML = "<div class=\"menuHeader\">Score</div>";
 			
-			// Add the restart option if at least one point has been scored
-			var scoreHappened = false;
-			for (var i = 0; i < scores.length; i++) {
-				if (scores[i] > 0) {
-					scoreHappened = true;
-					break;
-				}
-			}
-			if (scoreHappened) {
-				var restartGameMenuItem = document.createElement("div");
-				restartGameMenuItem.id = "menuItemRestartGame";
-				restartGameMenuItem.className = "menuItem";
-				restartGameMenuItem.onclick = function() {
+			if (game.getTeamManager().hasScore()) {
+				var resetScoresElement = document.createElement("div");
+				resetScoresElement.id = "menuItemRestartGame";
+				resetScoresElement.className = "menuItem";
+				resetScoresElement.onclick = function() {
+					// TODO Fix this
 					menuItemRestartGameClick();
 				};
-				restartGameMenuItem.innerHTML = "Reset scores";
-				scoreSettingsDiv.appendChild(restartGameMenuItem);
+				resetScoresElement.innerHTML = "Reset scores";
+				scoreSettingsElement.appendChild(resetScoresElement);
 			}
 			
-			// Get the score for each team
-			for (var i = 0; i < scores.length; i++) {
-				var menuItem = document.createElement("div");
-				menuItem.id = "menuItemScore" + i;
-				menuItem.className = "menuItem";
-				menuItem.teamId = i;
-				menuItem.onclick = function() {
+			var teams = game.getTeamManager().getTeams();
+			for (var i = 0; i < teams.length; i++) {
+				var team = teams[i];
+				var scoreElement = document.createElement("div");
+				scoreElement.id = "menuItemScore" + i;
+				scoreElement.className = "menuItem";
+				scoreElement.team = team;
+				scoreElement.onclick = function() {
+					// TODO Fix this
 					menuItemScoreClick(this.teamId);
 				};
-				menuItem.innerHTML = sTeamNames[i] + ": " + scores[i];
-				scoreSettingsDiv.appendChild(menuItem);
+				scoreElement.innerHTML = _HtmlUtil.htmlEncode(team.name + ": " + team.score);
+				scoreSettingsElement.appendChild(scoreElement);
 			}
-		} else 
-			// If the game is over, do not show the scores in the menu
-			scoreSettingsDiv.innerHTML = "";
-		
-		built = true;
+		}
+	};
+	
+	/**
+	 * Loads and shows the menu.
+	 */
+	this.show = function() {
+		this.load();
+		element.className = "visible";
+	};
+	
+	/**
+	 * Hides the menu.
+	 */
+	this.hide = function() {
+		element.className = "hidden";
 	};
 	
 	/**
@@ -179,5 +243,16 @@ function Menu() {
 	this.setDifficulties = function(_difficulties) {
 		difficulties = _difficulties;
 	};
+	
+	/**
+	 * Constructor.
+	 */
+	{
+		closeElement.onclick = onCloseElementClicked;
+		customPhrasesElement.onclick = onCustomPhrasesElementClicked;
+		categoriesElement.onclick = onCategoriesElementClicked;
+		difficultySelectElement.onchange = onDifficultySelectElementChanged;
+		maxWordsElement.onclick = onMaxWordsElementClicked;
+	}
 	
 }

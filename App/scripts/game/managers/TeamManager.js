@@ -63,6 +63,20 @@ function TeamManager(callback) {
 	};
 	
 	/**
+	 * Checks if any team has scored any points.
+	 * @return true if at least one team has scored at least one point, false 
+	 * otherwise.
+	 */
+	this.hasScore = function() {
+		for (var i = 0; i < teams.length; i++) {
+			if (teams[i].score > 0) {
+				return true;
+			}
+		}
+		return false;
+	};
+	
+	/**
 	 * Sets the score for all teams to 0.
 	 */
 	this.resetScores = function() {
