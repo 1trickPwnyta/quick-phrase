@@ -247,20 +247,6 @@ function backButtonClick() {
 }
 
 //
-// Max words menu item increase event.
-//
-function menuItemMaxWordsIncrease() {
-	changeMaxWords(sMaxWordsPerTag + 1, showMenu);
-}
-
-//
-// Max words menu item decrease event.
-//
-function menuItemMaxWordsDecrease() {
-	changeMaxWords(sMaxWordsPerTag - 1, showMenu);
-}
-
-//
 // Max characters menu item click event.
 //
 function menuItemMaxCharactersClick() {

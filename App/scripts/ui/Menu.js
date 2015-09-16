@@ -22,6 +22,7 @@ function Menu(game) {
 	var categoriesValueElement = categoriesElement.getElementsByClassName("menuItemValue")[0];
 	var maxWordsElement = document.getElementById("menuItemMaxWords");
 	var maxWordsValueElement = maxWordsElement.getElementsByClassName("menuItemValue")[0];
+	var maxWordsIncreaseElement = document.getElementById("menuItemMaxWordsIncrease");
 	var maxWordsDecreaseElement = document.getElementById("menuItemMaxWordsDecrease");
 	var maxCharactersValueElement = document.getElementById("menuItemMaxCharacters").getElementsByClassName("menuItemValue")[0];
 	var maxCharactersDecreaseElement = document.getElementById("menuItemMaxCharactersDecrease");
@@ -97,6 +98,34 @@ function Menu(game) {
 				}
 			}
 		});
+	};
+	
+	/**
+	 * Increases the max words setting when the max words increase button is 
+	 * clicked.
+	 * @param e the event
+	 */
+	var onMaxWordsIncreaseElementClicked = function(e) {
+		e.stopPropagation();
+		var settings = game.getSettings();
+		var maxWordsPerPhrase = settings.get(_Settings.KEY_MAX_WORDS_PER_PHRASE, DEFAULT_MAX_WORDS_PER_PHRASE);
+		settings.set(_Settings.KEY_MAX_WORDS_PER_PHRASE, maxWordsPerPhrase + 1);
+		settings.saveAsync(game.getLocalDatabase());
+		this.load();
+	};
+	
+	/**
+	 * Decreases the max words setting when the max words decrease button is 
+	 * clicked.
+	 * @param e the event
+	 */
+	var onMaxWordsDecreaseElementClicked = function(e) {
+		e.stopPropagation();
+		var settings = game.getSettings();
+		var maxWordsPerPhrase = settings.get(_Settings.KEY_MAX_WORDS_PER_PHRASE, DEFAULT_MAX_WORDS_PER_PHRASE);
+		settings.set(_Settings.KEY_MAX_WORDS_PER_PHRASE, maxWordsPerPhrase - 1);
+		settings.saveAsync(game.getLocalDatabase());
+		this.load();
 	};
 	
 	/**
@@ -253,6 +282,8 @@ function Menu(game) {
 		categoriesElement.onclick = onCategoriesElementClicked;
 		difficultySelectElement.onchange = onDifficultySelectElementChanged;
 		maxWordsElement.onclick = onMaxWordsElementClicked;
+		maxWordsIncreaseElement.onclick = onMaxWordsIncreaseElementClicked;
+		maxWordsDecreaseElement.onclick = onMaxWordsDecreaseElementClicked;
 	}
 	
 }
