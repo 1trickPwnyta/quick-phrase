@@ -1,10 +1,8 @@
-function NumericMenuItem(menu, menuItemId, minValue, maxValue) {
+function CheckBoxMenuItem(menu, menuItemId) {
 	
 	var element = document.getElementById(menuItemId);
 	var nameElement = element.getElementsByClassName("menuItemName")[0];
 	var valueElement = element.getElementsByClassName("menuItemValue")[0];
-	var increaseElement = element.getElementsByClassName("menuItemIncrease")[0];
-	var decreaseElement = element.getElementsByClassName("menuItemDecrease")[0];
 	
 	/**
 	 * Sets the name of the menu item, which appears as the visible text in the 
@@ -20,9 +18,7 @@ function NumericMenuItem(menu, menuItemId, minValue, maxValue) {
 	 * @param value the value.
 	 */
 	this.setValue = function(value) {
-		valueElement.innerHTML = _HtmlUtil.htmlEncode(value);
-		increaseElement.disabled = value >= maxValue;
-		decreaseElement.disabled = value <= minValue;
+		valueElement.checked = value;
 	};
 	
 }

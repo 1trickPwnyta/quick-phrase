@@ -10,23 +10,16 @@ function Menu(game) {
 	var numberOfTeamsMenuItem;
 	var minSecondsPerStageMenuItem;
 	var maxSecondsPerStageMenuItem;
+	var difficultyMenuItem;
+	var maxWordsMenuItem;
+	var maxCharactersMenuItem;
+	var beepSoundFileMenuItem;
+	var themeStyleFileMenuItem;
+	var vibrateMenuItem;
 	
 	var element = document.getElementById("mainMenu");
-	var maxSecondsPerStageValueElement = document.getElementById("menuItemMaximumTime").getElementsByClassName("menuItemValue")[0];
-	var maxSecondsPerStageDecreaseElement = document.getElementById("menuItemMaximumTimeDecrease");
-	var difficultySelectElement = document.getElementById("menuItemDifficulty").getElementsByClassName("menuItemValue")[0];
 	var categoriesElement = document.getElementById("menuItemCategoryIds");
 	var categoriesValueElement = categoriesElement.getElementsByClassName("menuItemValue")[0];
-	var maxWordsElement = document.getElementById("menuItemMaxWords");
-	var maxWordsValueElement = maxWordsElement.getElementsByClassName("menuItemValue")[0];
-	var maxWordsIncreaseElement = document.getElementById("menuItemMaxWordsIncrease");
-	var maxWordsDecreaseElement = document.getElementById("menuItemMaxWordsDecrease");
-	var maxCharactersElement = document.getElementById("menuItemMaxCharacters");
-	var maxCharactersValueElement = maxCharactersElement.getElementsByClassName("menuItemValue")[0];
-	var maxCharactersDecreaseElement = document.getElementById("menuItemMaxCharactersDecrease");
-	var beepSoundFileSelectElement = document.getElementById("menuItemBeepSoundFile").getElementsByClassName("menuItemValue")[0];
-	var themeStyleFileSelectElement = document.getElementById("menuItemTheme").getElementsByClassName("menuItemValue")[0];
-	var vibrateCheckBoxElement = document.getElementById("menuItemVibrateCheckBox");
 	var showCategoryCheckBoxElement = document.getElementById("menuItemShowCategoryCheckBox");
 	var adultCheckBoxElement = document.getElementById("menuItemEdgyCheckBox");
 	var scoreSettingsElement = document.getElementById("scoreSettings");
@@ -154,9 +147,7 @@ function Menu(game) {
 		numberOfTeamsMenuItem.setValue(numberOfTeams);
 		minSecondsPerStageMenuItem.setValue(minSecondsPerStage);
 		maxSecondsPerStageMenuItem.setValue(maxSecondsPerStage);
-		
-		// TODO Left off here converting to individual classes
-		difficultySelectElement.value = difficulyId;
+		difficultyMenuItem.setValue(difficulyId);
 		
 		if (selectedCategories == _Category.ALL) {
 			categoriesValueElement.innerHTML = "All";
@@ -168,17 +159,12 @@ function Menu(game) {
 			}
 		}
 		
-		maxWordsValueElement.innerHTML = (maxWordsPerPhrase? maxWordsPerPhrase: "Unlimited");
-		maxWordsDecreaseElement.disabled = maxWordsPerPhrase <= 0;
-		maxCharactersValueElement.innerHTML = (maxCharactersPerPhrase? maxCharactersPerPhrase: "Unlimited");
-		maxCharactersDecreaseElement.disabled = maxCharactersPerPhrase <= 0;
-		
-		beepSoundFileSelectElement.value = beepSoundFile;
-		
-		themeStyleFileSelectElement.value = themeStyleFile;
-		
-		vibrateCheckBoxElement.checked = vibrate;
-		
+		maxWordsMenuItem.setValue(maxWordsPerPhrase? maxWordsPerPhrase: "Unlimited");
+		maxCharactersMenuItem.setValue(maxCharactersPerPhrase? maxCharactersPerPhrase: "Unlimited");
+		beepSoundFileMenuItem.setValue(beepSoundFile);
+		themeStyleFileMenuItem.setValue(themeStyleFile);
+		vibrateMenuItem.setValue(vibrate);
+		// TODO Left off here converting to individual classes
 		showCategoryCheckBoxElement.checked = showCategory;
 		
 		if (!APP_GOOGLEPLAY_EDITION) {
@@ -258,6 +244,12 @@ function Menu(game) {
 		numberOfTeamsMenuItem = new NumberOfTeamsMenuItem(this);
 		minSecondsPerStageMenuItem = new MinSecondsPerStageMenuItem(this);
 		maxSecondsPerStageMenuItem = new MaxSecondsPerStageMenuItem(this);
+		difficultyMenuItem = new DifficultyMenuItem(this);
+		maxWordsMenuItem = new MaxWordsMenuItem(this);
+		maxCharactersMenuItem = new MaxCharactersMenuItem(this);
+		beepSoundFileMenuItem = new BeepSoundFileMenuItem(this);
+		themeStyleFileMenuItem = new ThemeStyleFileMenuItem(this);
+		vibrateMenuItem = new VibrateMenuItem(this);
 		
 		categoriesElement.onclick = onCategoriesElementClicked;
 		difficultySelectElement.onchange = onDifficultySelectElementChanged;
