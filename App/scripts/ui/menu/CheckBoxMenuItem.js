@@ -1,24 +1,30 @@
 function CheckBoxMenuItem(menu, menuItemId) {
 	
 	var element = document.getElementById(menuItemId);
-	var nameElement = element.getElementsByClassName("menuItemName")[0];
 	var valueElement = element.getElementsByClassName("menuItemValue")[0];
 	
 	/**
-	 * Sets the name of the menu item, which appears as the visible text in the 
-	 * menu.
-	 * @param name the name.
+	 * Sets the boolean value of the menu item.
+	 * @param value the value.
 	 */
-	this.setName = function(name) {
-		nameElement.innerHTML = _HtmlUtil.htmlEncode(name);
+	var setValue = function(value) {
+		valueElement.checked = value;
 	};
 	
 	/**
-	 * Sets the value of the menu item.
-	 * @param value the value.
+	 * @return the current value.
 	 */
-	this.setValue = function(value) {
-		valueElement.checked = value;
+	var getValue = function() {
+		return valueElement.checked;
 	};
+	
+	/**
+	 * Constructor.
+	 */
+	{
+		var checkBoxMenuItem = new MenuItem(menu, menuItemId);
+		checkBoxMenuItem.setValue = setValue;
+		return checkBoxMenuItem;
+	}
 	
 }

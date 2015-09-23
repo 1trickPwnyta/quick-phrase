@@ -247,55 +247,6 @@ function backButtonClick() {
 }
 
 //
-// Max characters menu item click event.
-//
-function menuItemMaxCharactersClick() {
-	playSound(CLICK_SOUND_FILE);
-	
-	// Get input from the user
-	dialog.getNumber(function(response) {
-		if (response || response === 0) {
-			response = parseInt(response);
-			changeMaxCharacters(response, showMenu);
-		}
-	}, "How many characters? (Use 0 for unlimited)", sMaxCharactersPerTag, null, function(response) {
-		playSound(CLICK_SOUND_FILE);
-		
-		if (response || response === 0) {
-			// Validate input
-			response = parseInt(response);
-			if (response != 0 && response < MIN_MAX_CHARACTERS) {
-				dialog.showMessage("Use at least " + MIN_MAX_CHARACTERS + " characters.");
-				return false;
-			}
-		}
-		
-	});
-}
-
-//
-// Max characters menu item increase event.
-//
-function menuItemMaxCharactersIncrease() {
-	if (sMaxCharactersPerTag == 0) {
-		changeMaxCharacters(MIN_MAX_CHARACTERS, showMenu);
-	} else {
-		changeMaxCharacters(sMaxCharactersPerTag + 1, showMenu);
-	}
-}
-
-//
-// Max characters menu item decrease event.
-//
-function menuItemMaxCharactersDecrease() {
-	if (sMaxCharactersPerTag <= MIN_MAX_CHARACTERS) {
-		changeMaxCharacters(0, showMenu);
-	} else {
-		changeMaxCharacters(sMaxCharactersPerTag - 1, showMenu);
-	}
-}
-
-//
 // Edgy menu item click event.
 //
 function menuItemEdgyChange() {

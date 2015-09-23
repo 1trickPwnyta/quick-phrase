@@ -1,28 +1,63 @@
-function NumericMenuItem(menu, menuItemId, minValue, maxValue) {
+{
+	_NumericMenuItem = {
+		
+		/**
+		 * Creates a DOM element for a new menu item.
+		 * @param menu the menu.
+		 * @param menuItemId the DOM element ID for the new menu item.
+		 * @return the DOM element.
+		 */
+		createElement: function(menu, menuItemId) {
+			var element = _MenuItem.createElement(menu, menuItemId);
+			element.innerHTML = "<span class=\"menuItemName\"></span>: <span class=\"menuItemValue\"></span>";
+			return element;
+		}
+		
+	};
+}
+
+function NumericMenuItem(menu, menuItemId, minValue, maxValue, onclick, onincrease, ondecrease) {
 	
 	var element = document.getElementById(menuItemId);
-	var nameElement = element.getElementsByClassName("menuItemName")[0];
 	var valueElement = element.getElementsByClassName("menuItemValue")[0];
 	var increaseElement = element.getElementsByClassName("menuItemIncrease")[0];
 	var decreaseElement = element.getElementsByClassName("menuItemDecrease")[0];
 	
 	/**
-	 * Sets the name of the menu item, which appears as the visible text in the 
-	 * menu.
-	 * @param name the name.
-	 */
-	this.setName = function(name) {
-		nameElement.innerHTML = _HtmlUtil.htmlEncode(name);
-	};
-	
-	/**
-	 * Sets the value of the menu item.
+	 * Sets the numeric value of the menu item.
 	 * @param value the value.
 	 */
-	this.setValue = function(value) {
+	var setValue = function(value) {
 		valueElement.innerHTML = _HtmlUtil.htmlEncode(value);
 		increaseElement.disabled = value >= maxValue;
 		decreaseElement.disabled = value <= minValue;
 	};
 	
+	/**
+	 * @return the current value.
+	 */
+	var getValue = function() {
+		return valueElement.innerHTML;
+	};
+	
+	var onincreaseWrapper = function() {
+		e.stopPropagation();
+		onincrease();
+	};
+	
+	var ondecreaseWrapper = function() {
+		e.stopPropagation();
+		ondecrease();
+	};
+	
+	/**
+	 * Constructor.
+	 */
+	{
+		increaseElement.onclick = onincreaseWrapper;
+		decreaseElement.onclick = ondecreaseWrapper;
+		var numericMenuItem = new MenuItem(menu, menuItemId, onclick);
+		numericMenuItem.setValue = setValue;
+		return numericMenuItem;
+	}
 }

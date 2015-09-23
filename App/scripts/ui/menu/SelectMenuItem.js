@@ -1,24 +1,36 @@
-function SelectMenuItem(menu, menuItemId) {
+function SelectMenuItem(menu, menuItemId, onchange) {
 	
 	var element = document.getElementById(menuItemId);
-	var nameElement = element.getElementsByClassName("menuItemName")[0];
 	var valueElement = element.getElementsByClassName("menuItemValue")[0];
 	
 	/**
-	 * Sets the name of the menu item, which appears as the visible text in the 
-	 * menu.
-	 * @param name the name.
+	 * Sets the select value of the menu item.
+	 * @param value the value.
 	 */
-	this.setName = function(name) {
-		nameElement.innerHTML = _HtmlUtil.htmlEncode(name);
+	var setValue = function(value) {
+		valueElement.value = value;
 	};
 	
 	/**
-	 * Sets the value of the menu item.
-	 * @param value the value.
+	 * @return the currently selected value.
 	 */
-	this.setValue = function(value) {
-		valueElement.value = value;
+	var getValue = function() {
+		return valueElement.value;
 	};
+	
+	var onchangeWrapper = function(e) {
+		_UiUtil.playSound(CLICK_SOUND_FILE);
+		onchange(e);
+	};
+	
+	/**
+	 * Constructor.
+	 */
+	{
+		element.onchange = onchangeWrapper;
+		var selectMenuItem = new MenuItem(menu, menuItemId);
+		selectMenuItem.setValue = setValue;
+		return selectMenuItem;
+	}
 	
 }

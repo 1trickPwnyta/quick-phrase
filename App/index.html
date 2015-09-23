@@ -227,12 +227,12 @@
 					<button class="menuItemDecrease"></button>
 					<span class="menuItemName">Max words per phrase</span>: <span class="menuItemValue"></span>
 				</div>
-				<!-- TODO: Left off here removing onclicks -->
 				<div id="menuItemMaxCharacters" class="menuItem">
-					<button class="menuItemIncrease" onclick="arguments[0].stopPropagation(); menuItemMaxCharactersIncrease();"></button>
-					<button class="menuItemDecrease" onclick="arguments[0].stopPropagation(); menuItemMaxCharactersDecrease();"></button>
+					<button class="menuItemIncrease"></button>
+					<button class="menuItemDecrease"></button>
 					<span class="menuItemName">Max characters per phrase</span>: <span class="menuItemValue"></span>
 				</div>
+				<!-- TODO: Left off here removing onclicks -->
 				<!-- Label instead of div; wraps the checkbox it is "for" so that the whole row is clickable -->
 				<label id="menuItemEdgy" class="menuItem" for="menuItemEdgyCheckBox" style="display: block;">
 					<input id="menuItemEdgyCheckBox" type="checkbox" class="menuItemValue" onchange="menuItemEdgyChange();" />
