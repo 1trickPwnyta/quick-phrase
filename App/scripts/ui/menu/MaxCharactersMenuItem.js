@@ -53,7 +53,10 @@ function MaxCharactersMenuItem(menu) {
 	{
 		return new NumericMenuItem(
 				menu,
-				"menuItemMaxCharacters");
+				"menuItemMaxCharacters",
+				onclick,
+				onincrease,
+				ondecrease);
 	}
 	
 }

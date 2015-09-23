@@ -13,12 +13,11 @@ function MaxWordsMenuItem(menu) {
 				if (maxWordsPerPhrase != 0 && maxWordsPerPhrase < 1) {
 					dialog.showMessage("Phrases must contain at least one word.");
 					return false;
-				} else {
-					settings.set(_Settings.KEY_MAX_WORDS_PER_PHRASE, maxWordsPerPhrase);
-					settings.saveAsync(game.getLocalDatabase());
-					menu.load();
-					return true;
 				}
+				settings.set(_Settings.KEY_MAX_WORDS_PER_PHRASE, maxWordsPerPhrase);
+				settings.saveAsync(game.getLocalDatabase());
+				menu.load();
+				return true;
 			}
 		});
 	};

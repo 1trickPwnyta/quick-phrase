@@ -40,12 +40,12 @@ function NumericMenuItem(menu, menuItemId, minValue, maxValue, onclick, onincrea
 		return valueElement.innerHTML;
 	};
 	
-	var onincreaseWrapper = function() {
+	var onincreaseWrapper = function(e) {
 		e.stopPropagation();
 		onincrease();
 	};
 	
-	var ondecreaseWrapper = function() {
+	var ondecreaseWrapper = function(e) {
 		e.stopPropagation();
 		ondecrease();
 	};

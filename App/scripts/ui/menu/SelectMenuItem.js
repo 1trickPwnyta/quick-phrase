@@ -20,6 +20,9 @@ function SelectMenuItem(menu, menuItemId, onchange) {
 	
 	var onchangeWrapper = function(e) {
 		_UiUtil.playSound(CLICK_SOUND_FILE);
+		e.getMenuItem = function() {
+			return this;
+		};
 		onchange(e);
 	};
 	

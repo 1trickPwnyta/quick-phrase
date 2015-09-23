@@ -112,6 +112,67 @@
 				pressTimer = window.setTimeout(onlongclick, 1000);
 				return false;
 			};
+		},
+		
+		/**
+		 * Shows a standard dialog window with HTML content.
+		 * @param htmlContent an HTML string to display in the window or a DOM 
+		 * element.
+		 * @param title the title to display at the top of the window.
+		 * @param okButtonText an optional string to display on the OK/accept 
+		 * button instead of "OK".
+		 * @param hideCancel true to hide the cancel button.
+		 * @param lineHeight an optional CSS line-height to use instead of 
+		 * "100%".
+		 * @param callback a function to call when the user dismisses the 
+		 * window.
+		 * @param closeFunction a function to call when the window is closing. 
+		 * Return false to cancel closing.
+		 */
+		showStandardDialog: function(htmlContent, title, okButtonText, hideCancel, lineHeight, callback, closeFunction) {
+			var form = document.createElement("form");
+			form.className = "standardDialogForm";
+			var div = document.createElement("div");
+			div.className = "standardDialogDiv";
+			if (lineHeight)
+				div.style.lineHeight = lineHeight;
+			var backDiv = document.createElement("div");
+			backDiv.className = "standardDialogBackDiv";
+			if (htmlContent instanceof HTMLElement) {
+				div.appendChild(htmlContent);
+			} else {
+				var span = document.createElement("span");
+				span.innerHTML = htmlContent;
+				div.appendChild(span);
+			}
+			form.appendChild(div);
+			form.appendChild(backDiv);
+			form.style.height = "80vh";
+			
+			if (PHONEGAP) {
+				// Workaround for lack of CSS "vh" support in Android 4.3-
+				if (parseFloat(device.version) < 4.39) {
+					var viewport = function() {
+						var e = window, a = 'inner';
+						if (!('innerWidth' in window )) {
+							a = 'client';
+							e = document.documentElement || document.body;
+						}
+						return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
+					}
+					var vh = (viewport().height/100);
+					form.style.height = vh*80 + 'px';
+				}
+			}
+			
+			dialog.custom(form, function(form) {
+				if (callback)
+					callback(form !== false);
+			}, title? title: "", okButtonText? okButtonText: "OK", hideCancel === true, function(response) {
+				this.playSound(CLICK_SOUND_FILE);
+				if (closeFunction)
+					return closeFunction(response);
+			});
 		}
 			
 	};

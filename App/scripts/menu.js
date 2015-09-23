@@ -283,63 +283,6 @@ function showAbout() {
 }
 
 //
-// Shows a standard dialog window with HTML content.
-// htmlContent: An HTML string to display in the window or a DOM element.
-// callback: A function to call when the user dismisses the window.
-// includeMoreIcon: Does nothing.
-// title: The title to display at the top of the window.
-// okButtonText: An optional string to display on the OK/accept button instead of "OK".
-// lineHeight: An optional CSS line-height to use instead of "100%".
-// hideCancel: true to hide the cancel button.
-// closeFunction: A function to call when the window is closing. Return false to cancel closing.
-//
-function showStandardDialog(htmlContent, callback, includeMoreIcon, title, okButtonText, lineHeight, hideCancel, closeFunction) {
-	var form = document.createElement("form");
-	form.className = "standardDialogForm";
-	var div = document.createElement("div");
-	div.className = "standardDialogDiv";
-	if (lineHeight)
-		div.style.lineHeight = lineHeight;
-	var backDiv = document.createElement("div");
-	backDiv.className = "standardDialogBackDiv";
-	if (htmlContent instanceof HTMLElement) {
-		div.appendChild(htmlContent);
-	} else {
-		var span = document.createElement("span");
-		span.innerHTML = htmlContent;
-		div.appendChild(span);
-	}
-	form.appendChild(div);
-	form.appendChild(backDiv);
-	form.style.height = "80vh";
-	
-	if (PHONEGAP) {
-		// Workaround for lack of CSS "vh" support in Android 4.3-
-		if (parseFloat(device.version) < 4.39) {
-			var viewport = function() {
-				var e = window, a = 'inner';
-				if (!('innerWidth' in window )) {
-					a = 'client';
-					e = document.documentElement || document.body;
-				}
-				return { width : e[ a+'Width' ] , height : e[ a+'Height' ] };
-			}
-			var vh = (viewport().height/100);
-			form.style.height = vh*80 + 'px';
-		}
-	}
-	
-	dialog.custom(form, function(form) {
-		if (callback)
-			callback(form !== false);
-	}, title? title: "", okButtonText? okButtonText: "OK", hideCancel === true, function(response) {
-		playSound(CLICK_SOUND_FILE);
-		if (closeFunction)
-			return closeFunction(response);
-	});
-}
-
-//
 // Changes a team's score.
 //
 function changeScore(teamId, score) {

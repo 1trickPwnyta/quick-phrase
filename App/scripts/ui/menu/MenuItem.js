@@ -41,6 +41,9 @@ function MenuItem(menu, menuItemId, onclick) {
 	
 	var onclickWrapper = function(e) {
 		_UiUtil.playSound(CLICK_SOUND_FILE);
+		e.getMenuItem = function() {
+			return this;
+		};
 		onclick(e);
 	};
 	

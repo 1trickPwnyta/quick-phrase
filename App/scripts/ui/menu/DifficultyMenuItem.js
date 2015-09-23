@@ -1,10 +1,9 @@
 function DifficultyMenuItem(menu) {
 	
-	var difficultyMenuItem;
 	var game = menu.getGame();
 	
-	var onchange = function() {
-		var difficultyId = difficultyMenuItem.getValue();
+	var onchange = function(e) {
+		var difficultyId = e.getMenuItem().getValue();
 		var settings = game.getSettings();
 		settings.set(_Settings.KEY_DIFFICULTY_ID, difficultyId);
 		settings.saveAsync(game.getLocalDatabase());
@@ -15,11 +14,10 @@ function DifficultyMenuItem(menu) {
 	 * Constructor.
 	 */
 	{
-		difficultyMenuItem = new SelectMenuItem(
+		return new SelectMenuItem(
 				menu, 
 				"menuItemDifficulty",
 				onchange);
-		return difficultyMenuItem;
 	}
 	
 }

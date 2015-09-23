@@ -1,4 +1,4 @@
-function CheckBoxMenuItem(menu, menuItemId) {
+function CheckBoxMenuItem(menu, menuItemId, onchange) {
 	
 	var element = document.getElementById(menuItemId);
 	var valueElement = element.getElementsByClassName("menuItemValue")[0];
@@ -18,10 +18,16 @@ function CheckBoxMenuItem(menu, menuItemId) {
 		return valueElement.checked;
 	};
 	
+	var onchangeWrapper = function(e) {
+		_UiUtil.playSound(CLICK_SOUND_FILE);
+		onchange(e);
+	};
+	
 	/**
 	 * Constructor.
 	 */
 	{
+		element.onchange = onchangeWrapper;
 		var checkBoxMenuItem = new MenuItem(menu, menuItemId);
 		checkBoxMenuItem.setValue = setValue;
 		return checkBoxMenuItem;

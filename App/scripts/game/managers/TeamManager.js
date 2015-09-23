@@ -77,6 +77,19 @@ function TeamManager(callback) {
 	};
 	
 	/**
+	 * @return the score of the winning team.
+	 */
+	this.getMaxScore = function() {
+		var maxScore = 0;
+		for (var i = 0; i < teams.length; i++) {
+			if (teams[i].score > maxScore) {
+				maxScore = teams[i].score;
+			}
+		}
+		return maxScore;
+	};
+	
+	/**
 	 * Sets the score for all teams to 0.
 	 */
 	this.resetScores = function() {
