@@ -130,6 +130,7 @@ function Game(callback) {
 	this.newGame = function() {
 		_Log.info("New game.");
 		gameStarted = false;
+		teamManager.initializeTeams();
 		teamManager.resetScores();
 		scoreBoard.showScores(teamManager.getTeams());
 		confetti.hide();
@@ -143,7 +144,6 @@ function Game(callback) {
 	this.start = function() {
 		_Log.info("Game started.");
 		gameStarted = true;
-		teamManager.initializeTeams();
 	};
 	
 	/**

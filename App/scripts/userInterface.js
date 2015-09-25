@@ -247,62 +247,6 @@ function backButtonClick() {
 }
 
 //
-// Number of teams menu item click event.
-//
-function menuItemNumberOfTeamsClick() {
-	playSound(CLICK_SOUND_FILE);
-	
-	// Changes the number of teams if response is true
-	var executeResponse = function(response) {
-		if (response) {
-			
-			// Get input from user
-			dialog.getNumber(function(response) {
-				if (response || response === 0) {
-					response = parseInt(response);
-					changeNumberOfTeams(response, showMenu);
-				}
-			}, "How many teams?", sNumberOfTeams, null, function(response) {
-				playSound(CLICK_SOUND_FILE);
-				
-				if (response || response === 0) {
-					// Validate input
-					response = parseInt(response);
-					if (response < MIN_NUMBER_OF_TEAMS) {
-						dialog.showMessage("At least " + MIN_NUMBER_OF_TEAMS + " team" + (MIN_NUMBER_OF_TEAMS > 1? "s": "") + " are required.");
-						return false;
-					} else if (response > MAX_NUMBER_OF_TEAMS) {
-						dialog.showMessage("No more than " + MAX_NUMBER_OF_TEAMS + " teams are allowed.");
-						return false;
-					}
-				}
-			});
-			
-		}
-	};
-	
-	// Only change the number of teams if the game is already over or if the user says it's okay
-	if (gameOver)
-		executeResponse(true);
-	else
-		dialog.confirm(executeResponse, "The current game will end. Is that okay?");
-}
-
-//
-// Number of teams menu item increase event.
-//
-function menuItemNumberOfTeamsIncrease() {
-	changeNumberOfTeams(sNumberOfTeams + 1, showMenu);
-}
-
-//
-// Number of teams menu item decrease event.
-//
-function menuItemNumberOfTeamsDecrease() {
-	changeNumberOfTeams(sNumberOfTeams - 1, showMenu);
-}
-
-//
 // Minimum time menu item click event.
 //
 function menuItemMinimumTimeClick() {

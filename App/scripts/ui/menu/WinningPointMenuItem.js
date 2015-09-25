@@ -63,7 +63,10 @@ function WinningPointMenuItem(menu) {
 				menu, 
 				"menuItemWinningPoint",
 				MIN_WINNING_POINT,
-				MAX_WINNING_POINT);
+				MAX_WINNING_POINT,
+				onclick,
+				onincrease,
+				ondecrease);
 	}
 	
 }
