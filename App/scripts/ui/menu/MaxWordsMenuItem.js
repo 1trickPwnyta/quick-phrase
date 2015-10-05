@@ -50,7 +50,7 @@ function MaxWordsMenuItem(menu) {
 				menu,
 				"menuItemMaxWords",
 				0, 
-				MAX_MAX_WORDS_PER_PHRASE
+				MAX_MAX_WORDS_PER_PHRASE,
 				onclick,
 				onincrease,
 				ondecrease);

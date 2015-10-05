@@ -247,42 +247,6 @@ function backButtonClick() {
 }
 
 //
-// Beep sound menu item click event.
-//
-function menuItemBeepSoundFileChange() {
-	var beepSoundFile = document.getElementById("menuItemBeepSoundFile").getElementsByClassName("menuItemValue")[0].value;
-	changeBeepSoundFile(beepSoundFile, showMenu);
-	
-	// Play the new sound
-	playSound(beepSoundFile);
-}
-
-//
-// Theme menu item click event.
-//
-function menuItemThemeChange() {
-	var styleSheet = document.getElementById("menuItemTheme").getElementsByClassName("menuItemValue")[0].value;
-	changeStyleSheet(styleSheet, showMenu);
-	
-	// Apply the new theme
-	applyTheme();
-}
-
-//
-// Vibrate menu item click event.
-//
-function menuItemVibrateChange() {
-	playSound(CLICK_SOUND_FILE);
-	
-	var vibrate = document.getElementById("menuItemVibrateCheckBox").checked;
-	changeVibrate(vibrate, showMenu);
-	
-	// Vibrate if the setting was enabled
-	if (vibrate && navigator.vibrate)
-		navigator.vibrate(VIBRATION_DURATION);
-}
-
-//
 // Phrase creation menu item click event.
 //
 function menuItemTagCreationClick() {
