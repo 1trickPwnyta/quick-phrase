@@ -13,12 +13,15 @@ function MaxCharactersMenuItem(menu) {
 				if (maxCharactersPerPhrase != 0 && maxCharactersPerPhrase < MIN_MAX_CHARACTERS) {
 					dialog.showMessage("Use at least " + MIN_MAX_CHARACTERS + " characters.");
 					return false;
-				} else {
-					settings.set(_Settings.KEY_MAX_CHARACTERS_PER_PHRASE, maxCharactersPerPhrase);
-					settings.saveAsync(game.getLocalDatabase());
-					menu.load();
-					return true;
 				}
+				if (maxCharactersPerPhrase > MAX_MAX_CHARACTERS) {
+					dialog.showMessage("You can't limit it to more than " + MAX_MAX_CHARACTERS + " characters.");
+					return false;
+				}
+				settings.set(_Settings.KEY_MAX_CHARACTERS_PER_PHRASE, maxCharactersPerPhrase);
+				settings.saveAsync(game.getLocalDatabase());
+				menu.load();
+				return true;
 			}
 		});
 	};
@@ -54,6 +57,8 @@ function MaxCharactersMenuItem(menu) {
 		return new NumericMenuItem(
 				menu,
 				"menuItemMaxCharacters",
+				0,
+				MAX_MAX_CHARACTERS,
 				onclick,
 				onincrease,
 				ondecrease);

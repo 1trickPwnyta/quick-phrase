@@ -14,6 +14,10 @@ function MaxWordsMenuItem(menu) {
 					dialog.showMessage("Phrases must contain at least one word.");
 					return false;
 				}
+				if (maxWordsPerPhrase > MAX_MAX_WORDS) {
+					dialog.showMessage("You can't limit it to more than " + MAX_MAX_WORDS + " words.");
+					return false;
+				}
 				settings.set(_Settings.KEY_MAX_WORDS_PER_PHRASE, maxWordsPerPhrase);
 				settings.saveAsync(game.getLocalDatabase());
 				menu.load();
@@ -45,6 +49,8 @@ function MaxWordsMenuItem(menu) {
 		return new NumericMenuItem(
 				menu,
 				"menuItemMaxWords",
+				0, 
+				MAX_MAX_WORDS_PER_PHRASE
 				onclick,
 				onincrease,
 				ondecrease);

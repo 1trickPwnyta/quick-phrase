@@ -13,6 +13,7 @@ var TAG_CREATION_URL = 								// URL for the Catch-Phrase Panic Online link in 
 		"https://www.kangaroostandard.com/CatchPhrasePanic/tagCreation/";
 var MAX_TEAM_NAME_CHARACTERS = 64;					// Maximum number of characters allowed in team names
 var MIN_MAX_CHARACTERS = 6;							// Minimum setting for the maximum characters per phrase
+var MAX_MAX_CHARACTERS = 9999;						// Maximum setting for the maximum characters per phrase
 var MIN_WINNING_POINT = 1;							// Minimum number of points for winning the game
 var MAX_WINNING_POINT = 99;							// Maximum number of points required to win the game
 var MIN_NUMBER_OF_TEAMS = 2;						// Minimum number of teams required to play the game
@@ -26,9 +27,10 @@ var APP_RATING_URL_MARKET = 						// URL of the app's rating page using the mark
 var GAMES_UNTIL_RATING_PROMPT = 10;					// Number of games played before the rating prompt appears
 var MAX_CUSTOM_PHRASE_CHARACTERS = 64;				// Maximum number of characters allowed in custom phrases
 var MAX_CUSTOM_CATEGORY_CHARACTERS = 64;			// Maximum number of characters allowed in custom categories
+var MAX_MAX_WORDS = 99;								// Maximum setting for the maximum words per phrase
 
-var DEFAULT_MIN_TIME_PER_STAGE = 25000;
-var DEFAULT_MAX_TIME_PER_STAGE = 40000;
+var DEFAULT_MIN_SECONDS_PER_STAGE = 25;
+var DEFAULT_MAX_SECONDS_PER_STAGE = 40;
 var DEFAULT_NUMBER_OF_TEAMS = 2;
 var DEFAULT_WINNING_POINT = 7;
 var DEFAULT_BEEP_SOUND_FILE = "sounds/beep.wav";
