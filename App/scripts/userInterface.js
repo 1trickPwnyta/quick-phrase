@@ -1,4 +1,18 @@
 //
+// Locks the UI so that the user cannot interact with it.
+//
+function lockUi() {
+	document.getElementById("uiLock").style.display = "block";
+}
+
+//
+// Unlocks the UI so that the user can interact with it once more.
+//
+function unlockUi() {
+	document.getElementById("uiLock").style.display = "none";
+}
+
+//
 // Sets the phrase on the screen.
 //
 function setTag(text, categoryName) {
@@ -33,6 +47,20 @@ function enableNext() {
 //
 function applyTheme() {
 	changeCSS(sStyleSheet, 2);
+}
+
+//
+// Shows confetti in the background.
+//
+function showConfetti() {
+	document.getElementById("confetti").style.display = "block";
+}
+
+//
+// Hides the confetti in the background.
+//
+function hideConfetti() {
+	document.getElementById("confetti").style.display = "none";
 }
 
 //
@@ -244,6 +272,389 @@ function backButtonClick() {
 		playSound(CLICK_SOUND_FILE);
 		closeMenu();
 	}
+}
+
+//
+// Categories menu item click event.
+//
+function menuItemCategoryIdsClick() {
+	playSound(CLICK_SOUND_FILE);
+	submitUsageClick("/menu/categories");
+	showCategories();
+}
+
+//
+// Difficulty menu item click event.
+//
+function menuItemDifficultyChange() {
+	playSound(CLICK_SOUND_FILE);
+	
+	// Get the new value for difficulty
+	var newDifficulty = document.getElementById("menuItemDifficulty").getElementsByClassName("menuItemValue")[0].value;
+	
+	changeDifficulty(newDifficulty, showMenu);
+}
+
+//
+// Max words menu item click event.
+//
+function menuItemMaxWordsClick() {
+	playSound(CLICK_SOUND_FILE);
+	
+	// Get input from the user
+	dialog.getNumber(function(response) {
+		if (response || response === 0) {
+			response = parseInt(response);
+			changeMaxWords(response, showMenu);
+		}
+	}, "How many words? (Use 0 for unlimited)", sMaxWordsPerTag, null, function(response) {
+		playSound(CLICK_SOUND_FILE);
+		
+		// Validate input
+		if (response || response === 0) {
+			response = parseInt(response);
+			if (response != 0 && response < 1) {
+				dialog.showMessage("Phrases must contain at least one word.");
+				return false;
+			}
+		}
+	});
+}
+
+//
+// Max words menu item increase event.
+//
+function menuItemMaxWordsIncrease() {
+	changeMaxWords(sMaxWordsPerTag + 1, showMenu);
+}
+
+//
+// Max words menu item decrease event.
+//
+function menuItemMaxWordsDecrease() {
+	changeMaxWords(sMaxWordsPerTag - 1, showMenu);
+}
+
+//
+// Max characters menu item click event.
+//
+function menuItemMaxCharactersClick() {
+	playSound(CLICK_SOUND_FILE);
+	
+	// Get input from the user
+	dialog.getNumber(function(response) {
+		if (response || response === 0) {
+			response = parseInt(response);
+			changeMaxCharacters(response, showMenu);
+		}
+	}, "How many characters? (Use 0 for unlimited)", sMaxCharactersPerTag, null, function(response) {
+		playSound(CLICK_SOUND_FILE);
+		
+		if (response || response === 0) {
+			// Validate input
+			response = parseInt(response);
+			if (response != 0 && response < MIN_MAX_CHARACTERS) {
+				dialog.showMessage("Use at least " + MIN_MAX_CHARACTERS + " characters.");
+				return false;
+			}
+		}
+		
+	});
+}
+
+//
+// Max characters menu item increase event.
+//
+function menuItemMaxCharactersIncrease() {
+	if (sMaxCharactersPerTag == 0) {
+		changeMaxCharacters(MIN_MAX_CHARACTERS, showMenu);
+	} else {
+		changeMaxCharacters(sMaxCharactersPerTag + 1, showMenu);
+	}
+}
+
+//
+// Max characters menu item decrease event.
+//
+function menuItemMaxCharactersDecrease() {
+	if (sMaxCharactersPerTag <= MIN_MAX_CHARACTERS) {
+		changeMaxCharacters(0, showMenu);
+	} else {
+		changeMaxCharacters(sMaxCharactersPerTag - 1, showMenu);
+	}
+}
+
+//
+// Edgy menu item click event.
+//
+function menuItemEdgyChange() {
+	playSound(CLICK_SOUND_FILE);
+	
+	// Check if the setting is being enabled
+	if (document.getElementById("menuItemEdgyCheckBox").checked) {
+		// If enabling the setting, warn the user and only continue if they agree
+		showStandardDialog(EDGY_AGREEMENT_TEXT, function(iagree) {
+			// Enable the setting if the user agreed
+			if (iagree)
+				changeEdgy(true, showMenu);
+			else
+				// Otherwise uncheck the box
+				document.getElementById("menuItemEdgyCheckBox").checked = false;
+		}, true, "Adult-Only Phrases", "I Agree");
+	} else
+		// If disabling the setting, just allow it
+		changeEdgy(false, showMenu);
+}
+
+//
+// Show Category menu item click event.
+//
+function menuItemShowCategoryChange() {
+	playSound(CLICK_SOUND_FILE);
+	
+	var showCategory = document.getElementById("menuItemShowCategoryCheckBox").checked;
+	changeShowCategory(showCategory, showMenu);
+}
+
+//
+// Winning point menu item click event.
+//
+function menuItemWinningPointClick() {
+	playSound(CLICK_SOUND_FILE);
+	
+	// Get input from the user
+	dialog.getNumber(function(response) {
+		if (response || response === 0) {
+			response = parseInt(response);
+			changeWinningPoint(response, showMenu);
+		}
+	}, "How many points?", sWinningPoint, null, function(response) {
+		playSound(CLICK_SOUND_FILE);
+		
+		if (response || response === 0) {
+			// Validate input
+			response = parseInt(response);
+			if (!gameOver) {
+				// Find out the score of the winning team
+				var maxPointsCurrently = 0;
+				for (var i = 0; i < scores.length; i++)
+					if (scores[i] > maxPointsCurrently)
+						maxPointsCurrently = scores[i];
+				
+				// Don't allow a winning point that would make that team win right away
+				if (response <= maxPointsCurrently) {
+					if (response > 0)
+						dialog.showMessage("Someone already has that many points. At least one more point is required.");
+					else
+						dialog.showMessage("At least " + MIN_WINNING_POINT + " point" + (MIN_WINNING_POINT > 1? "s": "") + " must be required.");
+					return false;
+				}
+			} else {
+				if (response < MIN_WINNING_POINT) {
+					dialog.showMessage("At least " + MIN_WINNING_POINT + " point" + (MIN_WINNING_POINT > 1? "s": "") + " must be required.");
+					return false;
+				}
+				if (response > MAX_WINNING_POINT) {
+					dialog.showMessage("No more than " + MAX_WINNING_POINT + " points are allowed.");
+					return false;
+				}
+			}
+		}
+	});
+}
+
+//
+// Winning point menu item increase event.
+//
+function menuItemWinningPointIncrease() {
+	changeWinningPoint(sWinningPoint + 1, showMenu);
+}
+
+//
+//Winning point menu item increase event.
+//
+function menuItemWinningPointDecrease() {
+	changeWinningPoint(sWinningPoint - 1, showMenu);
+}
+
+//
+// Number of teams menu item click event.
+//
+function menuItemNumberOfTeamsClick() {
+	playSound(CLICK_SOUND_FILE);
+	
+	// Changes the number of teams if response is true
+	var executeResponse = function(response) {
+		if (response) {
+			
+			// Get input from user
+			dialog.getNumber(function(response) {
+				if (response || response === 0) {
+					response = parseInt(response);
+					changeNumberOfTeams(response, showMenu);
+				}
+			}, "How many teams?", sNumberOfTeams, null, function(response) {
+				playSound(CLICK_SOUND_FILE);
+				
+				if (response || response === 0) {
+					// Validate input
+					response = parseInt(response);
+					if (response < MIN_NUMBER_OF_TEAMS) {
+						dialog.showMessage("At least " + MIN_NUMBER_OF_TEAMS + " team" + (MIN_NUMBER_OF_TEAMS > 1? "s": "") + " are required.");
+						return false;
+					} else if (response > MAX_NUMBER_OF_TEAMS) {
+						dialog.showMessage("No more than " + MAX_NUMBER_OF_TEAMS + " teams are allowed.");
+						return false;
+					}
+				}
+			});
+			
+		}
+	};
+	
+	// Only change the number of teams if the game is already over or if the user says it's okay
+	if (gameOver)
+		executeResponse(true);
+	else
+		dialog.confirm(executeResponse, "The current game will end. Is that okay?");
+}
+
+//
+// Number of teams menu item increase event.
+//
+function menuItemNumberOfTeamsIncrease() {
+	changeNumberOfTeams(sNumberOfTeams + 1, showMenu);
+}
+
+//
+// Number of teams menu item decrease event.
+//
+function menuItemNumberOfTeamsDecrease() {
+	changeNumberOfTeams(sNumberOfTeams - 1, showMenu);
+}
+
+//
+// Minimum time menu item click event.
+//
+function menuItemMinimumTimeClick() {
+	playSound(CLICK_SOUND_FILE);
+	
+	// Get input from the user
+	dialog.getNumber(function(response) {
+		if (response || response === 0) {
+			response = parseInt(response);
+			// Convert to ms and divide by 3 to calculate the round time
+			response = Math.round(response*1000/3);
+			changeMinimumTime(response, showMenu);
+		}
+	}, "How many seconds should a round last, at least?", Math.round(sMinTimePerStage*3/1000), null, function(response) {
+		playSound(CLICK_SOUND_FILE);
+		
+		if (response || response === 0) {
+			// Validate input
+			response = parseInt(response);
+			// Convert to ms and divide by 3 to calculate the round time
+			response = Math.round(response*1000/3);
+			if (response < Math.round(MIN_ROUND_SECONDS*1000/3)) {
+				dialog.showMessage("At least " + MIN_ROUND_SECONDS + " seconds are required.");
+				return false;
+			}
+		}
+	});
+}
+
+//
+// Minimum time menu item increase event.
+//
+function menuItemMinimumTimeIncrease() {
+	changeMinimumTime(Math.round((Math.round(sMinTimePerStage*3/1000) + 1)*1000/3), showMenu);
+}
+
+//
+// Minimum time menu item decrease event.
+//
+function menuItemMinimumTimeDecrease() {
+	changeMinimumTime(Math.round((Math.round(sMinTimePerStage*3/1000) - 1)*1000/3), showMenu);
+}
+
+//
+// Maximum time menu item click event.
+//
+function menuItemMaximumTimeClick() {
+	playSound(CLICK_SOUND_FILE);
+	
+	// Get input from the user
+	dialog.getNumber(function(response) {
+		if (response || response === 0) {
+			response = parseInt(response);
+			// Convert to ms and divide by 3 to calculate round time
+			response = Math.round(response*1000/3);
+			changeMaximumTime(response, showMenu);
+		}
+	}, "How many seconds should a round last, at most?", Math.round(sMaxTimePerStage*3/1000), null, function(response) {
+		playSound(CLICK_SOUND_FILE);
+		
+		if (response || response === 0) {
+			// Validate input
+			response = parseInt(response);
+			// Convert to ms and divide by 3 to calculate round time
+			response = Math.round(response*1000/3);
+			if (response < Math.round(MIN_ROUND_SECONDS*1000/3)) {
+				dialog.showMessage("At least " + MIN_ROUND_SECONDS + " seconds are required.");
+				return false;
+			}
+		}
+	});
+}
+
+//
+// Maximum time menu item increase event.
+//
+function menuItemMaximumTimeIncrease() {
+	changeMaximumTime(Math.round((Math.round(sMaxTimePerStage*3/1000) + 1)*1000/3), showMenu);
+}
+
+//
+// Maximum time menu item decrease event.
+//
+function menuItemMaximumTimeDecrease() {
+	changeMaximumTime(Math.round((Math.round(sMaxTimePerStage*3/1000) - 1)*1000/3), showMenu);
+}
+
+//
+// Beep sound menu item click event.
+//
+function menuItemBeepSoundFileChange() {
+	var beepSoundFile = document.getElementById("menuItemBeepSoundFile").getElementsByClassName("menuItemValue")[0].value;
+	changeBeepSoundFile(beepSoundFile, showMenu);
+	
+	// Play the new sound
+	playSound(beepSoundFile);
+}
+
+//
+// Theme menu item click event.
+//
+function menuItemThemeChange() {
+	var styleSheet = document.getElementById("menuItemTheme").getElementsByClassName("menuItemValue")[0].value;
+	changeStyleSheet(styleSheet, showMenu);
+	
+	// Apply the new theme
+	applyTheme();
+}
+
+//
+// Vibrate menu item click event.
+//
+function menuItemVibrateChange() {
+	playSound(CLICK_SOUND_FILE);
+	
+	var vibrate = document.getElementById("menuItemVibrateCheckBox").checked;
+	changeVibrate(vibrate, showMenu);
+	
+	// Vibrate if the setting was enabled
+	if (vibrate && navigator.vibrate)
+		navigator.vibrate(VIBRATION_DURATION);
 }
 
 //

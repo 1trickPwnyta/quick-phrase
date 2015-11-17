@@ -186,12 +186,8 @@ header a {
 	height: 100%;
 }
 
-#menuButton, #pauseButton {
+#menuButton {
 	right: 2%;
-}
-
-#pauseButton {
-	display: none;
 }
 
 #helpButton {

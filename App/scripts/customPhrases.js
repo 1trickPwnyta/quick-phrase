@@ -1,119 +1,59 @@
-function CustomPhraseManager(localDatabase) {
-	
-	var loadad = false;
-	var customPhrases;
-	
-	/**
-	 * Loads the custom phrases from the local database.
-	 * @param callback a function to call when loading is complete.
-	 */
-	this.loadAsync = function(callback) {
-		localDatabase.readPhrasesAsync(false, true, null, false, null, false, function(customPhrasesFromDatabase) {
-			customPhrases = customPhrasesFromDatabase;
-			loaded = true;
-			_Log.info("Loaded " + customPhrases.length + " custom phrases from the local database.");
-			
-			if (callback) {
-				callback();
+//
+// Injects custom phrases into a phrase load.
+//
+function injectCustomPhrases(phraseLoad, phrasesAvailable, callback) {
+	var originalPhraseLoadSize = phraseLoad.length;
+	loadCustomPhrasesFromLocalDatabase(function(customPhrases) {
+		for (var i = 0; i < customPhrases.length; i++) {
+			if (Math.random() * phrasesAvailable < originalPhraseLoadSize || (originalPhraseLoadSize == 0 && phrasesAvailable == 0)) {
+				var randomIndex = parseInt(Math.random() * (phraseLoad.length + 1));
+				phraseLoad.splice(randomIndex, 0, customPhrases[i]);
 			}
-		});
-	};
-	
-	/**
-	 * Saves the custom phrases to the local database.
-	 * @param callback a function to call when saving is complete.
-	 */
-	this.saveAsync = function(callback) {
-		if (loaded) {
-			localDatabase.readPhrasesAsync(false, true, null, false, null, false, function(customPhrasesFromDatabase) {
-				var toCreate = [], toUpdate = [], toDelete = [];
-				_ArrayUtil.compare(customPhrases, customPhrasesFromDatabase, function(a, b) {
-					return a.id == b.id;
-				}, toCreate, toUpdate, toDelete);
-				
-				var operationsRemaining = 3;
-				var checkIfFinished = function() {
-					if (--operationsRemaining <= 0 && callback) {
-						callback();
-					}
-				};
-				localDatabase.createPhrasesAsync(toCreate, checkIfFinished);
-				localDatabase.updatePhrasesAsync(toUpdate, checkIfFinished);
-				localDatabase.deletePhrasesAsync(toDelete, checkIfFinished);
-			});
-		} else {
-			_Log.error("Attempted to save custom phrases without loading first.");
-		}
-	};
-	
-	/**
-	 * @return the custom phrases.
-	 */
-	this.getCustomPhrases = function() {
-		if (!loaded) {
-			_Log.error("Attempted to get custom phrases without loading first.");
-		}
-		return customPhrases;
-	};
-	
-	/**
-	 * Checks if a custom phrase exists with the same category and text as that 
-	 * provided.
-	 * @param phrase the phrase to compare against.
-	 * @return true if the phrase exists, false otherwise.
-	 */
-	this.customPhraseExists = function(phrase) {
-		if (loaded) {
-			for (var i = 0; i < customPhrases.length; i++) {
-				if (_Phrase.textMatches(phrase.text, customPhrases[i].text)) {
-					return true;
-				}
-			}
-		} else {
-			_Log.error("Attempted to get custom phrase without loading first.");
 		}
 		
-		return false;
-	};
-	
-	/**
-	 * Randomly injects custom phrases into a set of standard phrases.
-	 * @param phrases the set of standard phrases to inject custom phrases into.
-	 * custom phrase to be injected somewhere into the set of standard phrases.
-	 * @param settings the settings used to filter the custom phrases.
-	 * @param callback a function to call after 
-	 */
-	this.getCustomPhraseSetAsync = function(settings, callback) {
-		if (loaded) {
-			localDatabase.readPhrasesAsync(false, true, settings, true, null, false, function(phrasesFromDatabase) {
-				callback(phrasesFromDatabase);
-			});
-		} else {
-			_Log.error("Attempted to inject custom phrases without loading first.");
+		if (callback) {
+			callback();
 		}
-	};
-	
-	/**
-	 * Cleans up custom phrases by removing any that match a standard phrase.
-	 * @param standardPhrases the standard phrases to compare with.
-	 */
-	this.cleanCustomPhrases = function(standardPhrases) {
-		if (loaded) {
-			for (var i = 0; i < standardPhrases.length; i++) {
-				for (var j = 0; j < customPhrases.length; j++) {
-					var standardPhrase = standardPhrases[i];
-					var customPhrase = customPhrases[j];
-					if (standardPhrase.categoryId == customPhrase.categoryId && 
-							_Phrase.textMatches(customPhrase.text, standardPhrase.text)) {
-						customPhrases.splice(j--, 1);
+	});
+}
+
+//
+// Deletes custom phrases from the local database that are duplicated by the phrase load from the web service.
+//
+function cleanCustomPhrases(phraseLoad) {
+	loadAllCustomPhrasesFromLocalDatabase(null, null, function(customPhrases) {
+		for (var i = 0; i < phraseLoad.length; i++) {
+			for (var j = 0; j < customPhrases.length; j++) {
+				if (phraseLoad[i].category_id == customPhrases[j].category_id && !customPhrases[j].is_custom_category) {
+					if (phraseLoad[i].text.trim().toLowerCase() == customPhrases[j].text.trim().toLowerCase()) {
+						deleteCustomPhraseFromLocalDatabase(customPhrases[j].rowid);
 					}
 				}
 			}
-		} else {
-			_Log.error("Attempted to clean custom phrases without loading first.");
 		}
-	};
-	
+	});
+}
+
+//
+// Deletes custom categories from the local database that are duplicated by the categories from the web service.
+// Migrates all custom phrases in the custom category to the new category.
+//
+function cleanCustomCategories(nonCustomCategories, customCategories) {
+	for (var i = 1; i < nonCustomCategories.length; i++) {
+		for (var j = 0; j < customCategories.length; j++) {
+			if (nonCustomCategories[i].name.trim().toLowerCase() == customCategories[j].name.trim().toLowerCase()) {
+				(function(newCategoryId, oldCategoryId) {
+					loadAllCustomPhrasesFromLocalDatabase(oldCategoryId, true, function(customPhrases) {
+						for (var k = 0; k < customPhrases.length; k++) {
+							deleteCustomPhraseFromLocalDatabase(customPhrases[k].rowid);
+							saveCustomPhraseInLocalDatabase(customPhrases[k].text, newCategoryId, false);
+						}
+						deleteCustomCategoryFromLocalDatabase(oldCategoryId, loadCustomCategories);
+					});
+				})(nonCustomCategories[i].id, customCategories[j].id);
+			}
+		}
+	}
 }
 
 //

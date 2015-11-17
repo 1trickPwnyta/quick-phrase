@@ -1,7 +1,6 @@
 var APP_GOOGLEPLAY_EDITION = true;					// Removes the option to allow adult-only phrases
 var BEEP_INTERVAL = 500;							// Timer tick ms during final time stage of round
 var VIBRATION_DURATION = 100;						// ms duration of device vibration when vibration is on
-var TIME_UP_SOUND_FILE = "sounds/timeup.wav";		// Sound file to play when time is up
 var DB_NAME = "grab_tag";							// Name of the SQLite database for local data
 var MAX_LOCAL_TAGS = 5000;							// Max number of phrases to be kept in local database
 var WEB_SERVICE_URL = 								// Web service URL for remote data
@@ -13,13 +12,11 @@ var TAG_CREATION_URL = 								// URL for the Catch-Phrase Panic Online link in 
 		"https://www.kangaroostandard.com/CatchPhrasePanic/tagCreation/";
 var MAX_TEAM_NAME_CHARACTERS = 64;					// Maximum number of characters allowed in team names
 var MIN_MAX_CHARACTERS = 6;							// Minimum setting for the maximum characters per phrase
-var MAX_MAX_CHARACTERS = 9999;						// Maximum setting for the maximum characters per phrase
 var MIN_WINNING_POINT = 1;							// Minimum number of points for winning the game
 var MAX_WINNING_POINT = 99;							// Maximum number of points required to win the game
 var MIN_NUMBER_OF_TEAMS = 2;						// Minimum number of teams required to play the game
 var MAX_NUMBER_OF_TEAMS = 8;						// Maximum number of teams allowed to play the game
-var MIN_TIME_STAGE_SECONDS = 20;					// Minimum number of seconds each time stage in a round must last
-var MAX_TIME_STAGE_SECONDS = 1200;					// Maximum number of seconds each time stage in a round can last
+var MIN_ROUND_SECONDS = 60;							// Minimum number of seconds a round must last
 var APP_RATING_URL_HTTP = 							// URL of the app's rating page using HTTP
 		"https://play.google.com/store/apps/details?id=com.kangaroostandard.grabtag";
 var APP_RATING_URL_MARKET = 						// URL of the app's rating page using the market protocol
@@ -27,17 +24,18 @@ var APP_RATING_URL_MARKET = 						// URL of the app's rating page using the mark
 var GAMES_UNTIL_RATING_PROMPT = 10;					// Number of games played before the rating prompt appears
 var MAX_CUSTOM_PHRASE_CHARACTERS = 64;				// Maximum number of characters allowed in custom phrases
 var MAX_CUSTOM_CATEGORY_CHARACTERS = 64;			// Maximum number of characters allowed in custom categories
-var MAX_MAX_WORDS = 99;								// Maximum setting for the maximum words per phrase
 
-var DEFAULT_MIN_SECONDS_PER_STAGE = 25;
-var DEFAULT_MAX_SECONDS_PER_STAGE = 40;
+// Default settings
+var DEFAULT_MIN_TIME_PER_STAGE = 25000;
+var DEFAULT_MAX_TIME_PER_STAGE = 40000;
 var DEFAULT_NUMBER_OF_TEAMS = 2;
 var DEFAULT_WINNING_POINT = 7;
 var DEFAULT_BEEP_SOUND_FILE = "sounds/beep.wav";
-var DEFAULT_DIFFICULTY_ID = 3;
+var DEFAULT_DIFFICULTY = 3;
 var DEFAULT_MAX_WORDS_PER_TAG = 0;
 var DEFAULT_MAX_CHARACTERS_PER_TAG = 0;
 var DEFAULT_CATEGORY_IDS = CATEGORIES_ALL;
+var DEFAULT_CUSTOM_CATEGORY_IDS = CATEGORIES_ALL;
 var DEFAULT_STYLE_SHEET = "style/theme_light.css";
 var DEFAULT_VIBRATE = true;
 var DEFAULT_EDGY = false;
