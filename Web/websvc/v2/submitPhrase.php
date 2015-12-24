@@ -1,6 +1,6 @@
 <?php
-	include "mysql.php";
-	require_once "global.php";
+	include "../../mysql.php";
+	require_once "../../global.php";
 	
 	header("Access-Control-Allow-Origin: null");
 	

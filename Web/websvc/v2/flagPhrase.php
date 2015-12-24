@@ -1,5 +1,5 @@
 <?php
-	include "mysql.php";
+	include "../../mysql.php";
 	
 	header("Access-Control-Allow-Origin: null");
 	

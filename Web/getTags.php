@@ -1,3 +1,3 @@
 <?php
 
-require "getPhrases.php";
+require "websvc/v2/getPhrases.php";

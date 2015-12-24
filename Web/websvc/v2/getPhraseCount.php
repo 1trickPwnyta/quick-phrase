@@ -1,7 +1,7 @@
 <?php
 
-include "mysql.php";
-include "global.php";
+include "../../mysql.php";
+include "../../global.php";
 
 header("Access-Control-Allow-Origin: null");
 

@@ -4,7 +4,7 @@ var VIBRATION_DURATION = 100;						// ms duration of device vibration when vibra
 var DB_NAME = "grab_tag";							// Name of the SQLite database for local data
 var MAX_LOCAL_TAGS = 5000;							// Max number of phrases to be kept in local database
 var WEB_SERVICE_URL = 								// Web service URL for remote data
-		"https://www.kangaroostandard.com/CatchPhrasePanic";
+		"https://www.kangaroostandard.com/CatchPhrasePanic/websvc/v2";
 var WEB_SERVICE_TIMEOUT = 10000;					// Web service calls time out after this many ms
 var TAG_LOAD_QUANTITY = 100;						// Number of phrases requested in each web service call
 var TAG_RELOAD_QUANTITY = 50;						// Number of loaded phrases left when more are needed
