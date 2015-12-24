@@ -209,15 +209,20 @@ function processPhraseLoad(phraseLoad) {
 	var phrasesRemoved = new Array();
 	var originalPhraseLoadSize = phraseLoad.length;
 	
-	for (var i = 0; i < phraseLoad.length; i++) {
+	var checkOverload = function() {
 		// If we removed half of the phrases that were loaded, forget about the used phrases and start over
 		if (phrasesRemoved.length >= originalPhraseLoadSize/2) {
 			usedTagsOverall = new Array();
 			for (var j = 0; j < phrasesRemoved.length; j++) {
 				phraseLoad.push(phrasesRemoved[j]);
 			}
-			break;
+			return true;
 		}
+		return false;
+	};
+	
+	for (var i = 0; i < phraseLoad.length; i++) {
+		if (checkOverload()) break;
 		
 		var removed = false;
 		for (var j = 0; j < usedTagsOverall.length; j++) {
@@ -238,6 +243,8 @@ function processPhraseLoad(phraseLoad) {
 			}
 		}
 	}
+	
+	checkOverload();
 }
 
 //
