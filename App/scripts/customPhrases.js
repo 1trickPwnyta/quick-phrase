@@ -51,6 +51,22 @@ function cleanCustomCategories(nonCustomCategories, customCategories) {
 						deleteCustomCategoryFromLocalDatabase(oldCategoryId, loadCustomCategories);
 					});
 				})(nonCustomCategories[i].id, customCategories[j].id);
+				// If the custom category was selected, select the new category instead
+				var sCustomCategoryIdsIndex = sCustomCategoryIds.indexOf(customCategories[j].id);
+				if (sCustomCategoryIdsIndex >= 0) {
+					var newCategories = new Array();
+					for (var k = 1; k < nonCustomCategories.length; k++) {
+						if (sCategoryIds.indexOf(nonCustomCategories[k].id) >= 0)
+							newCategories.push(nonCustomCategories[k]);
+					}
+					for (var k = 0; k < customCategories.length; k++) {
+						if (k == j) continue;
+						if (sCustomCategoryIds.indexOf(customCategories[k].id >= 0))
+							newCategories.push(customCategories[k]);
+					}
+					newCategories.push(nonCustomCategories[i]);
+					changeCategories(newCategories);
+				}
 			}
 		}
 	}

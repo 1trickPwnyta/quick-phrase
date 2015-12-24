@@ -98,10 +98,10 @@
 				
 				// Load all the game data
 				showLoadingScreen();
-				loadCategories();
-				loadDifficulties();
 				loadStatsFromWebService();
 				loadSettings(function() {
+					loadCategories();
+					loadDifficulties();
 					
 					var finishOpening = function() {
 						submitUsageClick("/app/" + APP_VERSION + "/open");
