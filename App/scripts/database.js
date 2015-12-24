@@ -27,6 +27,57 @@ function initializeLocalDatabase() {
 }
 
 //
+// Upgrades the database schema to that required by version 2 of the app.
+//
+function upgradeDatabaseToVersion2(callback) {alert(2);
+	var transactions = [
+	    {
+	    	drop: "DROP TABLE tag",
+	    	create: "CREATE TABLE tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)"
+	    },
+	    {
+	    	create: "CREATE TABLE custom_phrase (category_id integer, is_custom_category integer, tag text)"
+	    },
+	    {
+	    	drop: "DROP TABLE difficulty_level",
+	    	create: "CREATE TABLE difficulty_level (id integer, name text, max_rating integer)"
+	    },
+	    {
+	    	drop: "DROP TABLE category",
+	    	create: "CREATE TABLE category (id integer, name text)"
+	    },
+	    {
+	    	create: "CREATE TABLE custom_category (name text)"
+	    }
+	];
+	var transactionsRemaining = transactions.length;
+	db.transaction(function(tx) {
+		for (var i = 0; i < transactions.length; i++) {
+			(function(i, tx) {
+				var create = function() {
+					tx.executeSql(transactions[i].create, [], function(tx, res) {
+						if (--transactionsRemaining == 0) {
+							if (callback) callback();
+						}
+					}, function(tx, err) {
+						
+					});
+				};
+				if (transactions[i].drop) {
+					tx.executeSql(transactions[i].drop, [], function(tx, res) {
+						create();
+					}, function(tx, err) {
+						
+					});
+				} else {
+					create();
+				}
+			})(i, tx);
+		}
+	});
+}
+
+//
 // Loads new phrases from the local database.
 //
 function loadTagsFromLocalDatabase(callback) {

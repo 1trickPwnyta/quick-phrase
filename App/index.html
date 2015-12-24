@@ -100,9 +100,6 @@
 				showLoadingScreen();
 				loadStatsFromWebService();
 				loadSettings(function() {
-					loadCategories();
-					loadDifficulties();
-					
 					var finishOpening = function() {
 						submitUsageClick("/app/" + APP_VERSION + "/open");
 						
@@ -115,6 +112,8 @@
 						}, false);
 						
 						applyTheme();
+						loadCategories();
+						loadDifficulties();
 						loadTags(true, showReadyScreen);
 						resetScores();
 						loadScores();
@@ -134,6 +133,9 @@
 						});
 					} else if (sDataVersion != APP_VERSION) {
 						submitUsageClick("/app/" + APP_VERSION + "/upgrade");
+						if (parseInt(sDataVersion.split(".")[0]) < 2) {
+							upgradeDatabaseToVersion2();
+						}
 						changeDataVersion(APP_VERSION);
 						finishOpening();
 					} else {
