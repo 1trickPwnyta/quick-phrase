@@ -30,7 +30,7 @@ function showMenu() {
 		} else {
 				selectedCategoriesLabel = getCategoryById(
 						sCategoryIds.length > 0? sCategoryIds[0]: 
-							sCustomCategoryIds[0]).name;
+							sCustomCategoryIds[0], sCategoryIds.length == 0).name;
 		}
 	}
 	document.getElementById("menuItemCategoryIds").getElementsByClassName("menuItemValue")[0].innerHTML = selectedCategoriesLabel;

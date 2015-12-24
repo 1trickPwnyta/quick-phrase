@@ -65,6 +65,7 @@ function navigateAway(url) {
 // Returns a loaded category object based on ID.
 //
 function getCategoryById(id, isCustomCategory) {
+	if (!isCustomCategory) isCustomCategory = undefined;
 	for (var i = 1; i < categories.length; i++) {
 		if (categories[i].id == id && categories[i].isCustom == isCustomCategory)
 			return categories[i];
