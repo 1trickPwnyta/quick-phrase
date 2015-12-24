@@ -185,10 +185,9 @@ function showCategories() {
 		checkbox.type = "checkbox";
 		checkbox.id = "categoryCheckbox" + i;
 		checkbox.category = categories[i];
-		checkbox.checked = (
-				!categories[i].isCustom && (sCategoryIds.indexOf(categories[i].id) != -1 || sCategoryIds == CATEGORIES_ALL) || 
-				categories[i].isCustom && (sCustomCategoryIds.indexOf(categories[i].id) != -1 || sCustomCategoryIds == CATEGORIES_ALL)
-		);
+		checkbox.checked = 
+				(!categories[i].isCustom && (sCategoryIds.indexOf(categories[i].id) != -1 || sCategoryIds == CATEGORIES_ALL)) || 
+				(categories[i].isCustom && (sCustomCategoryIds.indexOf(categories[i].id) != -1 || sCustomCategoryIds == CATEGORIES_ALL));
 		checkbox.onchange = function(){playSound(CLICK_SOUND_FILE); updateButtons();};
 		checkboxCell.appendChild(checkbox);
 		row.appendChild(checkboxCell);
