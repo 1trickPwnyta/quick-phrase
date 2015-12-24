@@ -1,6 +1,7 @@
 *.apk
 *.zip
 /App/scripts/config.js
+/App/scripts/starterPhrases.js
 Thumbs.db
 .settings
 .project
