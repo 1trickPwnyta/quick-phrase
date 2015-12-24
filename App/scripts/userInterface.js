@@ -182,10 +182,12 @@ function nextButtonClick() {
 		
 	var setNextTag = function() {
 		var tag = nextTag();
-		usedTags.push(tag);
-		usedTagsOverall.push(tag);
-		var category = getCategoryById(tag.category_id);
-		setTag(htmlEncode(tag.text), category.name);
+		if (tag) {
+			usedTags.push(tag);
+			usedTagsOverall.push(tag);
+			var category = getCategoryById(tag.category_id);
+			setTag(htmlEncode(tag.text), category.name);
+		}
 	};
 	
 	// If a point has not been given since the last round ended, warn the user
