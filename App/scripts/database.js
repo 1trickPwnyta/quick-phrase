@@ -12,17 +12,17 @@ function initializeLocalDatabase() {
 		// DROP TABLE statements should only be used during testing...
 		// If a database schema must change from a previous version, you MUST retain the current data!
 		/*tx.executeSql("DROP TABLE tag");
-		tx.executeSql("DROP TABLE custom_phrase");
-		tx.executeSql("DROP TABLE difficulty_level");
-		tx.executeSql("DROP TABLE category");
-		tx.executeSql("DROP TABLE custom_category");
-		tx.executeSql("DROP TABLE settings");*/
-		tx.executeSql("CREATE TABLE IF NOT EXISTS tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)");
-		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_phrase (category_id integer, is_custom_category integer, tag text)");
-		tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)");
-		tx.executeSql("CREATE TABLE IF NOT EXISTS category (id integer, name text)");
-		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_category (name text)");
-		tx.executeSql("CREATE TABLE IF NOT EXISTS settings (id integer primary key autoincrement, name text, value text)");
+		tx.executeSql("DROP TABLE custom_phrase", [], function(tx, res) {}, function(tx, err) {logError(err.message);});
+		tx.executeSql("DROP TABLE difficulty_level", [], function(tx, res) {}, function(tx, err) {logError(err.message);});
+		tx.executeSql("DROP TABLE category", [], function(tx, res) {}, function(tx, err) {logError(err.message);});
+		tx.executeSql("DROP TABLE custom_category", [], function(tx, res) {}, function(tx, err) {logError(err.message);});
+		tx.executeSql("DROP TABLE settings", [], function(tx, res) {}, function(tx, err) {logError(err.message);});*/
+		tx.executeSql("CREATE TABLE IF NOT EXISTS tag (id integer, category_id integer, tag text, difficulty_rating integer, edgy integer)", [], function(tx, res) {}, function(tx, err) {logError(err.message);});
+		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_phrase (category_id integer, is_custom_category integer, tag text)", [], function(tx, res) {}, function(tx, err) {logError(err.message);});
+		tx.executeSql("CREATE TABLE IF NOT EXISTS difficulty_level (id integer, name text, max_rating integer)", [], function(tx, res) {}, function(tx, err) {logError(err.message);});
+		tx.executeSql("CREATE TABLE IF NOT EXISTS category (id integer, name text)", [], function(tx, res) {}, function(tx, err) {logError(err.message);});
+		tx.executeSql("CREATE TABLE IF NOT EXISTS custom_category (name text)", [], function(tx, res) {}, function(tx, err) {logError(err.message);});
+		tx.executeSql("CREATE TABLE IF NOT EXISTS settings (id integer primary key autoincrement, name text, value text)", [], function(tx, res) {}, function(tx, err) {logError(err.message);});
 	});
 }
 
@@ -60,14 +60,14 @@ function upgradeDatabaseToVersion2(callback) {alert(2);
 							if (callback) callback();
 						}
 					}, function(tx, err) {
-						
+						logError(err.message);
 					});
 				};
 				if (transactions[i].drop) {
 					tx.executeSql(transactions[i].drop, [], function(tx, res) {
 						create();
 					}, function(tx, err) {
-						
+						logError(err.message);
 					});
 				} else {
 					create();
@@ -130,6 +130,8 @@ function loadTagsFromLocalDatabase(callback) {
 						callback();
 				});
 			});
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -158,6 +160,8 @@ function countTagsInLocalDatabase(callback) {
 		
 		tx.executeSql(query, [], function(tx, res) {
 			callback(parseInt(res.rows.item(0).c));
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -197,7 +201,9 @@ function saveTagsInLocalDatabase(newTags, callback) {
 				}
 				if (goodQuery) {
 					query = query.substring(0, query.length - 1);	// Remove trailing comma
-					tx.executeSql(query);
+					tx.executeSql(query, [], function(tx, res) {}, function(tx, err) {
+						logError(err.message);
+					});
 				}
 			}
 			
@@ -219,10 +225,14 @@ function saveTagsInLocalDatabase(newTags, callback) {
 						});
 					}
 				}
+			}, function(tx, err) {
+				logError(err.message);
 			});
 			
 			if (callback)
 				callback();
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -234,7 +244,9 @@ function deleteTagFromLocalDatabase(id) {
 	db.transaction(function(tx) {
 		// Make a query to delete it
 		var query = "DELETE FROM tag WHERE id = " + id;
-		tx.executeSql(query);
+		tx.executeSql(query, [], function(tx, res) {}, function(tx, err) {
+			logError(err.message);
+		});
 	});
 }
 
@@ -277,6 +289,8 @@ function loadCustomPhrasesFromLocalDatabase(callback) {
 			}
 			
 			callback(newTags);
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -308,6 +322,8 @@ function loadAllCustomPhrasesFromLocalDatabase(categoryId, isCustomCategory, cal
 			}
 			
 			callback(customPhrases);
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -320,9 +336,12 @@ function saveCustomPhraseInLocalDatabase(text, categoryId, isCustomCategory, cal
 		// Make a query to insert the phrase
 		var query = "INSERT INTO custom_phrase (category_id, is_custom_category, tag) VALUES (";
 		query += categoryId + ", " + (isCustomCategory? 1: 0) + ", '" + text.replace("'", "''") + "')";
-		tx.executeSql(query);
-		if (callback)
-			callback();
+		tx.executeSql(query, [], function(tx, res) {
+			if (callback) callback();
+		}, function(tx, err) {
+			logError(err.message);
+			if (callback) callback();
+		});
 	});
 }
 
@@ -333,9 +352,12 @@ function deleteCustomPhraseFromLocalDatabase(rowid, callback) {
 	db.transaction(function(tx) {
 		// Make a query to delete the phrase
 		var query = "DELETE FROM custom_phrase WHERE rowid = " + rowid;
-		tx.executeSql(query);
-		if (callback)
-			callback();
+		tx.executeSql(query, [], function(tx, res) {
+			if (callback) callback();
+		}, function(tx, err) {
+			logError(err.message);
+			if (callback) callback();
+		});
 	});
 }
 
@@ -353,6 +375,8 @@ function checkIfPhraseExistsInLocalDatabase(text, callback) {
 		tx.executeSql(query, [], function(tx, res) {
 			var exists = res.rows.item(0).c > 0;
 			callback(exists);
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -373,6 +397,8 @@ function loadDifficultiesFromLocalDatabase(callback) {
 			
 			if (callback)
 				callback();
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -395,6 +421,8 @@ function saveDifficultiesInLocalDatabase(difficulties, callback) {
 			if (callback) {
 				callback();
 			}
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -417,6 +445,8 @@ function loadCategoriesFromLocalDatabase(callback) {
 			
 			if (callback)
 				callback();
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -439,6 +469,8 @@ function saveCategoriesInLocalDatabase(categories, callback) {
 			if (callback) {
 				callback();
 			}
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -458,6 +490,8 @@ function loadCustomCategoriesFromLocalDatabase(callback) {
 			}
 			
 			callback(customCategories);
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -473,6 +507,8 @@ function saveCustomCategoryInLocalDatabase(name, callback) {
 		tx.executeSql(query, [], function(tx, results) {
 			if (callback)
 				callback(results.insertId);
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -487,9 +523,12 @@ function deleteCustomCategoryFromLocalDatabase(rowid, callback) {
 		tx.executeSql(query);
 		// Make a query to delete the category
 		query = "DELETE FROM custom_category WHERE rowid = " + rowid;
-		tx.executeSql(query);
-		if (callback)
-			callback();
+		tx.executeSql(query, [], function(tx, res) {
+			if (callback) callback();
+		}, function(tx, err) {
+			logError(err.message);
+			if (callback) callback();
+		});
 	});
 }
 
@@ -507,6 +546,8 @@ function checkIfCategoryExistsInLocalDatabase(name, callback) {
 		tx.executeSql(query, [], function(tx, res) {
 			var exists = res.rows.item(0).c > 0;
 			callback(exists);
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -617,6 +658,8 @@ function getSetting(name, defaultValue, callback) {
 					callback(defaultValue);
 				}
 			}
+		}, function(tx, err) {
+			logError(err.message);
 		});
 	});
 }
@@ -626,9 +669,15 @@ function getSetting(name, defaultValue, callback) {
 //
 function setSetting(name, value, callback) {
 	db.transaction(function(tx) {
-		tx.executeSql("DELETE FROM settings WHERE name = '" + name + "'");
-		tx.executeSql("INSERT INTO settings (name, value) VALUES ('" + name + "', '" + value + "')");
-		if (callback)
-			callback();
+		tx.executeSql("DELETE FROM settings WHERE name = '" + name + "'", function(tx, res) {
+			tx.executeSql("INSERT INTO settings (name, value) VALUES ('" + name + "', '" + value + "')", [], function(tx, res) {
+				if (callback) callback();
+			}, function(tx, err) {
+				logError(err.message);
+				if (callback) callback();
+			});
+		}, function(tx, err) {
+			logError(err.message);
+		});
 	});
 }
