@@ -669,7 +669,7 @@ function getSetting(name, defaultValue, callback) {
 //
 function setSetting(name, value, callback) {
 	db.transaction(function(tx) {
-		tx.executeSql("DELETE FROM settings WHERE name = '" + name + "'", function(tx, res) {
+		tx.executeSql("DELETE FROM settings WHERE name = '" + name + "'", [], function(tx, res) {
 			tx.executeSql("INSERT INTO settings (name, value) VALUES ('" + name + "', '" + value + "')", [], function(tx, res) {
 				if (callback) callback();
 			}, function(tx, err) {
