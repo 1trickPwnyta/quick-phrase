@@ -34,6 +34,7 @@
 		<script src="scripts/webService.js"></script>
 		<script src="scripts/database.js"></script>
 		<script src="scripts/starterPhrases.js"></script>
+		<script src="scripts/log.js"></script>
 		<script src="scripts/main.js"></script>
 		
 		<script>
@@ -284,6 +285,9 @@
 					<input id="menuItemVibrateCheckBox" type="checkbox" class="menuItemValue" onchange="menuItemVibrateChange();" />
 					Vibrate
 				</label>
+				
+				<!-- Holds the developer menu items when developer mode is enabled -->
+				<div id="developerMenu"></div>
 				
 				<div class="menuHeader">Other</div>
 				<div class="menuItem" onclick="menuItemHelpClick();">Help</div>

@@ -698,6 +698,7 @@ function menuItemAboutLongClick() {
 			if (response) {
 				submitUsageClick("/menu/about/developermode/on");
 				changeDeveloperMode(true);
+				showMenu();
 			}
 		}, "Developer mode is turned off. Do you want to turn it on?");
 	} else {
@@ -707,6 +708,7 @@ function menuItemAboutLongClick() {
 				changeDeveloperMode(false, function() {
 					submitUsageClick("/menu/about/developermode/off");
 				});
+				showMenu();
 			}
 		}, "Developer mode is turned on. Do you want to turn it off?");
 	}
@@ -756,3 +758,23 @@ function menuItemScoreClick(teamId) {
 		}
 	});
 }
+
+//
+// Phrase pool menu item click event.
+//
+function menuItemPhrasePoolClick() {
+	playSound(CLICK_SOUND_FILE);
+	showPhrasePool();
+}
+
+//
+// Developer mode menu item click event.
+//
+function menuItemDeveloperModeClick() {
+	playSound(CLICK_SOUND_FILE);
+	changeDeveloperMode(false, function() {
+		submitUsageClick("/menu/developermode/off");
+	});
+	showMenu();
+}
+

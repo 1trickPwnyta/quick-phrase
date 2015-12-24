@@ -97,6 +97,32 @@ function showMenu() {
 		// If the game is over, do not show the scores in the menu
 		scoreSettingsDiv.innerHTML = "";
 	
+	// Add developer menu options when developer mode is enabled
+	var developerMenuDiv = document.getElementById("developerMenu");
+	if (sDeveloperMode) {
+		developerMenuDiv.innerHTML = "<div class=\"menuHeader\">Developer Options</div>";
+		
+		var developerModeMenuItem = document.createElement("div");
+		developerModeMenuItem.id = "menuItemDeveloperMode";
+		developerModeMenuItem.className = "menuItem";
+		developerModeMenuItem.onclick = function() {
+			menuItemDeveloperModeClick();
+		};
+		developerModeMenuItem.innerHTML = "Turn off developer mode";
+		developerMenuDiv.appendChild(developerModeMenuItem);
+		
+		var phrasePoolMenuItem = document.createElement("div");
+		phrasePoolMenuItem.id = "menuItemPhrasePool";
+		phrasePoolMenuItem.className = "menuItem";
+		phrasePoolMenuItem.onclick = function() {
+			menuItemPhrasePoolClick();
+		};
+		phrasePoolMenuItem.innerHTML = "Show phrase pool";
+		developerMenuDiv.appendChild(phrasePoolMenuItem);
+	} else {
+		developerMenuDiv.innerHTML = "";
+	}
+	
 	// Make the menu elements visible
 	document.getElementById("mainMenu").className = "visible";
 }
@@ -390,6 +416,26 @@ function showAbout() {
 		null, 
 		false, 
 		APP_NAME, 
+		null, 
+		null, 
+		true);
+}
+
+//
+// Shows the phrases currently in the phrase pool
+//
+function showPhrasePool() {
+	var message = "";
+	for (var i = tags.length - 1; i >= 0; i--) {
+		var category = getCategoryById(tags[i].category_id);
+		message += htmlEncode(tags[i].text) + "<br /><span class=\"used-tag\">from <span class=\"tag-category\">" + category.name + "</span></span><hr class=\"dotted\" />";
+	}
+	
+	showStandardDialog(
+		message,
+		null, 
+		tags.length > 7, 
+		"Phrase pool (" + tags.length + ")", 
 		null, 
 		null, 
 		true);
