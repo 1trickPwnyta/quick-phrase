@@ -267,7 +267,7 @@ function showCategories() {
 function showUsedTags() {
 	var message = "";
 	for (var i = 0; i < usedTags.length; i++) {
-		var category = getCategoryById(usedTags[i].category_id);
+		var category = getCategoryById(usedTags[i].category_id, usedTags[i].is_custom_category);
 		if (!usedTags[i].isCustom) {
 			message += "<a class=\"flag-tag\" href=\"#\" onclick=\"showTagFlaggingDialog(" + JSON.stringify(usedTags[i]).replace(/\"/g, "&quot;") + "); return false;\"><img src=\"images/flag.png\" alt=\"Flag\" title=\"Report this phrase\" /></a>";
 		}
