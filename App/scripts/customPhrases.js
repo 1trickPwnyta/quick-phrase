@@ -217,6 +217,29 @@ function showCustomPhrases() {
 				dialog.confirm(function(response) {
 					if (response) {
 						deleteCustomCategoryFromLocalDatabase(categoryId, function() {
+							// If the custom category was selected, unselect it
+							var sCustomCategoryIdsIndex = sCustomCategoryIds.indexOf(categoryId);
+							if (sCustomCategoryIdsIndex >= 0) {
+								var newCategories = new Array();
+								for (var i = 1; i < categories.length; i++) {
+									if (categories[i].id == categoryId && categories[i].isCustom) continue;
+									if (!categories[i].isCustom) {
+										if (sCategoryIds.indexOf(categories[i].id) >= 0)
+											newCategories.push(categories[i]);
+									} else {
+										if (sCustomCategoryIds.indexOf(categories[i].id) >= 0)
+											newCategories.push(categories[i]);
+									}
+								}
+								// If no categories are selected, select all
+								if (newCategories.length == 0) {
+									for (var i = 1; i < categories.length; i++) {
+										newCategories.push(categories[i]);
+									}
+								}
+								changeCategories(newCategories);
+							}
+							
 							loadCustomCategories(updatePhrases);
 						});
 					}
@@ -307,5 +330,6 @@ function showCustomPhrases() {
 		// Load new phrases with the new custom phrases
 		showLoadingScreen();
 		loadTags(true, showReadyScreen);
+		showMenu();
 	}, false, "Custom phrases", null, "inherit", true);
 }
