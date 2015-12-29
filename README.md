@@ -105,7 +105,7 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 ### Upgrading to Version 2.0.0 ###
 1. Change web service URL path to /CatchPhrasePanic instead of /GrabTag, but maintain a mapping from /GrabTag to /CatchPhrasePanic for backward compatibility.
 2. Rename the folder the app sits in and the application pool.
-3. Update SP ID to reflect new name.
+3. Update SP ID to reflect new name in config.php and in simpleSAMLphp settings and in IdP settings.
 4. Update AD admin group name.
 8. Rename the MySQL database and user to catch_phrase_pan.
 5. Update config.php in /Web with new values as appropriate.
