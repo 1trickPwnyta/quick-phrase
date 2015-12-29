@@ -1,4 +1,4 @@
-var settingsCount = 19;								// Must be equal to the number of settings below
+var settingsCount = 22;								// Must be equal to the number of settings below
 
 var sMinTimePerStage = 								// Minimum ms for each time stage
 		DEFAULT_MIN_TIME_PER_STAGE;
@@ -26,3 +26,9 @@ var sPromptForRating = 								// Whether to prompt the user to rate the app
 		DEFAULT_PROMPT_FOR_RATING;
 var sGamesSinceRatingPrompt = 						// Number of games completed since the last app rating prompt
 		DEFAULT_GAMES_SINCE_RATING_PROMPT;
+var sPromptForCustomPhraseSubmittal = 				// Whether to prompt the user for submitting their custom phrases to the web service
+		DEFAULT_PROMPT_FOR_CUSTOM_PHRASE_SUBMITTAL;
+var sCustomPhraseVisitsSincePrompt = 				// Number of times the user visited the custom phrase screen since the last prompt for submittal
+		DEFAULT_CUSTOM_PHRASE_VISITS_SINCE_PROMPT;
+var sSubmitCustomPhrases = 							// Whether to submit custom phrases to the web service
+		DEFAULT_SUBMIT_CUSTOM_PHRASES;

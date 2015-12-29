@@ -128,6 +128,15 @@ function showCustomPhrases() {
 	var isCustomCategory;
 	
 	playSound(CLICK_SOUND_FILE);
+	
+	changeCustomPhraseVisitsSincePrompt(sCustomPhraseVisitsSincePrompt + 1);
+	if (sCustomPhraseVisitsSincePrompt >= CUSTOM_PHRASE_VISITS_UNTIL_PROMPT && sPromptForCustomPhraseSubmittal) {
+		// Set to -1 because we're going to call this function again right after
+		changeCustomPhraseVisitsSincePrompt(-1);
+		showCustomPhraseSubmittalPrompt(showCustomPhrases);
+		return;
+	}
+	
 	var div = document.createElement("div");
 	div.style.width = "100%";
 	div.style.height = "100%";

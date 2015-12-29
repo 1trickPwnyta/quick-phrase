@@ -655,6 +655,18 @@ function loadSettings(callback) {
 		sTeamNames = JSON.parse(value);
 		settingsLoaded++;
 	});
+	getSetting("sPromptForCustomPhraseSubmittal", JSON.stringify(sPromptForCustomPhraseSubmittal), function(value) {
+		sPromptForCustomPhraseSubmittal = JSON.parse(value);
+		settingsLoaded++;
+	});
+	getSetting("sCustomPhraseVisitsSincePrompt", sCustomPhraseVisitsSincePrompt, function(value) {
+		sCustomPhraseVisitsSincePrompt = parseInt(value);
+		settingsLoaded++;
+	});
+	getSetting("sSubmitCustomPhrases", JSON.stringify(sSubmitCustomPhrases), function(value) {
+		sSubmitCustomPhrases = JSON.parse(value);
+		settingsLoaded++;
+	});
 	
 	// Wait until all settings have been accounted for before calling the callback
 	if (callback)

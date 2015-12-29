@@ -392,6 +392,36 @@ function showRatingPrompt() {
 }
 
 //
+//Shows the prompt for submitting custom phrases to the web service.
+//
+function showCustomPhraseSubmittalPrompt(callback) {
+	submitUsageClick("/menu/customPhrases/submittal");
+	dialog.buttons(
+		function(response) {
+			if (response == "Yes, I'll help!") {
+				submitUsageClick("/menu/customPhrases/submittal/submit");
+				changePromptForCustomPhraseSubmittal(false);
+				changeSubmitCustomPhrases(true);
+			} else if (response == "Remind me later" || !response) {
+				submitUsageClick("/menu/customPhrases/submittal/later");
+			} else if (response == "No thanks") {
+				submitUsageClick("/menu/customPhrases/submittal/no");
+				changePromptForCustomPhraseSubmittal(false);
+				changeSubmitCustomPhrases(false);
+			}
+			if (callback) callback();
+		},
+		"Would you like to help improve this game by allowing us to add phrases you create here to the offical game?",
+		function() {playSound(CLICK_SOUND_FILE);},
+		[
+		    "Yes, I'll help!",
+		    "Remind me later",
+		    "No thanks"
+		]
+	);
+}
+
+//
 // Shows the help window.
 //
 function showHelp() {
@@ -755,4 +785,37 @@ function changeTeamName(teamId, newName, callback) {
 	
 	// Save the setting in the local database
 	setSetting("sTeamNames", JSON.stringify(sTeamNames), callback);
+}
+
+//
+//Changes the prompt for custom phrase submittal user setting.
+//
+function changePromptForCustomPhraseSubmittal(promptForCustomPhraseSubmittal, callback) {
+	// Change the setting
+	sPromptForCustomPhraseSubmittal = promptForCustomPhraseSubmittal;
+	
+	// Save the setting in the local database
+	setSetting("sPromptForCustomPhraseSubmittal", sPromptForCustomPhraseSubmittal, callback);
+}
+
+//
+//Changes the custom phrase visits since prompt user setting.
+//
+function changeCustomPhraseVisitsSincePrompt(customPhraseVisitsSincePrompt, callback) {
+	// Change the setting
+	sCustomPhraseVisitsSincePrompt = customPhraseVisitsSincePrompt;
+	
+	// Save the setting in the local database
+	setSetting("sCustomPhraseVisitsSincePrompt", sCustomPhraseVisitsSincePrompt, callback);
+}
+
+//
+//Changes the submit custom phrases user setting.
+//
+function changeSubmitCustomPhrases(submitCustomPhrases, callback) {
+	// Change the setting
+	sSubmitCustomPhrases = submitCustomPhrases;
+	
+	// Save the setting in the local database
+	setSetting("sSubmitCustomPhrases", sSubmitCustomPhrases, callback);
 }

@@ -219,14 +219,16 @@ function flagTag(tag, reason, callback) {
 // Submits a custom phrase to the web service for approval.
 //
 function submitPhrase(text, categoryId, isCustomCategory) {
-	// Call the web service to submit the phrase
-	ajax("POST", WEB_SERVICE_URL + "/submitPhrase.php", [
-		{name: "text", value: text},
-		{name: "category", value: categoryId},
-		{name: "isCustomCategory", value: isCustomCategory? 1: 0}
-	], function(response, status) {
-		// Ignore the response
-	}, WEB_SERVICE_TIMEOUT);
+	if (sSubmitCustomPhrases) {
+		// Call the web service to submit the phrase
+		ajax("POST", WEB_SERVICE_URL + "/submitPhrase.php", [
+			{name: "text", value: text},
+			{name: "category", value: categoryId},
+			{name: "isCustomCategory", value: isCustomCategory? 1: 0}
+		], function(response, status) {
+			// Ignore the response
+		}, WEB_SERVICE_TIMEOUT);
+	}
 }
 
 //

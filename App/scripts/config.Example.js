@@ -24,6 +24,7 @@ var APP_RATING_URL_MARKET = 						// URL of the app's rating page using the mark
 var GAMES_UNTIL_RATING_PROMPT = 10;					// Number of games played before the rating prompt appears
 var MAX_CUSTOM_PHRASE_CHARACTERS = 64;				// Maximum number of characters allowed in custom phrases
 var MAX_CUSTOM_CATEGORY_CHARACTERS = 64;			// Maximum number of characters allowed in custom categories
+var CUSTOM_PHRASE_VISITS_UNTIL_PROMPT = 10;			// Number of visits to the custom phrase screen before the submittal prompt appears
 
 // Default settings
 var DEFAULT_MIN_TIME_PER_STAGE = 25000;
@@ -46,3 +47,6 @@ var DEFAULT_DEVELOPER_MODE = false;
 var DEFAULT_DATA_VERSION = null;
 var DEFAULT_PROMPT_FOR_RATING = true;
 var DEFAULT_GAMES_SINCE_RATING_PROMPT = 0;
+var DEFAULT_PROMPT_FOR_CUSTOM_PHRASE_SUBMITTAL = true;
+var DEFAULT_CUSTOM_PHRASE_VISITS_SINCE_PROMPT = CUSTOM_PHRASE_VISITS_UNTIL_PROMPT;
+var DEFAULT_SUBMIT_CUSTOM_PHRASES = false;
