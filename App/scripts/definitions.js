@@ -1,10 +1,10 @@
 // App information
 var APP_NAME = "Catch-Phrase Panic";
-var APP_VERSION = "1.2.2";
+var APP_VERSION = "2.0.0";
 var APP_AUTHOR = "Kangaroo Standard";
 var APP_AUTHOR_LINK = "https://www.kangaroostandard.com/";
 var APP_AUTHOR_EMAIL = "support@kangaroostandard.com";
-var APP_COPYRIGHT_YEAR = "2015";
+var APP_COPYRIGHT_YEAR = "2016";
 
 // Enumerable values
 var TIME_STAGE_NOT_STARTED = 0;
