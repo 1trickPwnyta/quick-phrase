@@ -29,7 +29,7 @@ function initializeLocalDatabase() {
 //
 // Upgrades the database schema to that required by version 2 of the app.
 //
-function upgradeDatabaseToVersion2(callback) {alert(2);
+function upgradeDatabaseToVersion2(callback) {
 	var transactions = [
 	    {
 	    	drop: "DROP TABLE tag",
