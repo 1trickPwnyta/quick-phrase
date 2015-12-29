@@ -108,6 +108,10 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 3. Update SP ID to reflect new name in config.php and in simpleSAMLphp settings and in IdP settings.
 4. Update AD admin group name.
 8. Rename the MySQL database and user to catch_phrase_pan.
+25. Add ip_address column to unapproved_tag table, allow null default null varchar(32).
+26. Allow null for submitter column in unapproved_tag table.
+27. Allow null for category_id column in unapproved_tag table.
+28. Add default value 0 for show_submitted_by column in usage_settings table.
 5. Update config.php in /Web with new values as appropriate.
 6. Update applicationRoot.js in /Web with the new application root.
 7. Update config.js in the app with the new URL path.
@@ -128,10 +132,6 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 23. Add MAX_CUSTOM_CATEGORY_CHARACTERS = 64 in config.js.
 24. Change DEFAULT_CATEGORY_IDS to CATEGORIES_ALL in config.js.
 24. Add DEFAULT_CUSTOM_CATEGORY_IDS = CATEGORIES_ALL in config.js.
-25. Add ip_address column to unapproved_tag table, allow null default null varchar(32).
-26. Allow null for submitter column in unapproved_tag table.
-27. Allow null for category_id column in unapproved_tag table.
-28. Add default value 0 for show_submitted_by column in usage_settings table.
 29. Copy starterPhrases.Example.js and name it starterPhrases.js. Configure the starter items in the file.
 30. Add DEFAULT_PROMPT_FOR_CUSTOM_PHRASE_SUBMITTAL = true to config.js.
 31. Add DEFAULT_CUSTOM_PHRASE_VISITS_SINCE_PROMPT = CUSTOM_PHRASE_VISITS_UNTIL_PROMPT to config.js.
