@@ -132,8 +132,8 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 23. Add MAX_CUSTOM_CATEGORY_CHARACTERS = 64 in config.js.
 24. Change DEFAULT_CATEGORY_IDS to CATEGORIES_ALL in config.js.
 24. Add DEFAULT_CUSTOM_CATEGORY_IDS = CATEGORIES_ALL in config.js.
-29. Copy starterPhrases.Example.js and name it starterPhrases.js. Configure the starter items in the file.
 30. Add DEFAULT_PROMPT_FOR_CUSTOM_PHRASE_SUBMITTAL = true to config.js.
 31. Add DEFAULT_CUSTOM_PHRASE_VISITS_SINCE_PROMPT = CUSTOM_PHRASE_VISITS_UNTIL_PROMPT to config.js.
 32. Add DEFAULT_SUBMIT_CUSTOM_PHRASES = false to config.js.
 33. Add CUSTOM_PHRASE_VISITS_UNTIL_PROMPT = 10 to config.js.
+29. Copy starterPhrases.Example.js and name it starterPhrases.js. Configure the starter items in the file.
