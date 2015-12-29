@@ -91,7 +91,7 @@ function reject() {
 		if (reason) {
 			var tagsToReject = new Array();
 			for (var i = 0; i < ids.length; i++) {
-				var tag = getTagById(ids[i], false);
+				var tag = getTagById(ids[i], false, false);
 				if (tag === false) {
 					return;
 				}
@@ -120,7 +120,7 @@ function reject() {
 	}, "Please enter a reason for rejecting these phrases.");
 }
 
-function getTagById(id, getDifficulty) {
+function getTagById(id, getDifficulty, getCategory) {
 	var tagRow = document.getElementById("tagRow" + id);
 	var tag_id = null;
 	if (tagRow) {
@@ -128,7 +128,7 @@ function getTagById(id, getDifficulty) {
 	}
 	var text = document.getElementById("textCell" + id).innerHTML;
 	var categoryId = document.getElementById("categoryCell" + id).innerHTML.split(" ")[0];
-	if (!categoryId) {
+	if (getCategory && !categoryId) {
 		dialog.showMessage("Please set the category for '" + text + "'.");
 		return false;
 	}
