@@ -61,7 +61,7 @@ function cleanCustomCategories(nonCustomCategories, customCategories) {
 					}
 					for (var k = 0; k < customCategories.length; k++) {
 						if (k == j) continue;
-						if (sCustomCategoryIds.indexOf(customCategories[k].id >= 0))
+						if (sCustomCategoryIds.indexOf(customCategories[k].id) >= 0)
 							newCategories.push(customCategories[k]);
 					}
 					newCategories.push(nonCustomCategories[i]);
@@ -69,6 +69,54 @@ function cleanCustomCategories(nonCustomCategories, customCategories) {
 				}
 			}
 		}
+	}
+}
+
+//
+//Inserts custom categories into the local database for categories deleted from 
+//the web service, if any custom phrases were added.
+//Migrates all custom phrases in the deleted category to the new custom category.
+//
+function uncleanCustomCategories(deletedCategories, callback) {
+	var categoriesProcessed = 0;
+	for (var i = 0; i < deletedCategories.length; i++) {
+		(function(i) {
+			loadAllCustomPhrasesFromLocalDatabase(deletedCategories[i].id, false, function(customPhrases) {
+				if (customPhrases.length > 0) {
+					saveCustomCategoryInLocalDatabase(deletedCategories[i].name, function(customCategoryId) {
+						for (var j = 0; j < customPhrases.length; j++) {
+							deleteCustomPhraseFromLocalDatabase(customPhrases[j].rowid);
+							saveCustomPhraseInLocalDatabase(customPhrases[j].text, customCategoryId, true);
+						}
+						// If the category was selected, select the new custom category instead
+						var sCategoryIdsIndex = sCategoryIds.indexOf(deletedCategories[i].id);
+						if (sCategoryIdsIndex >= 0) {
+							var newCategories = new Array();
+							for (var j = 1; j < categories.length; j++) {
+								if (categories[j].id == deletedCategories[i].id && !categories[j].isCustom) continue;
+								if (!categories[j].isCustom) {
+									if (sCategoryIds.indexOf(categories[j].id) >= 0)
+										newCategories.push(categories[j]);
+								} else {
+									if (sCustomCategoryIds.indexOf(categories[j].id) >= 0)
+										newCategories.push(categories[j]);
+								}
+							}
+							newCategories.push({id: customCategoryId, name: deletedCategories[i].name, isCustom: true});
+							changeCategories(newCategories);
+						}
+						if (callback && ++categoriesProcessed == deletedCategories.length) {
+							callback();
+						}
+					});
+				} else {
+					categoriesProcessed++;
+				}
+			});
+		})(i);
+	}
+	if (callback && categoriesProcessed == deletedCategories.length) {
+		callback();
 	}
 }
 

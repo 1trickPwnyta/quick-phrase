@@ -141,12 +141,11 @@ function loadCategoriesFromWebService(callback) {
 				return;
 			}
 			
-			saveCategoriesInLocalDatabase(categories);
-			
-			// Return success
-			if (callback)
-				callback(true);
-			
+			saveCategoriesInLocalDatabase(categories, function() {
+				// Return success
+				if (callback)
+					callback(true);
+			});
 		}
 		else if (status < 0) {
 			// The web service call failed

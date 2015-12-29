@@ -454,23 +454,45 @@ function loadCategoriesFromLocalDatabase(callback) {
 //
 // Stores the categories in the local database, replacing any that were already there.
 //
-function saveCategoriesInLocalDatabase(categories, callback) {
-	db.transaction(function(tx) {
-		// First, delete all categories from the database
-		tx.executeSql("DELETE FROM category WHERE 1=1");
-		// Create a query to insert all the categories into the database
-		var query = "INSERT INTO category (id, name) VALUES ";
-		for (var i = 1; i < categories.length; i++) {
-			query += "(" + categories[i].id + ", '" + categories[i].name.replace("'", "''") + "')";
-			if (i < categories.length - 1)
-				query += ", ";
-		}
-		tx.executeSql(query, [], function(tx, res) {
-			if (callback) {
-				callback();
+function saveCategoriesInLocalDatabase(newCategories, callback) {
+	var alreadyLoadedCategories = categories;
+	// Before changing anything, get the current categories from the local database
+	loadCategoriesFromLocalDatabase(function() {
+		var oldCategories = categories;
+		categories = alreadyLoadedCategories;
+		// Find out which old categories are not new categories (have been deleted), if any
+		var deletedCategories = [];
+		for (var i = 1; i < oldCategories.length; i++) {
+			var found = false;
+			for (var j = 1; j < newCategories.length; j++) {
+				if (oldCategories[i].id == newCategories[j].id) {
+					found = true;
+					break;
+				}
 			}
-		}, function(tx, err) {
-			logError(err.message);
+			if (!found) {
+				deletedCategories.push(oldCategories[i]);
+			}
+		}
+		uncleanCustomCategories(deletedCategories, function() {
+			db.transaction(function(tx) {
+				// Then delete all categories from the local database
+				tx.executeSql("DELETE FROM category WHERE 1=1");
+				// Create a query to insert all the new categories into the database
+				var query = "INSERT INTO category (id, name) VALUES ";
+				for (var i = 1; i < newCategories.length; i++) {
+					query += "(" + newCategories[i].id + ", '" + newCategories[i].name.replace("'", "''") + "')";
+					if (i < newCategories.length - 1)
+						query += ", ";
+				}
+				tx.executeSql(query, [], function(tx, res) {
+					if (callback) {
+						callback();
+					}
+				}, function(tx, err) {
+					logError(err.message);
+				});
+			});
 		});
 	});
 }
