@@ -78,7 +78,7 @@ function showLoadingScreen() {
 function showReadyScreen() {
 	enableNext();
 	hideConfetti();
-	setTag("Press Next to start!");
+	setTag("Press Start!");
 }
 
 //

@@ -8,6 +8,7 @@ function newGame(start) {
 	gameOver = !start;
 	hideConfetti();
 	document.getElementById("usedTagsButton").style.display = "none";
+	document.getElementById("nextButton").innerHTML = "Next";
 	usedTags = new Array();
 }
 
@@ -94,7 +95,10 @@ function advanceTimeStage(stopped) {
 		
 		// Disable the next button to prevent accidental starting of the next round
 		disableNext();
-		window.setTimeout(enableNext, 1000);
+		window.setTimeout(function() {
+			document.getElementById("nextButton").innerHTML = "Start";
+			enableNext();
+		}, 1000);
 		
 		if (!stopped) {
 			submitUsageClick("/round/complete");
@@ -103,6 +107,7 @@ function advanceTimeStage(stopped) {
 	} else {
 		document.getElementById("menuButtonIcon").src = "images/pause.png";
 		document.getElementById("usedTagsButton").style.display = "none";
+		document.getElementById("nextButton").innerHTML = "Next";
 		
 		// Set a new timeout for advancing the time stage again
 		timeStageStartTime = (new Date()).getTime();
