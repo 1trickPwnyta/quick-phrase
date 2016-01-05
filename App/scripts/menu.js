@@ -402,7 +402,7 @@ function showCustomPhraseSubmittalPrompt(callback) {
 				submitUsageClick("/menu/customPhrases/submittal/submit");
 				changePromptForCustomPhraseSubmittal(false);
 				changeSubmitCustomPhrases(true);
-			} else if (response == "Remind me later" || !response) {
+			} else if (response == "Ask me later" || !response) {
 				submitUsageClick("/menu/customPhrases/submittal/later");
 			} else if (response == "No thanks") {
 				submitUsageClick("/menu/customPhrases/submittal/no");
@@ -415,7 +415,7 @@ function showCustomPhraseSubmittalPrompt(callback) {
 		function() {playSound(CLICK_SOUND_FILE);},
 		[
 		    "Yes, I'll help!",
-		    "Remind me later",
+		    "Ask me later",
 		    "No thanks"
 		]
 	);
