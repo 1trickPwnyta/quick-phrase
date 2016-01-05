@@ -11,6 +11,7 @@ var TAG_RELOAD_QUANTITY = 50;						// Number of loaded phrases left when more ar
 var TAG_CREATION_URL = 								// URL for the Catch-Phrase Panic Online link in the menu
 		"https://www.kangaroostandard.com/CatchPhrasePanic/tagCreation/";
 var MAX_TEAM_NAME_CHARACTERS = 64;					// Maximum number of characters allowed in team names
+var MAX_TEAM_NAME_WIDTH = 116;						// Maximum text width of a team name
 var MIN_MAX_CHARACTERS = 6;							// Minimum setting for the maximum characters per phrase
 var MIN_WINNING_POINT = 1;							// Minimum number of points for winning the game
 var MAX_WINNING_POINT = 99;							// Maximum number of points required to win the game

@@ -350,7 +350,16 @@ function loadScores() {
 		teamDiv.style.left = (6 + (i%2)*47) + "%";
 		teamDiv.style.top = (10 + Math.floor(i/2)*8) + "%";
 		
-		teamDiv.innerHTML = (sTeamNames[i].length > 8? sTeamNames[i].substring(0, 7) + "...": sTeamNames[i]) + ": " + scores[i];
+		var teamName = sTeamNames[i];
+		var teamNameWidth = getTextWidth(teamName, "5vw standard");
+		while (teamNameWidth > MAX_TEAM_NAME_WIDTH) {
+			teamName = teamName.substring(0, teamName.length - 1);
+			teamNameWidth = getTextWidth(teamName + "...", "5vw standard");
+		}
+		if (teamName != sTeamNames[i]) {
+			teamName += "...";
+		}
+		teamDiv.innerHTML = teamName + ": " + scores[i];
 		teamDiv.href = "#";
 		teamDiv.team = i;
 		teamDiv.onclick = function() {scoreButtonClick(this); return false;};
