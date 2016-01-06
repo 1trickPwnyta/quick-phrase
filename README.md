@@ -138,5 +138,5 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 33. Add CUSTOM_PHRASE_VISITS_UNTIL_PROMPT = 10 to config.js.
 29. Copy starterPhrases.Example.js and name it starterPhrases.js. Configure the starter items in the file.
 
-### Upgrading to Version 2.1.0 ###
+### Upgrading to Version 2.0.2 ###
 1. Add MAX_TEAM_NAME_WIDTH = 116 to config.js.
