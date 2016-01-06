@@ -254,7 +254,6 @@ function showCustomPhrases() {
 					}
 				}, "Do you want to delete " + categoryMenu.options[categoryMenu.selectedIndex].innerHTML + "? All phrases in this category will also be deleted.", function() {playSound(CLICK_SOUND_FILE);});
 			};
-			deleteCategoryButton.innerHTML = "<img src=\"images/delete.png\" title=\"Delete\" alt=\"X\" />";
 			div.appendChild(deleteCategoryButton);
 		}
 		
@@ -321,7 +320,6 @@ function showCustomPhrases() {
 						updatePhrases(categoryId, isCustomCategory);
 					});
 				};
-				deleteButton.innerHTML = "<img src=\"images/delete.png\" title=\"Delete\" alt=\"X\" />";
 				row.appendChild(deleteButton);
 				
 				var phraseTextSpan = document.createElement("span");

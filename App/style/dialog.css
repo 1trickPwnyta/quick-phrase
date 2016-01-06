@@ -81,7 +81,12 @@
     right: 2%;
     top: 2%;
 	width: 8%;
+	height: 0;
+	padding-bottom: 8%;
     cursor: pointer;
+    background: url('../images/delete.png');	/* close button image */
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
 }
 
 .dialog-visible {

@@ -4,7 +4,6 @@ var DIALOG_BOX_CLASS_NAME = "dialog-dialog-box";                // The CSS class
 var BUTTON_DIV_CLASS_NAME = "dialog-button-div";                // The CSS class name for the div element the buttons go in
 var VISIBLE_CLASS_NAME = "dialog-visible";						// The CSS class name for fully visible dialogs
 var HIDDEN_CLASS_NAME = "dialog-hidden";						// The CSS class name for fading dialogs
-var CLOSE_BUTTON_PATH = "images/delete.png";                  	// The path to the close button image
 var CLOSE_BUTTON_CLASS_NAME = "dialog-close-button";            // The CSS class name for the close button element
 var DEFAULT_FORM_SUBMIT_BUTTON = "Submit";                      // The default text for the form submit button, if any
 var FADE_DURATION = 0;										// CSS transition milliseconds for fading a menu out
@@ -30,9 +29,8 @@ var dialog = {
         screenDimmer.className = SCREEN_DIMMER_CLASS_NAME + " " + HIDDEN_CLASS_NAME;
 
         // Create the close button element
-        var closeButton = document.createElement("img");
+        var closeButton = document.createElement("div");
         closeButton.className = CLOSE_BUTTON_CLASS_NAME;
-        closeButton.src = CLOSE_BUTTON_PATH;
         closeButton.alt = "Close";
         closeButton.title = "close";
         closeButton.onclick = function () {

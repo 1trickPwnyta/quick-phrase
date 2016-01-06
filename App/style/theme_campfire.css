@@ -7,7 +7,7 @@ header {
 }
 
 body {
-	background: url('../images/background_campfire.png');
+	background: url('../images/themes/campfire/background.png');
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 }
@@ -38,14 +38,52 @@ body {
 	background-color: rgba(140,70,70,0.95);
 }
 
+#mainMenuCloseIcon {
+	background: url('../images/themes/campfire/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
 .menuHeader {
 	background-color: rgba(217,100,89,0.9);
 }
 
+.menuItemIncrease {
+	background: url('../images/themes/campfire/increase.png');
+}
+
+.menuItemDecrease {
+	background: url('../images/themes/campfire/decrease.png');
+}
+
+.deleteCategoryButton {
+	background: url('../images/themes/campfire/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.customPhrases .phrase .deletePhrase {
+	background: url('../images/themes/campfire/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.flag-button {
+	background: url('../images/themes/campfire/flag.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
 .dialog-dialog-box {
-    background-color: rgba(140,70,70, 0.9);  /* dialog box background color */
+    background-color: rgba(88,140,126, 0.9);  /* dialog box background color */
 }
 
 .dialog-dialog-box input[type="button"], .dialog-dialog-box input[type="submit"] {
 	background-color: #D96459;  /* button color */
+}
+
+.dialog-close-button {
+    background: url('../images/themes/campfire/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
 }
