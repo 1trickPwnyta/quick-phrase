@@ -63,8 +63,8 @@
 }
 
 .dialog-dialog-box input[type="button"]:active, .dialog-dialog-box input[type="submit"]:active {
-	box-shadow: inset 2px 2px 2px #6F2222;
-	background-color: #B23636;
+	box-shadow: inset 2px 2px 2px #6F2222;	/* button active inset color */
+	background-color: #B23636;	/* button active color */
 	color: #CACACA;
 }
 

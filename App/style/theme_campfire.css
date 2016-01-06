@@ -82,6 +82,11 @@ body {
 	background-color: #D96459;  /* button color */
 }
 
+.dialog-dialog-box input[type="button"]:active, .dialog-dialog-box input[type="submit"]:active {
+	box-shadow: inset 2px 2px 2px black;	/* button active inset color */
+	background-color: #8C4646;	/* button active color */
+}
+
 .dialog-close-button {
     background: url('../images/themes/campfire/delete.png');
     background-size: 100% 100%;
