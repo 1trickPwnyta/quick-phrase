@@ -35,6 +35,10 @@ body {
 	background-color: rgba(38,1,38,0.9);
 }
 
+.menuItem:active {
+	background-color: #BFAF80;
+}
+
 .menuItemIncrease {
 	background: url('../images/themes/vintage/increase.png');
 }

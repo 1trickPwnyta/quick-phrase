@@ -48,6 +48,10 @@ body {
 	background-color: rgba(217,100,89,0.9);
 }
 
+.menuItem:active {
+	background-color: #F2AE72;
+}
+
 .menuItemIncrease {
 	background: url('../images/themes/campfire/increase.png');
 }
