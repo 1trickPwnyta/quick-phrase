@@ -56,6 +56,12 @@ body {
 	background: url('../images/themes/campfire/decrease.png');
 }
 
+.newCategoryButton {
+	background: url('../images/themes/campfire/create.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
 .deleteCategoryButton {
 	background: url('../images/themes/campfire/delete.png');
     background-size: 100% 100%;

@@ -43,6 +43,12 @@ body {
 	background: url('../images/themes/vintage/decrease.png');
 }
 
+.newCategoryButton {
+	background: url('../images/themes/vintage/create.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
 .deleteCategoryButton {
 	background: url('../images/themes/vintage/delete.png');
     background-size: 100% 100%;

@@ -212,7 +212,6 @@ function showCustomPhrases() {
 			playSound(CLICK_SOUND_FILE);
 			newCategoryDialog();
 		};
-		newCategoryButton.innerHTML = "<img src=\"images/create.png\" title=\"New\" alt=\"+\" />";
 		div.appendChild(newCategoryButton);
 		
 		// Delete custom category button
