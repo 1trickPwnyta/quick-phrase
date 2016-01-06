@@ -1,0 +1,91 @@
+header {
+	background-color: #89C75A;
+}
+
+body {
+	background: url('../images/themes/wild_flower/background.png');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.teamScore {
+	background-color: #89C75A;
+}
+
+.enabledNextButton {
+	background-color: #F597B1;
+}
+
+.enabledNextButton:active {
+	box-shadow: inset 2px 2px 2px black;
+	background-color: #F0449A;
+}
+
+#mainMenu {
+	background-color: rgba(137,199,90,0.95);
+}
+
+#mainMenuCloseIcon {
+	background: url('../images/themes/wild_flower/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.menuHeader {
+	background-color: rgba(240,68,154,0.9);
+}
+
+.menuItem:active {
+	background-color: #FBA212;
+}
+
+.menuItemIncrease {
+	background: url('../images/themes/wild_flower/increase.png');
+}
+
+.menuItemDecrease {
+	background: url('../images/themes/wild_flower/decrease.png');
+}
+
+.newCategoryButton {
+	background: url('../images/themes/wild_flower/create.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.deleteCategoryButton {
+	background: url('../images/themes/wild_flower/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.customPhrases .phrase .deletePhrase {
+	background: url('../images/themes/wild_flower/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.flag-button {
+	background: url('../images/themes/wild_flower/flag.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.dialog-dialog-box {
+    background-color: rgba(137,199,90, 0.9);  /* dialog box background color */
+}
+
+.dialog-dialog-box input[type="button"], .dialog-dialog-box input[type="submit"] {
+	background-color: #F597B1;  /* button color */
+}
+
+.dialog-dialog-box input[type="button"]:active, .dialog-dialog-box input[type="submit"]:active {
+	box-shadow: inset 2px 2px 2px black;	/* button active inset color */
+	background-color: #F0449A;	/* button active color */
+}
+
+.dialog-close-button {
+    background: url('../images/themes/wild_flower/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
