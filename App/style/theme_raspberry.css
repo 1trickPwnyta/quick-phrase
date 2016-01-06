@@ -1,0 +1,91 @@
+header {
+	background-color: #591E23;
+}
+
+body {
+	background: url('../images/themes/raspberry/background.png');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.teamScore {
+	background-color: #591E23;
+}
+
+.enabledNextButton {
+	background-color: #D94E67;
+}
+
+.enabledNextButton:active {
+	box-shadow: inset 2px 2px 2px black;
+	background-color: #591E23;
+}
+
+#mainMenu {
+	background-color: rgba(115,80,60,0.95);
+}
+
+#mainMenuCloseIcon {
+	background: url('../images/themes/raspberry/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.menuHeader {
+	background-color: rgba(166,133,114,0.9);
+}
+
+.menuItem:active {
+	background-color: #F2D8A7;
+}
+
+.menuItemIncrease {
+	background: url('../images/themes/raspberry/increase.png');
+}
+
+.menuItemDecrease {
+	background: url('../images/themes/raspberry/decrease.png');
+}
+
+.newCategoryButton {
+	background: url('../images/themes/raspberry/create.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.deleteCategoryButton {
+	background: url('../images/themes/raspberry/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.customPhrases .phrase .deletePhrase {
+	background: url('../images/themes/raspberry/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.flag-button {
+	background: url('../images/themes/raspberry/flag.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.dialog-dialog-box {
+    background-color: rgba(115,80,60, 0.9);  /* dialog box background color */
+}
+
+.dialog-dialog-box input[type="button"], .dialog-dialog-box input[type="submit"] {
+	background-color: #D94E67;  /* button color */
+}
+
+.dialog-dialog-box input[type="button"]:active, .dialog-dialog-box input[type="submit"]:active {
+	box-shadow: inset 2px 2px 2px black;	/* button active inset color */
+	background-color: #591E23;	/* button active color */
+}
+
+.dialog-close-button {
+    background: url('../images/themes/raspberry/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
