@@ -1,0 +1,81 @@
+header {
+	background-color: #59323C;
+}
+
+body {
+	background: url('../images/themes/vintage/background.png');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.teamScore {
+	background-color: #59323C;
+}
+
+.enabledNextButton {
+	background-color: #8C6954;
+}
+
+.enabledNextButton:active {
+	box-shadow: inset 2px 2px 2px #260126;
+	background-color: #59323C;
+}
+
+#mainMenu {
+	background-color: rgba(89,50,60,0.95);
+}
+
+#mainMenuCloseIcon {
+	background: url('../images/themes/vintage/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.menuHeader {
+	background-color: rgba(38,1,38,0.9);
+}
+
+.menuItemIncrease {
+	background: url('../images/themes/vintage/increase.png');
+}
+
+.menuItemDecrease {
+	background: url('../images/themes/vintage/decrease.png');
+}
+
+.deleteCategoryButton {
+	background: url('../images/themes/vintage/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.customPhrases .phrase .deletePhrase {
+	background: url('../images/themes/vintage/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.flag-button {
+	background: url('../images/themes/vintage/flag.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.dialog-dialog-box {
+    background-color: rgba(89,50,60, 0.9);  /* dialog box background color */
+}
+
+.dialog-dialog-box input[type="button"], .dialog-dialog-box input[type="submit"] {
+	background-color: #8C6954;  /* button color */
+}
+
+.dialog-dialog-box input[type="button"]:active, .dialog-dialog-box input[type="submit"]:active {
+	box-shadow: inset 2px 2px 2px #260126;	/* button active inset color */
+	background-color: #59323C;	/* button active color */
+}
+
+.dialog-close-button {
+    background: url('../images/themes/vintage/delete.png');
+    background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
