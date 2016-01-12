@@ -137,6 +137,10 @@
 						if (parseInt(sDataVersion.split(".")[0]) < 2) {
 							upgradeDatabaseToVersion2();
 						}
+						if (APP_VERSION == "2.0.2") {
+							changeStyleSheet(DEFAULT_STYLE_SHEET);
+							applyTheme();
+						}
 						changeDataVersion(APP_VERSION);
 						finishOpening();
 					} else {
