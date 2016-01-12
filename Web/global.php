@@ -1,6 +1,6 @@
 <?php
 
-$SESSION_KEY_USERID = "CatchPhrasePanic/userid";
+$SESSION_KEY_USERID = "QuickPhrase/userid";
 $CATEGORIES_ALL = "all";
 
 ?>

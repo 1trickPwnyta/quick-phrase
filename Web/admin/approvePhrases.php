@@ -154,7 +154,7 @@
 	
 	foreach ($tagsBySubmitter as $userEmail => $submitterTags) {
 		if (count($submitterTags) > 0) {
-			$from = "Catch-Phrase Panic <$APPLICATION_EMAIL_ADDRESS>";
+			$from = "Grab Tag <$APPLICATION_EMAIL_ADDRESS>";
 			$to = $userEmail;
 			$subject = "Your new phrase".(count($submitterTags) > 1? "s": "");
 			
