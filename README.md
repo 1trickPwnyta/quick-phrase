@@ -140,3 +140,15 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 
 ### Upgrading to Version 2.0.2 ###
 1. Add MAX_TEAM_NAME_WIDTH = 116 to config.js.
+2. Rename project folders to Quick Phrase.
+3. Point IIS to the new folder name for both virtual paths.
+4. Rename the IIS virtual path from /CatchPhrasePanic to /QuickPhrase.
+5. Rename the Application Pool to Quick Phrase.
+6. Update SP ID to reflect new name in simpleSAMLphp settings and in IdP settings.
+7. Rename the icon file in the IdP settings.
+8. Update the icon file for the IdP to the new icon.
+9. Update AD admin group name, and update it in the IdP settings.
+10. Rename the MySQL database and user to quick_phrase.
+11. Update config.php in /Web with new values as appropriate.
+6. Update applicationRoot.js in /Web with the new application root.
+7. Update config.js in the app with the new URL path.
