@@ -152,3 +152,5 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 11. Update config.php in /Web with new values as appropriate.
 6. Update applicationRoot.js in /Web with the new application root.
 7. Update config.js in the app with the new URL path.
+8. Change DEFAULT_STYLE_SHEET to style/theme_dark.css in config.js.
+9. Update the package name in the URLs in config.js to com.kangaroostandard.quickphrase.
