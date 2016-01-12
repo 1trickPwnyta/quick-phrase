@@ -525,14 +525,34 @@ function menuItemNumberOfTeamsClick() {
 // Number of teams menu item increase event.
 //
 function menuItemNumberOfTeamsIncrease() {
-	changeNumberOfTeams(sNumberOfTeams + 1, showMenu);
+	var executeResponse = function(response) {
+		if (response) {
+			changeNumberOfTeams(sNumberOfTeams + 1, showMenu);
+		}
+	};
+	
+	// Only change the number of teams if the game is already over or if the user says it's okay
+	if (gameOver)
+		executeResponse(true);
+	else
+		dialog.confirm(executeResponse, "The current game will end. Is that okay?");
 }
 
 //
 // Number of teams menu item decrease event.
 //
 function menuItemNumberOfTeamsDecrease() {
-	changeNumberOfTeams(sNumberOfTeams - 1, showMenu);
+	var executeResponse = function(response) {
+		if (response) {
+			changeNumberOfTeams(sNumberOfTeams - 1, showMenu);
+		}
+	};
+	
+	// Only change the number of teams if the game is already over or if the user says it's okay
+	if (gameOver)
+		executeResponse(true);
+	else
+		dialog.confirm(executeResponse, "The current game will end. Is that okay?");
 }
 
 //
