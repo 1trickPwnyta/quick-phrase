@@ -1,6 +1,6 @@
 // App information
 var APP_NAME = "Quick Phrase";
-var APP_VERSION = "2.0.1";
+var APP_VERSION = "2.0.2";
 var APP_AUTHOR = "Kangaroo Standard";
 var APP_AUTHOR_LINK = "https://www.kangaroostandard.com/";
 var APP_AUTHOR_EMAIL = "support@kangaroostandard.com";
