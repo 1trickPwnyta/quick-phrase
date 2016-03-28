@@ -195,7 +195,7 @@ function saveTagsInLocalDatabase(newTags, callback) {
 					if (newTags[j].id) { // Filter out custom phrases
 						if (existingIds.indexOf(parseInt(newTags[j].id)) < 0) {
 							goodQuery = true;
-							query += "(" + newTags[j].id + ", " + newTags[j].category_id + ", '" + newTags[j].text.replace("'", "''") + "', " + newTags[j].difficulty_rating + ", " + newTags[j].edgy + "),";
+							query += "(" + newTags[j].id + ", " + newTags[j].category_id + ", '" + newTags[j].text.replace(/'/g, "''") + "', " + newTags[j].difficulty_rating + ", " + newTags[j].edgy + "),";
 						}
 					}
 				}
@@ -335,7 +335,7 @@ function saveCustomPhraseInLocalDatabase(text, categoryId, isCustomCategory, cal
 	db.transaction(function(tx) {
 		// Make a query to insert the phrase
 		var query = "INSERT INTO custom_phrase (category_id, is_custom_category, tag) VALUES (";
-		query += categoryId + ", " + (isCustomCategory? 1: 0) + ", '" + text.replace("'", "''") + "')";
+		query += categoryId + ", " + (isCustomCategory? 1: 0) + ", '" + text.replace(/'/g, "''") + "')";
 		tx.executeSql(query, [], function(tx, res) {
 			if (callback) callback();
 		}, function(tx, err) {
@@ -368,9 +368,9 @@ function checkIfPhraseExistsInLocalDatabase(text, callback) {
 	db.transaction(function(tx) {
 		// Make a query to get the phrase
 		var query = "SELECT (SELECT COUNT(*) AS c FROM custom_phrase ";
-		query += "WHERE UPPER(TRIM(tag)) = '" + text.replace("'", "''").trim().toUpperCase() + "') + (";
+		query += "WHERE UPPER(TRIM(tag)) = '" + text.replace(/'/g, "''").trim().toUpperCase() + "') + (";
 		query += "SELECT COUNT(*) AS c FROM tag ";
-		query += "WHERE UPPER(TRIM(tag)) = '" + text.replace("'", "''").trim().toUpperCase() + "') AS c";
+		query += "WHERE UPPER(TRIM(tag)) = '" + text.replace(/'/g, "''").trim().toUpperCase() + "') AS c";
 		
 		tx.executeSql(query, [], function(tx, res) {
 			var exists = res.rows.item(0).c > 0;
@@ -481,7 +481,7 @@ function saveCategoriesInLocalDatabase(newCategories, callback) {
 				// Create a query to insert all the new categories into the database
 				var query = "INSERT INTO category (id, name) VALUES ";
 				for (var i = 1; i < newCategories.length; i++) {
-					query += "(" + newCategories[i].id + ", '" + newCategories[i].name.replace("'", "''") + "')";
+					query += "(" + newCategories[i].id + ", '" + newCategories[i].name.replace(/'/g, "''") + "')";
 					if (i < newCategories.length - 1)
 						query += ", ";
 				}
@@ -525,7 +525,7 @@ function saveCustomCategoryInLocalDatabase(name, callback) {
 	db.transaction(function(tx) {
 		// Make a query to insert the category
 		var query = "INSERT INTO custom_category (name) VALUES ('";
-		query += name.replace("'", "''") + "')";
+		query += name.replace(/'/g, "''") + "')";
 		tx.executeSql(query, [], function(tx, results) {
 			if (callback)
 				callback(results.insertId);
@@ -561,9 +561,9 @@ function checkIfCategoryExistsInLocalDatabase(name, callback) {
 	db.transaction(function(tx) {
 		// Make a query to get the category
 		var query = "SELECT (SELECT COUNT(*) AS c FROM custom_category ";
-		query += "WHERE UPPER(TRIM(name)) = '" + name.replace("'", "''").trim().toUpperCase() + "') + (";
+		query += "WHERE UPPER(TRIM(name)) = '" + name.replace(/'/g, "''").trim().toUpperCase() + "') + (";
 		query += "SELECT COUNT(*) AS c FROM category ";
-		query += "WHERE UPPER(TRIM(name)) = '" + name.replace("'", "''").trim().toUpperCase() + "') AS c";
+		query += "WHERE UPPER(TRIM(name)) = '" + name.replace(/'/g, "''").trim().toUpperCase() + "') AS c";
 		
 		tx.executeSql(query, [], function(tx, res) {
 			var exists = res.rows.item(0).c > 0;
