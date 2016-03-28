@@ -310,7 +310,7 @@ function loadAllCustomPhrasesFromLocalDatabase(categoryId, isCustomCategory, cal
 				query += "AND is_custom_category > 0 ";
 			}
 		}
-		query += "ORDER BY tag";
+		query += "ORDER BY tag COLLATE NOCASE";
 		
 		tx.executeSql(query, [], function(tx, res) {
 			// Add the resulting phrases to the list
@@ -436,7 +436,7 @@ function loadCategoriesFromLocalDatabase(callback) {
 	
 	db.transaction(function(tx) {
 		// Get categories from the database and put them into the category list
-		var query = "SELECT id, name FROM category ORDER BY name";
+		var query = "SELECT id, name FROM category ORDER BY name COLLATE NOCASE";
 		tx.executeSql(query, [], function(tx, res) {
 			for (var i = 0; i < res.rows.length; i++) {
 				var category = res.rows.item(i);
@@ -504,7 +504,7 @@ function loadCustomCategoriesFromLocalDatabase(callback) {
 	var customCategories = new Array();
 	db.transaction(function(tx) {
 		// Get custom categories from the database and put them into the category list
-		var query = "SELECT rowid AS id, * FROM custom_category ORDER BY name";
+		var query = "SELECT rowid AS id, * FROM custom_category ORDER BY name COLLATE NOCASE";
 		tx.executeSql(query, [], function(tx, res) {
 			for (var i = 0; i < res.rows.length; i++) {
 				var category = res.rows.item(i);
