@@ -48,10 +48,10 @@
 			};
 			
 			function onDeviceReady() {
-				// Hide the splash screen and load the main screen after one second
+				// Hide the splash screen and load the main screen after half a second
 				window.setTimeout(function() {
 					document.getElementById("splashscreen").className = "hidden";
-				}, 1000);
+				}, 500);
 				
 				// Add long-click to about button in the menu to turn on developer mode
 				var aboutItem = document.getElementById("menuItemAbout");
