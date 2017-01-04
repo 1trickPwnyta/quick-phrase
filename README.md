@@ -20,9 +20,9 @@
 8. Example IdP configuration using Kangaroo Standard IAM:
 
             {
-                "SpId": "CatchPhrasePanic",
-                "AssertionConsumerServiceUrl": "https://dev.kangaroostandard.com/simplesaml/module.php/saml/sp/saml2-acs.php/CatchPhrasePanic",
-                "SingleLogoutServiceUrl": "https://dev.kangaroostandard.com/simplesaml/module.php/saml/sp/saml2-logout.php/CatchPhrasePanic",
+                "SpId": "QuickPhrase",
+                "AssertionConsumerServiceUrl": "https://dev.kangaroostandard.com/simplesaml/module.php/saml/sp/saml2-acs.php/QuickPhrase",
+                "SingleLogoutServiceUrl": "https://dev.kangaroostandard.com/simplesaml/module.php/saml/sp/saml2-logout.php/QuickPhrase",
                 "AttributeRequirements": [
                     {
                         "SamlAttributeName": "EmailAddress",
@@ -30,7 +30,7 @@
                     },
                     {
                         "SamlAttributeName": "Admin",
-                        "DirectoryAttributeName": "CN=Catch-Phrase Panic Administrators,CN=Users,DC=dev,DC=kangaroostandard,DC=com"
+                        "DirectoryAttributeName": "CN=Quick Phrase Administrators,CN=Users,DC=dev,DC=kangaroostandard,DC=com"
                     }
                 ]
             }
