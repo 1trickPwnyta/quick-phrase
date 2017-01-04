@@ -16,7 +16,7 @@
 	}
 	
 	// Build a query to get the flagged phrases
-	$query = "SELECT flagged_tag.id AS id, tag_id, text, category.name AS category, category.id AS category_id, difficulty_rating, edgy, reason FROM flagged_tag INNER JOIN tag ON tag.id = flagged_tag.tag_id INNER JOIN category on category.id = tag.category_id ORDER BY flagged_tag.id";
+	$query = "SELECT flagged_tag.id AS id, tag_id, text, category.name AS category, category.id AS category_id, difficulty_rating, edgy, reason, ip_address FROM flagged_tag INNER JOIN tag ON tag.id = flagged_tag.tag_id INNER JOIN category on category.id = tag.category_id ORDER BY flagged_tag.id";
 	
 	// Get flagged phrases from the database
 	$db = mysqlConnect();
@@ -33,7 +33,7 @@
 </div>
 <table id="tagTable">
 	<tr>
-		<th></th><th>Phrase</th><th>Category</th><th>Difficulty</th><th>Adult</th><th>Reason</th>
+		<th></th><th>Phrase</th><th>Category</th><th>Difficulty</th><th>Adult</th><th>Reason</th><th>Submitted by</th>
 	</tr>
 	<?php
 		for ($i = 0; $i < count($tags); $i++) {
@@ -45,6 +45,7 @@
 					<td><a id=\"difficultyCell{$tags[$i]['id']}\" href=\"#\" onclick=\"setDifficulty({$tags[$i]['id']}); return false;\">{$tags[$i]['difficulty_rating']}</a></td>
 					<td><a id=\"edgyCell{$tags[$i]['id']}\" href=\"#\" onclick=\"setEdgy({$tags[$i]['id']}); return false;\">".($tags[$i]['edgy']? "true": "false")."</td>
 					<td>{$tags[$i]['reason']}</td>
+					<td>{$tags[$i]['ip_address']}</td>
 				</tr>";
 		}
 	?>
