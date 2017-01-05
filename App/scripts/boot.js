@@ -72,13 +72,7 @@ function onDeviceReady() {
 				submitUsageClick("/app/" + APP_VERSION + "/resume");
 			}, false);
 			
-			applyTheme();
-			testWebServiceResponseTime();
-			loadCategories();
-			loadDifficulties();
-			loadTags(true, showReadyScreen);
-			resetScores();
-			loadScores();
+			postSettingsLoad();
 		};
 		
 		// Send fresh install click if this is a fresh install
@@ -108,4 +102,14 @@ function onDeviceReady() {
 			finishOpening();
 		}
 	});
+}
+
+function postSettingsLoad() {
+	applyTheme();
+	testWebServiceResponseTime();
+	loadCategories();
+	loadDifficulties();
+	loadTags(true, showReadyScreen);
+	resetScores();
+	loadScores();
 }

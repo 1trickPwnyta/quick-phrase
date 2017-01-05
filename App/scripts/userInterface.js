@@ -46,6 +46,7 @@ function enableNext() {
 // Applies the current theme's style sheet.
 //
 function applyTheme() {
+	logInfo("Applying the current theme's style sheet.");
 	changeCSS(sStyleSheet, 2);
 }
 
@@ -798,3 +799,18 @@ function menuItemDeveloperModeClick() {
 	showMenu();
 }
 
+//
+// Restore defauts menu item click event.
+//
+function menuItemRestoreDefaultsClick() {
+	playSound(CLICK_SOUND_FILE);
+	dialog.confirm(function(response) {
+		playSound(CLICK_SOUND_FILE);
+		if (response) {
+			restoreDefaultSettings(function() {
+				postSettingsLoad();
+				showMenu();
+			});
+		}
+	}, "Do you want to restore all settings to their default values? (This will not affect any custom phrases you've created.)");
+}

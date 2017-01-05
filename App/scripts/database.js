@@ -578,96 +578,99 @@ function checkIfCategoryExistsInLocalDatabase(name, callback) {
 // Loads user settings from the local database.
 //
 function loadSettings(callback) {
+	logInfo("Loading settings from the local database.");
+	settingsLoaded = 0;
+	
 	// Load any stored user settings, and indicate how many settings have been accounted for so we know when done
-	getSetting("sMinTimePerStage", sMinTimePerStage, function(value) {
+	getSetting("sMinTimePerStage", DEFAULT_MIN_TIME_PER_STAGE, function(value) {
 		sMinTimePerStage = parseInt(value);
 		settingsLoaded++;
 	});
-	getSetting("sMaxTimePerStage", sMaxTimePerStage, function(value) {
+	getSetting("sMaxTimePerStage", DEFAULT_MAX_TIME_PER_STAGE, function(value) {
 		sMaxTimePerStage = parseInt(value);
 		settingsLoaded++;
 	});
-	getSetting("sNumberOfTeams", sNumberOfTeams, function(value) {
+	getSetting("sNumberOfTeams", DEFAULT_NUMBER_OF_TEAMS, function(value) {
 		sNumberOfTeams = parseInt(value);
 		settingsLoaded++;
 	});
-	getSetting("sWinningPoint", sWinningPoint, function(value) {
+	getSetting("sWinningPoint", DEFAULT_WINNING_POINT, function(value) {
 		sWinningPoint = parseInt(value);
 		settingsLoaded++;
 	});
-	getSetting("sBeepSoundFile", sBeepSoundFile, function(value) {
+	getSetting("sBeepSoundFile", DEFAULT_BEEP_SOUND_FILE, function(value) {
 		sBeepSoundFile = value;
 		settingsLoaded++;
 	});
-	getSetting("sDifficulty", sDifficulty, function(value) {
+	getSetting("sDifficulty", DEFAULT_DIFFICULTY, function(value) {
 		sDifficulty = parseInt(value);
 		settingsLoaded++;
 	});
-	getSetting("sMaxWordsPerTag", sMaxWordsPerTag, function(value) {
+	getSetting("sMaxWordsPerTag", DEFAULT_MAX_WORDS_PER_TAG, function(value) {
 		sMaxWordsPerTag = parseInt(value);
 		settingsLoaded++;
 	});
-	getSetting("sMaxCharactersPerTag", sMaxCharactersPerTag, function(value) {
+	getSetting("sMaxCharactersPerTag", DEFAULT_MAX_CHARACTERS_PER_TAG, function(value) {
 		sMaxCharactersPerTag = parseInt(value);
 		settingsLoaded++;
 	});
-	getSetting("sCategoryIds", JSON.stringify(sCategoryIds), function(value) {
+	getSetting("sCategoryIds", JSON.stringify(DEFAULT_CATEGORY_IDS), function(value) {
 		sCategoryIds = JSON.parse(value);
 		settingsLoaded++;
 	});
-	getSetting("sCustomCategoryIds", JSON.stringify(sCustomCategoryIds), function(value) {
+	getSetting("sCustomCategoryIds", JSON.stringify(DEFAULT_CUSTOM_CATEGORY_IDS), function(value) {
 		sCustomCategoryIds = JSON.parse(value);
 		settingsLoaded++;
 	});
-	getSetting("sStyleSheet", sStyleSheet, function(value) {
+	getSetting("sStyleSheet", DEFAULT_STYLE_SHEET, function(value) {
 		sStyleSheet = value;
 		settingsLoaded++;
 	});
-	getSetting("sVibrate", JSON.stringify(sVibrate), function(value) {
+	getSetting("sVibrate", JSON.stringify(DEFAULT_VIBRATE), function(value) {
 		sVibrate = JSON.parse(value);
 		settingsLoaded++;
 	});
-	getSetting("sShowCategory", JSON.stringify(sShowCategory), function(value) {
+	getSetting("sShowCategory", JSON.stringify(DEFAULT_SHOW_CATEGORY), function(value) {
 		sShowCategory = JSON.parse(value);
 		settingsLoaded++;
 	});
-	getSetting("sEdgy", JSON.stringify(sEdgy), function(value) {
+	getSetting("sEdgy", JSON.stringify(DEFAULT_EDGY), function(value) {
 		sEdgy = JSON.parse(value);
 		settingsLoaded++;
 	});
-	getSetting("sDeveloperMode", JSON.stringify(sDeveloperMode), function(value) {
+	getSetting("sDeveloperMode", JSON.stringify(DEFAULT_DEVELOPER_MODE), function(value) {
 		sDeveloperMode = JSON.parse(value);
 		settingsLoaded++;
 	});
-	getSetting("sDataVersion", sDataVersion, function(value) {
+	getSetting("sDataVersion", DEFAULT_DATA_VERSION, function(value) {
 		sDataVersion = value;
 		settingsLoaded++;
 	});
-	getSetting("sPromptForRating", JSON.stringify(sPromptForRating), function(value) {
+	getSetting("sPromptForRating", JSON.stringify(DEFAULT_PROMPT_FOR_RATING), function(value) {
 		sPromptForRating = JSON.parse(value);
 		settingsLoaded++;
 	});
-	getSetting("sGamesSinceRatingPrompt", sGamesSinceRatingPrompt, function(value) {
+	getSetting("sGamesSinceRatingPrompt", DEFAULT_GAMES_SINCE_RATING_PROMPT, function(value) {
 		sGamesSinceRatingPrompt = parseInt(value);
 		settingsLoaded++;
 	});
-	getSetting("sTeamNames", JSON.stringify(sTeamNames), function(value) {
+	getSetting("sTeamNames", JSON.stringify(DEFAULT_TEAM_NAMES), function(value) {
 		sTeamNames = JSON.parse(value);
 		settingsLoaded++;
 	});
-	getSetting("sPromptForCustomPhraseSubmittal", JSON.stringify(sPromptForCustomPhraseSubmittal), function(value) {
+	getSetting("sPromptForCustomPhraseSubmittal", JSON.stringify(DEFAULT_PROMPT_FOR_CUSTOM_PHRASE_SUBMITTAL), function(value) {
 		sPromptForCustomPhraseSubmittal = JSON.parse(value);
 		settingsLoaded++;
 	});
-	getSetting("sCustomPhraseVisitsSincePrompt", sCustomPhraseVisitsSincePrompt, function(value) {
+	getSetting("sCustomPhraseVisitsSincePrompt", DEFAULT_CUSTOM_PHRASE_VISITS_SINCE_PROMPT, function(value) {
 		sCustomPhraseVisitsSincePrompt = parseInt(value);
 		settingsLoaded++;
 	});
-	getSetting("sSubmitCustomPhrases", JSON.stringify(sSubmitCustomPhrases), function(value) {
+	getSetting("sSubmitCustomPhrases", JSON.stringify(DEFAULT_SUBMIT_CUSTOM_PHRASES), function(value) {
 		sSubmitCustomPhrases = JSON.parse(value);
 		settingsLoaded++;
 	});
-	getSetting("sWebServiceTimeout", JSON.stringify(sWebServiceTimeout), function(value) {
+	getSetting("sWebServiceTimeout", JSON.stringify(DEFAULT_WEB_SERVICE_TIMEOUT), function(value) {
 		sWebServiceTimeout = parseInt(value);
 		settingsLoaded++;
 	});
@@ -714,6 +717,19 @@ function setSetting(name, value, callback) {
 				logError(err.message);
 				if (callback) callback();
 			});
+		}, function(tx, err) {
+			logError(err.message);
+		});
+	});
+}
+
+//
+// Resets all settings to their default values
+//
+function restoreDefaultSettings(callback) {
+	db.transaction(function(tx) {
+		tx.executeSql("DELETE FROM settings WHERE name <> 'sDataVersion'", [], function(tx, res) {
+			loadSettings(callback);
 		}, function(tx, err) {
 			logError(err.message);
 		});
