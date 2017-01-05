@@ -154,3 +154,10 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 7. Update config.js in the app with the new URL path.
 8. Change DEFAULT_STYLE_SHEET to style/theme_dark.css in config.js.
 9. Update the package name in the URLs in config.js to com.kangaroostandard.quickphrase.
+
+### Upgrading to Version 2.0.4 ###
+1. Add WEB_SERVICE_TEST_TIMEOUT = 60000 to config.js.
+2. Remove TIME_UP_SOUND_FILE from config.js, if present.
+3. Remove WEB_SERVICE_TIMEOUT from config.js.
+4. Add var DEFAULT_WEB_SERVICE_TIMEOUT = 10000 to config.js.
+5. Add column web_service_timeout to database: int(4), default 10000, not null
