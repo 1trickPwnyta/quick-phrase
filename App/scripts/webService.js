@@ -273,7 +273,7 @@ function submitSettings() {
 }
 
 //
-// Tests the web service response time and adjusts the web service timeout accordingly
+// Asynchronously tests the web service response time and adjusts the web service timeout accordingly
 //
 function testWebServiceResponseTime() {
 	// Remember what time we started the web service call
@@ -288,7 +288,7 @@ function testWebServiceResponseTime() {
 			var responseTimeMs = new Date().getTime() - startTime;
 			// If the response time was anywhere near the current timeout, adjust
 			if (responseTimeMs * 2 > sWebServiceTimeout) {
-				// TODO
+				changeWebServiceTimeout(responseTimeMs * 2);
 			}
 			
 		} else if (status < 0) {
