@@ -276,6 +276,8 @@ function submitSettings() {
 // Asynchronously tests the web service response time and adjusts the web service timeout accordingly
 //
 function testWebServiceResponseTime() {
+	logInfo("Current web service timeout: " + sWebServiceTimeout);
+	
 	// Remember what time we started the web service call
 	var startTime = new Date().getTime();
 	
@@ -286,15 +288,21 @@ function testWebServiceResponseTime() {
 			
 			// Check the response time
 			var responseTimeMs = new Date().getTime() - startTime;
-			// If the response time was anywhere near the current timeout, adjust
+			// If the response time was anywhere or nowhere near the current timeout, adjust
 			if (responseTimeMs * 2 > sWebServiceTimeout) {
 				changeWebServiceTimeout(responseTimeMs * 2);
+				logInfo("Adjusted the web service timeout to " + sWebServiceTimeout + ".");
+			} else if (responseTimeMs * 2 < sWebServiceTimeout / 2) {
+				changeWebServiceTimeout(parseInt(sWebServiceTimeout / 2));
+				logInfo("Adjusted the web service timeout to " + sWebServiceTimeout + ".");
 			}
 			
 		} else if (status < 0) {
 			// The web service call failed, so don't adjust the timeout
+			logError("Failed to test the web service response time. The web service returned an error: " + status);
 		} else {
 			// The web service call timed out, so don't adjust the timeout
+			logError("Failed to test the web service response time. The web service call timed out.");
 		}
 	}, WEB_SERVICE_TEST_TIMEOUT);
 }

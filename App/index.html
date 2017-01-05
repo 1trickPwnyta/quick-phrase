@@ -99,7 +99,6 @@
 				
 				// Load all the game data
 				showLoadingScreen();
-				testWebServiceResponseTime();
 				loadStatsFromWebService();
 				loadSettings(function() {
 					var finishOpening = function() {
@@ -114,6 +113,7 @@
 						}, false);
 						
 						applyTheme();
+						testWebServiceResponseTime();
 						loadCategories();
 						loadDifficulties();
 						loadTags(true, showReadyScreen);
