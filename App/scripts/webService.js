@@ -57,7 +57,7 @@ function loadTagsFromWebService(callback) {
 			if (callback)
 				callback(false);
 		}
-	}, WEB_SERVICE_TIMEOUT);
+	}, sWebServiceTimeout);
 }
 
 //
@@ -84,7 +84,7 @@ function countTagsInWebService(callback) {
 			// The web service call timed out, so return a default count
 			callback(TAG_LOAD_QUANTITY*100);
 		}
-	}, WEB_SERVICE_TIMEOUT);
+	}, sWebServiceTimeout);
 }
 
 //
@@ -120,7 +120,7 @@ function loadDifficultiesFromWebService(callback) {
 			if (callback)
 				callback(false);
 		}
-	}, WEB_SERVICE_TIMEOUT);
+	}, sWebServiceTimeout);
 }
 
 //
@@ -156,7 +156,7 @@ function loadCategoriesFromWebService(callback) {
 			if (callback)
 				callback(false);
 		}
-	}, WEB_SERVICE_TIMEOUT);
+	}, sWebServiceTimeout);
 }
 
 //
@@ -184,7 +184,7 @@ function loadStatsFromWebService(callback) {
 			if (callback)
 				callback(false);
 		}
-	}, WEB_SERVICE_TIMEOUT);
+	}, sWebServiceTimeout);
 }
 
 //
@@ -212,7 +212,7 @@ function flagTag(tag, reason, callback) {
 			if (callback)
 				callback(false);
 		}
-	}, WEB_SERVICE_TIMEOUT);
+	}, sWebServiceTimeout);
 }
 
 //
@@ -227,7 +227,7 @@ function submitPhrase(text, categoryId, isCustomCategory) {
 			{name: "isCustomCategory", value: isCustomCategory? 1: 0}
 		], function(response, status) {
 			// Ignore the response
-		}, WEB_SERVICE_TIMEOUT);
+		}, sWebServiceTimeout);
 	}
 }
 
@@ -241,7 +241,7 @@ function submitUsageClick(location) {
 			{name: "location", value: location}
 		], function(response, status) {
 			// Ignore the response
-		}, WEB_SERVICE_TIMEOUT);
+		}, sWebServiceTimeout);
 	}
 }
 
@@ -264,10 +264,37 @@ function submitSettings() {
 			{name: "maxRoundSeconds", value: Math.round(sMaxTimePerStage*3/1000)},
 			{name: "timerTick", value: sBeepSoundFile},
 			{name: "theme", value: sStyleSheet},
-			{name: "vibrate", value: sVibrate? 1: 0}
+			{name: "vibrate", value: sVibrate? 1: 0},
+			{name: "webServiceTimeout", value: sWebServiceTimeout}
 		], function(response, status) {
 			// Ignore the response
-		}, WEB_SERVICE_TIMEOUT);
+		}, sWebServiceTimeout);
 	}
 }
 
+//
+// Tests the web service response time and adjusts the web service timeout accordingly
+//
+function testWebServiceResponseTime() {
+	// Remember what time we started the web service call
+	var startTime = new Date().getTime();
+	
+	// Call the web service
+	ajax("GET", WEB_SERVICE_URL + "/getStats.php", [], function(response, status) {
+		// Check if the web service returns a valid response
+		if (status == 200) {
+			
+			// Check the response time
+			var responseTimeMs = new Date().getTime() - startTime;
+			// If the response time was anywhere near the current timeout, adjust
+			if (responseTimeMs * 2 > sWebServiceTimeout) {
+				// TODO
+			}
+			
+		} else if (status < 0) {
+			// The web service call failed, so don't adjust the timeout
+		} else {
+			// The web service call timed out, so don't adjust the timeout
+		}
+	}, WEB_SERVICE_TEST_TIMEOUT);
+}

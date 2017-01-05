@@ -18,6 +18,7 @@
 	$timerTick = $_POST["timerTick"];
 	$theme = $_POST["theme"];
 	$vibrate = intval($_POST["vibrate"]);
+	$webServiceTimeout = intval($_POST["webServiceTimeout"]);
 	
 	// Validate parameters
 	if (preg_match("/[^\\/\\w\\d\\.]/", $timerTick)) {
@@ -48,7 +49,8 @@
 			max_round_seconds,
 			timer_tick,
 			theme,
-			vibrate
+			vibrate,
+			web_service_timeout
 		) VALUES (
 			{$db->quote(json_encode($categories))},
 			$difficulty,
@@ -62,7 +64,8 @@
 			$maxRoundSeconds,
 			{$db->quote($timerTick)},
 			{$db->quote($theme)},
-			$vibrate
+			$vibrate,
+			$webServiceTimeout
 		)";
 
 	// Insert the settings into the database

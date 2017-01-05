@@ -1,4 +1,4 @@
-var settingsCount = 22;								// Must be equal to the number of settings below
+var settingsCount = 23;								// Must be equal to the number of settings below
 
 var sMinTimePerStage = 								// Minimum ms for each time stage
 		DEFAULT_MIN_TIME_PER_STAGE;
@@ -32,3 +32,5 @@ var sCustomPhraseVisitsSincePrompt = 				// Number of times the user visited the
 		DEFAULT_CUSTOM_PHRASE_VISITS_SINCE_PROMPT;
 var sSubmitCustomPhrases = 							// Whether to submit custom phrases to the web service
 		DEFAULT_SUBMIT_CUSTOM_PHRASES;
+var sWebServiceTimeout = 							// Web service calls time out after this many ms
+		DEFAULT_WEB_SERVICE_TIMEOUT;

@@ -667,6 +667,10 @@ function loadSettings(callback) {
 		sSubmitCustomPhrases = JSON.parse(value);
 		settingsLoaded++;
 	});
+	getSetting("sWebServiceTimeout", JSON.stringify(sWebServiceTimeout), function(value) {
+		sWebServiceTimeout = parseInt(value);
+		settingsLoaded++;
+	});
 	
 	// Wait until all settings have been accounted for before calling the callback
 	if (callback)

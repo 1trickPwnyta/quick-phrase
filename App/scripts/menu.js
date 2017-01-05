@@ -819,3 +819,14 @@ function changeSubmitCustomPhrases(submitCustomPhrases, callback) {
 	// Save the setting in the local database
 	setSetting("sSubmitCustomPhrases", sSubmitCustomPhrases, callback);
 }
+
+//
+//Changes the web service timeout user setting.
+//
+function changeWebServiceTimeout(webServiceTimeout, callback) {
+	// Change the setting
+	sWebServiceTimeout = webServiceTimeout;
+	
+	// Save the setting in the local database
+	setSetting("sWebServiceTimeout", sWebServiceTimeout, callback);
+}
