@@ -3,7 +3,7 @@
 //
 function initializeLocalDatabase() {
 	if (PHONEGAP) {
-		db = window.sqlitePlugin.openDatabase({name: DB_NAME});
+		db = window.sqlitePlugin.openDatabase({name: DB_NAME, location: "default"});
 	} else {
 		db = openDatabase(APP_NAME, "", APP_NAME, 10 * 1024 * 1024);
 	}

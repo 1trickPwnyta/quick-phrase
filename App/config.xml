@@ -19,7 +19,7 @@
 	
 	<icon src="images/icon.png" />
 	
-	<preference name="phonegap-version" value="3.7.0" />
+	<preference name="phonegap-version" value="cli-6.3.0" />
 	<preference name="orientation" value="portrait" />
 	<preference name="fullscreen" value="true" />
 	<preference name="keyboardDisplayRequiresUserAction" value="false" />
@@ -27,12 +27,15 @@
 	<preference name="android-minSdkVersion" value="11" />
 	<preference name="permissions" value="none" />
 	
-	<gap:plugin name="org.apache.cordova.media" version="0.2.13" />
-	<gap:plugin name="com.millerjames01.sqlite-plugin" version="1.0.1" />
-	<gap:plugin name="nl.x-services.plugins.insomnia" version="4.0.1" />
-	<gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
-	<gap:plugin name="org.apache.cordova.vibration" version="0.3.11" />
-	<gap:plugin name="org.apache.cordova.device" />
+	<plugin name="cordova-plugin-whitelist" spec="1" />
+	<plugin spec="https://github.com/apache/cordova-plugin-media#c17c0f5" />
+	<plugin spec="https://github.com/litehelpers/Cordova-sqlite-evcore-extbuild-free#1186a7e" />
+	<plugin spec="https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin#7a31620" />
+	<plugin spec="https://github.com/apache/cordova-plugin-inappbrowser#f32917d" />
+	<plugin spec="https://github.com/apache/cordova-plugin-vibration#7e197a7" />
+	<plugin spec="https://github.com/apache/cordova-plugin-device#3b93a47" />
+	
+	<allow-navigation href="https://*.kangaroostandard.com/QuickPhrase/*" />
 	
 	<gap:config-file platform="android" parent="/manifest" mode="delete">
 	    <uses-permission name="android.permission.RECORD_AUDIO" />
