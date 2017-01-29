@@ -293,7 +293,7 @@ function testWebServiceResponseTime() {
 				changeWebServiceTimeout(responseTimeMs * 2);
 				logInfo("Adjusted the web service timeout to " + sWebServiceTimeout + ".");
 			} else if (responseTimeMs * 2 < sWebServiceTimeout / 2) {
-				changeWebServiceTimeout(parseInt(sWebServiceTimeout / 2));
+				changeWebServiceTimeout(Math.max(3000, parseInt(sWebServiceTimeout / 2)));
 				logInfo("Adjusted the web service timeout to " + sWebServiceTimeout + ".");
 			}
 			
