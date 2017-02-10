@@ -1,7 +1,7 @@
 var APP_GOOGLEPLAY_EDITION = true;					// Removes the option to allow adult-only phrases
 var BEEP_INTERVAL = 500;							// Timer tick ms during final time stage of round
 var VIBRATION_DURATION = 100;						// ms duration of device vibration when vibration is on
-var DB_NAME = "grab_tag";							// Name of the SQLite database for local data
+var DB_NAME = "grab_tag.db";							// Name of the SQLite database for local data
 var MAX_LOCAL_TAGS = 5000;							// Max number of phrases to be kept in local database
 var WEB_SERVICE_URL = 								// Web service URL for remote data
 		"https://www.kangaroostandard.com/QuickPhrase/websvc/v2";
