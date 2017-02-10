@@ -161,3 +161,4 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 3. Remove WEB_SERVICE_TIMEOUT from config.js.
 4. Add var DEFAULT_WEB_SERVICE_TIMEOUT = 10000 to config.js.
 5. Add column web_service_timeout to database: int(4), default 10000, not null
+6. Change DB_NAME to grab_tag.db in config.js.
