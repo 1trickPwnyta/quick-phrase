@@ -8,7 +8,7 @@ function newGame(start) {
 	gameOver = !start;
 	hideConfetti();
 	document.getElementById("usedTagsButton").style.display = "none";
-	document.getElementById("nextButton").innerHTML = "Next";
+	document.getElementById("nextButton").innerHTML = "Start";
 	usedTags = new Array();
 }
 
