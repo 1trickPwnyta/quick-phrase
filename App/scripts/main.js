@@ -363,18 +363,22 @@ function loadScores() {
 		teamDiv.href = "#";
 		teamDiv.team = i;
 		teamDiv.onclick = function() {scoreButtonClick(this); return false;};
-		teamDiv.onmouseup = function() {
-			// Cancel the long press
-			window.clearTimeout(pressTimer)
-			return false;
-		};
 		(function(teamDiv) {
-			teamDiv.onmousedown = function() {
+			teamDiv.ontouchend = function() {
+				// Cancel the long press
+				window.clearTimeout(pressTimer);
+				if (!teamDiv.longclick) {
+					teamDiv.onclick();
+				}
+				teamDiv.longclick = false;
+				return false;
+			};
+			teamDiv.ontouchstart = function() {
 				// Wait for a long press
 				pressTimer = window.setTimeout(function() {
+					teamDiv.longclick = true;
 					scoreButtonLongClick(teamDiv);
 				}, 1000);
-				return false; 
 			};
 		})(teamDiv);
 		scoreDiv.appendChild(teamDiv);

@@ -15,18 +15,22 @@ function onDeviceReady() {
 	
 	// Add long-click to about button in the menu to turn on developer mode
 	var aboutItem = document.getElementById("menuItemAbout");
-	aboutItem.onmouseup = function() {
+	aboutItem.ontouchend = function() {
 		// Cancel the long press
-		window.clearTimeout(pressTimer)
+		window.clearTimeout(pressTimer);
+		if (!aboutItem.longclick) {
+			aboutItem.onclick();
+		}
+		aboutItem.longclick = false;
 		return false;
 	};
 	(function(aboutItem) {
-		aboutItem.onmousedown = function() {
+		aboutItem.ontouchstart = function() {
 			// Wait for a long press
 			pressTimer = window.setTimeout(function() {
+				aboutItem.longclick = true;
 				menuItemAboutLongClick();
 			}, 1000);
-			return false; 
 		};
 	})(aboutItem);
 	
