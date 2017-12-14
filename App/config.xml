@@ -46,7 +46,7 @@
 	</gap:config-file>
 	
 	<config-file platform="android" parent="/manifest" mode="merge">
-	    <application android:debuggable="false"/>
+	    <application android:debuggable="true"/>
 	</config-file>
 
 </widget>
