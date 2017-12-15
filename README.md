@@ -165,3 +165,5 @@ Copy the config.Example.js file and name it config.js. Open the file and modify 
 
 ### Upgrading to Version 2.0.5 ###
 1. Remove TAG_CREATION_URL from config.js, if present.
+2. Rename SP display name from "Grab Tag Online" to "Quick Phrase Administration" in IdP settings.
+
