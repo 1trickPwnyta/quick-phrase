@@ -150,11 +150,11 @@ function scoreButtonLongClick(button) {
 			return;
 		
 		// Evaluate input
-		response = htmlEncode(response);
 		if (response.length > MAX_TEAM_NAME_CHARACTERS) {
 			dialog.showMessage("No more than " + MAX_TEAM_NAME_CHARACTERS + " characters are allowed.");
 			response = response.substring(0, MAX_TEAM_NAME_CHARACTERS);
 		}
+		response = htmlEncode(response);
 		changeTeamName(button.team, response, loadScores);
 		
 	}, "What's the team name?", sTeamNames[button.team], null, function() {playSound(CLICK_SOUND_FILE);});
@@ -786,6 +786,30 @@ function menuItemScoreClick(teamId) {
 function menuItemPhrasePoolClick() {
 	playSound(CLICK_SOUND_FILE);
 	showPhrasePool();
+}
+
+//
+// Set current phrase menu item click event.
+//
+function menuItemSetPhraseClick() {
+	playSound(CLICK_SOUND_FILE);
+	
+	// Get input from user
+	dialog.getString(function(response) {
+	
+		// Ignore empty input
+		if (response === false || response == "")
+			return;
+		
+		// Evaluate input
+		if (response.length > MAX_CUSTOM_PHRASE_CHARACTERS) {
+			dialog.showMessage("No more than " + MAX_CUSTOM_PHRASE_CHARACTERS + " characters are allowed.");
+			response = response.substring(0, MAX_CUSTOM_PHRASE_CHARACTERS);
+		}
+		response = htmlEncode(response);
+		setTag(response);
+		
+	}, "Enter a phrase to display.", null, null, function() {playSound(CLICK_SOUND_FILE);});
 }
 
 //

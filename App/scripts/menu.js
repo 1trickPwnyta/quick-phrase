@@ -119,6 +119,15 @@ function showMenu() {
 		};
 		phrasePoolMenuItem.innerHTML = "Show phrase pool";
 		developerMenuDiv.appendChild(phrasePoolMenuItem);
+		
+		var setPhraseMenuItem = document.createElement("div");
+		setPhraseMenuItem.id = "menuItemSetPhrase";
+		setPhraseMenuItem.className = "menuItem";
+		setPhraseMenuItem.onclick = function() {
+			menuItemSetPhraseClick();
+		};
+		setPhraseMenuItem.innerHTML = "Set current phrase";
+		developerMenuDiv.appendChild(setPhraseMenuItem);
 	} else {
 		developerMenuDiv.innerHTML = "";
 	}
