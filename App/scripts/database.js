@@ -362,7 +362,8 @@ function deleteCustomPhraseFromLocalDatabase(rowid, callback) {
 }
 
 //
-// Checks if a phrase already exists in the local database, custom or not.
+// Checks if a phrase already exists in the local database, regardless of 
+// category.
 //
 function checkIfPhraseExistsInLocalDatabase(text, callback) {
 	db.transaction(function(tx) {
@@ -371,6 +372,32 @@ function checkIfPhraseExistsInLocalDatabase(text, callback) {
 		query += "WHERE UPPER(TRIM(tag)) = '" + text.replace(/'/g, "''").trim().toUpperCase() + "') + (";
 		query += "SELECT COUNT(*) AS c FROM tag ";
 		query += "WHERE UPPER(TRIM(tag)) = '" + text.replace(/'/g, "''").trim().toUpperCase() + "') AS c";
+		
+		tx.executeSql(query, [], function(tx, res) {
+			var exists = res.rows.item(0).c > 0;
+			callback(exists);
+		}, function(tx, err) {
+			logError(err.message);
+		});
+	});
+}
+
+//
+// Checks if a phrase already exists in a particular category in the local 
+// database.
+//
+function checkIfPhraseExistsInCategoryInLocalDatabase(text, categoryId, isCustomCategory, callback) {
+	db.transaction(function(tx) {
+		// Make a query to get the phrase
+		var query = "SELECT (SELECT COUNT(*) AS c FROM custom_phrase ";
+		query += "WHERE UPPER(TRIM(tag)) = '" + text.replace(/'/g, "''").trim().toUpperCase() + 
+				"' AND category_id = " + categoryId + " AND is_custom_category = " + (isCustomCategory? 1: 0) + ")";
+		if (!isCustomCategory) {
+			query += " + (SELECT COUNT(*) AS c FROM tag ";
+			query += "WHERE UPPER(TRIM(tag)) = '" + text.replace(/'/g, "''").trim().toUpperCase() + 
+					"' AND category_id = " + categoryId + ")";
+		}
+		query += " AS c";
 		
 		tx.executeSql(query, [], function(tx, res) {
 			var exists = res.rows.item(0).c > 0;

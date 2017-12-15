@@ -457,7 +457,7 @@ function showAbout() {
 function showPhrasePool() {
 	var message = "";
 	for (var i = tags.length - 1; i >= 0; i--) {
-		var category = getCategoryById(tags[i].category_id);
+		var category = getCategoryById(tags[i].category_id, tags[i].is_custom_category);
 		message += htmlEncode(tags[i].text) + "<br /><span class=\"used-tag\">from <span class=\"tag-category\">" + category.name + "</span></span><hr class=\"dotted\" />";
 	}
 	

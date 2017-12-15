@@ -186,7 +186,7 @@ function nextButtonClick() {
 		if (tag) {
 			usedTags.push(tag);
 			usedTagsOverall.push(tag);
-			var category = getCategoryById(tag.category_id);
+			var category = getCategoryById(tag.category_id, tag.is_custom_category);
 			setTag(htmlEncode(tag.text), category.name);
 		}
 	};

@@ -179,7 +179,7 @@ function showCustomPhrases() {
 				if (response) {
 					checkIfCategoryExistsInLocalDatabase(response, function(categoryExists) {
 						if (categoryExists) {
-							dialog.showMessage("This category is already in the game.", function() {
+							dialog.showMessage("That category is already in the game.", function() {
 								newCategoryDialog(response);
 							});
 						} else {
@@ -263,16 +263,26 @@ function showCustomPhrases() {
 			// Get input from user
 			dialog.getString(function(response) {
 				if (response) {
-					checkIfPhraseExistsInLocalDatabase(response, function(phraseExists) {
+					checkIfPhraseExistsInCategoryInLocalDatabase(response, categoryId, isCustomCategory, function(phraseExists) {
 						if (phraseExists) {
-							dialog.showMessage("This phrase is already in the game.", function() {
+							dialog.showMessage("That phrase is already in this category.", function() {
 								newPhraseDialog(response);
 							});
 						} else {
-							saveCustomPhraseInLocalDatabase(response, categoryId, isCustomCategory, function() {
-								updatePhrases(categoryId, isCustomCategory);
+							checkIfPhraseExistsInLocalDatabase(response, function(phraseExists) {
+								var savePhrase = function() {
+									saveCustomPhraseInLocalDatabase(response, categoryId, isCustomCategory, function() {
+										updatePhrases(categoryId, isCustomCategory);
+									});
+									submitPhrase(response, categoryId, isCustomCategory);
+								};
+								if (phraseExists) {
+									dialog.confirm(function(response) {
+										if (response) savePhrase();
+									}, "That phrase is already in another category. Do you want to add it to this category as well?");
+								} else
+									savePhrase();
 							});
-							submitPhrase(response, categoryId, isCustomCategory);
 						}
 					});
 				}
