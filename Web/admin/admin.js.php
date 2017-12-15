@@ -87,37 +87,32 @@ function reject() {
 		return;
 	}
 
-	dialog.getString(function(reason) {
-		if (reason) {
-			var tagsToReject = new Array();
-			for (var i = 0; i < ids.length; i++) {
-				var tag = getTagById(ids[i], false, false);
-				if (tag === false) {
-					return;
-				}
-				tagsToReject.push(tag);
-			}
-			
-			document.getElementById("waitingScreen").style.display = "block";
-			ajax("POST", "approvePhrases.php", [
-							{name: "tags", value: JSON.stringify(tagsToReject)}, 
-							{name: "approve", value: 0},
-							{name: "reason", value: reason}
-			], function(response, status) {
-				if (status == 200) {
-					for (var i = 0; i < selectedBoxes.length; i++) {
-						if (selectedBoxes[i].type == "checkbox" && selectedBoxes[i].checked) {
-							selectedBoxes[i].parentNode.parentNode.parentNode.removeChild(selectedBoxes[i].parentNode.parentNode);
-							i--;
-						}
-					}
-				} else {
-					dialog.showMessage("The phrases could not be rejected. HTTP status code " + status + ".");
-				}
-				document.getElementById("waitingScreen").style.display = "none";
-			});
+	var tagsToReject = new Array();
+	for (var i = 0; i < ids.length; i++) {
+		var tag = getTagById(ids[i], false, false);
+		if (tag === false) {
+			return;
 		}
-	}, "Please enter a reason for rejecting these phrases.");
+		tagsToReject.push(tag);
+	}
+	
+	document.getElementById("waitingScreen").style.display = "block";
+	ajax("POST", "approvePhrases.php", [
+					{name: "tags", value: JSON.stringify(tagsToReject)}, 
+					{name: "approve", value: 0}
+	], function(response, status) {
+		if (status == 200) {
+			for (var i = 0; i < selectedBoxes.length; i++) {
+				if (selectedBoxes[i].type == "checkbox" && selectedBoxes[i].checked) {
+					selectedBoxes[i].parentNode.parentNode.parentNode.removeChild(selectedBoxes[i].parentNode.parentNode);
+					i--;
+				}
+			}
+		} else {
+			dialog.showMessage("The phrases could not be rejected. HTTP status code " + status + ".");
+		}
+		document.getElementById("waitingScreen").style.display = "none";
+	});
 }
 
 function getTagById(id, getDifficulty, getCategory) {
