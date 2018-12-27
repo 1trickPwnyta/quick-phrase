@@ -12,6 +12,7 @@
     6. If you copied the Web.Production.config file, you need to provide a value for the HTTP 403.4 redirect path.
     5. Copy either the Web/tagCreation/Web.Dev.config or Web/tagCreation/Web.Production.config file and name it Web/tagCreation/Web.config.
     6. If you copied the Web.Production.config file, you need to provide a value for the HTTP 403.4 redirect path.
+5. For other servers, set up the virtual host.
 7. Copy the Web/applicationRoot.Example.js file and name it Web/applicationRoot.js.
 8. Modify the value in applicationRoot.js to reflect the root path of the web application.
 9. Configure simpleSAMLphp as a SAML service provider on behalf of the web application. Instructions to do so are stored in Google Drive.
