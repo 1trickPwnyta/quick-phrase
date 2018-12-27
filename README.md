@@ -4,13 +4,14 @@
 
 #### Web Application Setup ####
 1. Copy the repository files to a folder on the server, for example C:\\inetpub\\<application name>.
-2. Create a database for the application and copy the schema from another instance.
+2. Use quick_phrase.sql to create the database and schema (can be imported via phpMyAdmin).
 2. Copy the Web/config.Example.php file and name it Web/config.php.
-3. Modify the settings in config.php.
-5. Copy either the Web/admin/Web.Dev.config or Web/admin/Web.Production.config file and name it Web/admin/Web.config.
-6. If you copied the Web.Production.config file, you need to provide a value for the HTTP 403.4 redirect path.
-5. Copy either the Web/tagCreation/Web.Dev.config or Web/tagCreation/Web.Production.config file and name it Web/tagCreation/Web.config.
-6. If you copied the Web.Production.config file, you need to provide a value for the HTTP 403.4 redirect path.
+3. Modify the settings in config.php (email settings and SAML logout can be ignored).
+4. For Windows servers:
+    5. Copy either the Web/admin/Web.Dev.config or Web/admin/Web.Production.config file and name it Web/admin/Web.config.
+    6. If you copied the Web.Production.config file, you need to provide a value for the HTTP 403.4 redirect path.
+    5. Copy either the Web/tagCreation/Web.Dev.config or Web/tagCreation/Web.Production.config file and name it Web/tagCreation/Web.config.
+    6. If you copied the Web.Production.config file, you need to provide a value for the HTTP 403.4 redirect path.
 7. Copy the Web/applicationRoot.Example.js file and name it Web/applicationRoot.js.
 8. Modify the value in applicationRoot.js to reflect the root path of the web application.
 9. Configure simpleSAMLphp as a SAML service provider on behalf of the web application. Instructions to do so are stored in Google Drive.
@@ -35,22 +36,29 @@
                 ]
             }
 
-9. Download the PEAR installer from http://pear.php.net/go-pear.phar and save it to the PHP folder.
-10. Run this command in the PHP folder:
+9. Example IdP configuration using simpleSAMLphp:
 
-        php go-pear.phar
-
-11. Select "system".
-12. Accept the default directories and press Enter.
-13. Agree to alter php.ini with the path.
-14. Run the following command to install SMTP classes:
-
-        pear install Net_SMTP
-
-14. Run the following command to install PEAR Mail (use the latest version):
-
-        pear install Mail-1.2.0
-
+            $metadata['QuickPhrase'] = array(
+                'AssertionConsumerService' => 'https://dev.kangaroostandard.com/simplesaml/module.php/saml/sp/saml2-acs.php/QuickPhrase',
+                'SingleLogoutService' => 'https://dev.kangaroostandard.com/simplesaml/module.php/saml/sp/saml2-logout.php/QuickPhrase',
+                'authproc' => array(
+                    10 => array(
+                        'class' => 'core:AttributeMap',
+                        'mail' => 'EmailAddress'
+                    ),
+                    20 => array(
+                        'class' => 'core:AttributeAdd',
+                        'Admin' => 'true'
+                    ),
+                    30 => array(
+                        'class' => 'authorize:Authorize',
+                        'regex' => FALSE,
+                        'uid' => array(
+                            'sarah'
+                        )
+                    )
+                )
+            );
 
 #### Android Application Setup ####
 Copy the config.Example.js file and name it config.js. Open the file and modify the configuration parameters as necessary.
