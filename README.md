@@ -5,6 +5,11 @@
 #### Web Application Setup ####
 1. Copy the repository files to a folder on the server, for example C:\\inetpub\\<application name>.
 2. Use quick_phrase.sql to create the database and schema (can be imported via phpMyAdmin).
+3. Set up daily database backups. You can use a simple script such as this, and run it daily:
+
+        cd C:\Program Files\MySQL\MySQL Server 5.6\bin
+        mysqldump -u quick_phrase -pPASSWORD quick_phrase > "C:\Backups\quick_phrase.sql"
+
 2. Copy the Web/config.Example.php file and name it Web/config.php.
 3. Modify the settings in config.php (email settings and SAML logout can be ignored).
 4. For Windows servers:
